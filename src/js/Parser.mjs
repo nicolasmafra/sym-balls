@@ -1,4 +1,5 @@
-module.exports = {
+export default {
+
     fromOneLineNotation(text, separator='') {
         return text.split(separator)
                 .map(c => Number(c) - 1)
@@ -12,5 +13,5 @@ module.exports = {
         return text.substring(1, text.length -1)
                 .split(/\)\(+/)
                 .map(cyclePart => this.fromOneLineNotation(cyclePart, separator));
-    }
+    },
 }
