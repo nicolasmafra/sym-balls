@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import PermutationVisual from './PermutationVisual.mjs';
 
 export default {
     fieldOfView: 75,
@@ -53,9 +54,9 @@ export default {
     },
 
     addSampleObject: function() {
-        const geometry = new THREE.SphereGeometry( 1, 16, 8 );
-        const material = new THREE.MeshPhongMaterial( { color: 0xffff00 } );
-        this.obj = new THREE.Mesh(geometry, material);
+        const cycle = [1,2,3,4,0];
+
+        this.obj = PermutationVisual.cycleToGroup(cycle);
 
         this.scene.add(this.obj);
     },
