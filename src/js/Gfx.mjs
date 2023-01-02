@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { DragControls } from './vendor/DragControls.js'
 
 const white = new THREE.Color(0xffffff);
 
@@ -12,7 +13,11 @@ export default {
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
     camera: null,
+    controls: null,
     objects: [],
+
+    dragstart: null,
+    dragend: null,
 
     configure: function() {
         this.aspectRatio = window.innerWidth / window.innerHeight;
@@ -21,13 +26,10 @@ export default {
         this.camera.position.z = this.cameraDistance;
 
         document.body.appendChild(this.renderer.domElement);
-    },
-
-    start: function() {
 
         this.addLights();
 
-        this.loop();
+        this.addDragListeners();
     },
 
     addLights: function() {
@@ -39,6 +41,28 @@ export default {
 
         const ambLight = new THREE.AmbientLight(white, 0.3);
         this.scene.add(ambLight);
+    },
+
+    addDragListeners: function() {
+        this.controls = new DragControls([], this.camera, this.renderer.domElement);
+
+        this.controls.addEventListener( 'dragstart', e => {
+            if (this.dragstart) {
+                this.dragstart(e.object);
+            }
+        });
+        
+        this.controls.addEventListener( 'dragend', e => {
+            if (this.dragend) {
+                this.dragend(e.object);
+            }
+        } );
+    },
+
+    addObject: function(object) {
+        this.objects.push(object);
+        this.scene.add(object);
+        this.controls.getObjects().push(object);
     },
 
     loop: function() {

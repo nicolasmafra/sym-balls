@@ -11,13 +11,22 @@ export default class GameItem {
         this.gfxObject.userData = this;
     }
 
-    static createFromText(text) {
+    static createFromCycleNotation(text, length) {
         let cycles = Parser.fromCycleNotation(text);
-        let permutation = Cycle.cyclesToArray(cycles);
+        let permutation = Cycle.cyclesToArray(cycles, length);
         return new GameItem(permutation, cycles);
     }
 
     animate() {
         PermutationBubble.animateBubble(this.gfxObject);
+    }
+
+    findCollidedItem(items) {
+        return items
+                .filter(item => item != this)
+                .find(item => {
+                    let minDist = this.gfxObject.scale.x + item.gfxObject.scale.x;
+                    return this.gfxObject.position.distanceToSquared(item.gfxObject.position) < minDist*minDist;
+        });
     }
 }
