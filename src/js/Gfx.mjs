@@ -1,8 +1,10 @@
 import * as THREE from 'three';
-import PermutationVisual from './PermutationVisual.mjs';
+
+const white = new THREE.Color(0xffffff);
 
 export default {
-    fieldOfView: 75,
+    fieldOfView: 60,
+    cameraDistance: 1.732, // sqrt(3)
     aspectRatio: 16/9,
     near: 0.1,
     far: 1000,
@@ -10,12 +12,13 @@ export default {
     renderer: new THREE.WebGLRenderer(),
     scene: new THREE.Scene(),
     camera: null,
+    objects: [],
 
     configure: function() {
         this.aspectRatio = window.innerWidth / window.innerHeight;
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
-        this.camera.position.z = 5;
+        this.camera.position.z = this.cameraDistance;
 
         document.body.appendChild(this.renderer.domElement);
     },
@@ -24,19 +27,17 @@ export default {
 
         this.addLights();
 
-        this.addSampleObject();
-
         this.loop();
     },
 
     addLights: function() {
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        const dirLight = new THREE.DirectionalLight(white, 0.5);
         dirLight.position.set(1, 2, 1);
         dirLight.target.position.set(0, 0, 0);
         this.scene.add(dirLight);
         this.scene.add(dirLight.target);
 
-        const ambLight = new THREE.AmbientLight(0xffffff, 0.1);
+        const ambLight = new THREE.AmbientLight(white, 0.3);
         this.scene.add(ambLight);
     },
 
@@ -48,21 +49,17 @@ export default {
 
     update: function() {
 
-        this.updateSampleObject();
+        this.animateObjects();
         
         this.renderer.render(this.scene, this.camera);
     },
 
-    addSampleObject: function() {
-        const cycle = [1,2,3,4,0];
+    animateObjects: function() {
 
-        this.obj = PermutationVisual.cycleToGroup(cycle);
-
-        this.scene.add(this.obj);
-    },
-
-    updateSampleObject: function() {
-        this.obj.rotation.x += 0.01;
-        this.obj.rotation.y += 0.01;
+        this.scene.children.forEach(obj => {
+            if (obj.userData && obj.userData.animate) {
+                obj.userData.animate();
+            }
+        });
     },
 }

@@ -1,6 +1,8 @@
 export default {
 
-    cyclesToArray: function(length, cycles) {
+    cyclesToArray: function(cycles, length) {
+        if (!length) length = cycles.map(cycle => cycle.length).reduce((acc, x) => acc + x, 0);
+
         let array = [...Array(length).keys()];
         cycles.forEach(cycle => {
             cycle.forEach((x, i) => {
