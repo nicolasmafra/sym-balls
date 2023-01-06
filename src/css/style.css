@@ -5,3 +5,42 @@ html, body, canvas {
     width: 100%;
     overflow: hidden;
 }
+
+.menu {
+    position: fixed;
+    background-color: rgba(56, 90, 142, 0.48);
+    color: #fff;
+    padding: 0px 30px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 3px rgba(163, 187, 223, 0.74);
+}
+.menu input {
+    display: none;
+}
+.menu label {
+    display: inline-block;
+    cursor: pointer;
+}
+.menu label .bar {
+    width: 35px;
+    height: 5px;
+    background-color: #aaa;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+.menu-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0 0 50px;
+}
+input:checked ~ .menu-content {
+    max-height: 100%;
+}
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+.menu li {
+    height: 20px;
+    cursor: pointer;
+}
