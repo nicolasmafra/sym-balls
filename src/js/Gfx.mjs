@@ -19,20 +19,33 @@ export default {
     dragstart: null,
     dragend: null,
 
-    configure: function() {
+    calculateAspectRatio() {
         this.aspectRatio = window.innerWidth / window.innerHeight;
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+    },
+
+    configure() {
+        this.calculateAspectRatio();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         this.camera.position.z = this.cameraDistance;
 
         document.body.appendChild(this.renderer.domElement);
+
+        window.addEventListener( 'resize', () => this.resize(), false );
 
         this.addLights();
 
         this.addDragListeners();
     },
 
-    addLights: function() {
+    resize() {
+        this.calculateAspectRatio();
+        this.camera.aspect = this.aspectRatio;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+
+    addLights() {
         const dirLight = new THREE.DirectionalLight(white, 0.5);
         dirLight.position.set(1, 2, 1);
         dirLight.target.position.set(0, 0, 0);
@@ -43,7 +56,7 @@ export default {
         this.scene.add(ambLight);
     },
 
-    addDragListeners: function() {
+    addDragListeners() {
         this.controls = new DragControls([], this.camera, this.renderer.domElement);
 
         this.controls.addEventListener( 'dragstart', e => {
@@ -59,7 +72,7 @@ export default {
         } );
     },
 
-    addObject: function(object, objectReference) {
+    addObject(object, objectReference) {
         if (objectReference) {
             object.position.copy(objectReference.position);
         }
@@ -68,7 +81,7 @@ export default {
         this.controls.getObjects().push(object);
     },
 
-    removeObject: function(object) {
+    removeObject(object) {
         this.objects = this.objects.filter(x => x != object);
         const index = this.controls.getObjects().indexOf(object);
         if (index > -1) {
@@ -77,20 +90,20 @@ export default {
         this.scene.remove(object);
     },
 
-    loop: function() {
+    loop() {
         this.update();
 
         requestAnimationFrame( () => this.loop() );
     },
 
-    update: function() {
+    update() {
 
         this.animateObjects();
         
         this.renderer.render(this.scene, this.camera);
     },
 
-    animateObjects: function() {
+    animateObjects() {
 
         this.scene.children.forEach(obj => {
             if (obj.userData && obj.userData.animate) {
