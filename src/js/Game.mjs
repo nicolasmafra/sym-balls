@@ -1,9 +1,10 @@
 import GameItem from './GameItem.mjs';
 
-const initialItemList = [
-    GameItem.createFromCycleNotation('(1,2)', 6),
-    GameItem.createFromCycleNotation('(1,2)(3,4)(5,6)', 6),
-    GameItem.createFromCycleNotation('(1,2,3,4)(5,6)', 6),
+const levelLength = 6;
+const levelInitialItems = [
+    '(1,2)(3,4)(5,6)',
+    '(1,3)',
+    '(1,2,3,4)(5,6)',
 ];
 
 export default {
@@ -18,7 +19,17 @@ export default {
         this.addInitialItems();
     },
 
+    reset() {
+        this.gfx.objects.forEach(gfxObject => this.gfx.removeObject(gfxObject));
+
+        this.addInitialItems();
+    },
+
     addInitialItems() {
+        let initialItemList = levelInitialItems.map(text => {
+            return GameItem.createFromCycleNotation(text, levelLength);
+        });
+
         initialItemList[0].gfxObject.position.setX(-0.75);
         initialItemList[1].gfxObject.position.setX(-0.25);
         initialItemList[2].gfxObject.position.setX(0.25);

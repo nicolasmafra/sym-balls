@@ -1,5 +1,7 @@
 export default {
 
+    game: null,
+
     create() {
         document.body.innerHTML = `
         <div class="menu">
@@ -11,10 +13,16 @@ export default {
             </label>
             <div class="menu-content">
                 <ul>
-                    <li>Reset</li>
+                    <li id="resetButton">Reset</li>
                 </ul>
             </div>
         </div>
         `;
-    }
+
+        document.getElementById("resetButton").addEventListener("click", () => this.reset());
+    },
+
+    reset() {
+        this.game.reset();
+    },
 }
