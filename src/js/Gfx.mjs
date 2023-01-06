@@ -59,10 +59,22 @@ export default {
         } );
     },
 
-    addObject: function(object) {
+    addObject: function(object, objectReference) {
+        if (objectReference) {
+            object.position.copy(objectReference.position);
+        }
         this.objects.push(object);
         this.scene.add(object);
         this.controls.getObjects().push(object);
+    },
+
+    removeObject: function(object) {
+        this.objects = this.objects.filter(x => x != object);
+        const index = this.controls.getObjects().indexOf(object);
+        if (index > -1) {
+            this.controls.getObjects().splice(index, 1);
+        }
+        this.scene.remove(object);
     },
 
     loop: function() {

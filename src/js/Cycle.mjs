@@ -38,7 +38,7 @@ export default {
     normalizeCycles: function(cycles, includeOneCycles) {
         return cycles
                 .filter(cycle => cycle.length > 1 || includeOneCycles)
-                .map(this.normalizeCycle)
+                .map(cycle => this.normalizeCycle(cycle))
                 .sort((a, b) => a[0] - b[0]);
     },
 

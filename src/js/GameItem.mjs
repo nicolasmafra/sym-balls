@@ -1,3 +1,4 @@
+import Permutation from './Permutation.mjs';
 import Cycle from './Cycle.mjs';
 import PermutationBubble from './PermutationBubble.mjs';
 import Parser from './Parser.mjs';
@@ -17,6 +18,12 @@ export default class GameItem {
         return new GameItem(permutation, cycles);
     }
 
+    static createFromPermutation(permutation) {
+        let cycles = Cycle.arrayToCycles(permutation);
+        cycles = Cycle.normalizeCycles(cycles);
+        return new GameItem(permutation, cycles);
+    }
+
     animate() {
         PermutationBubble.animateBubble(this.gfxObject);
     }
@@ -28,5 +35,10 @@ export default class GameItem {
                     let minDist = this.gfxObject.scale.x + item.gfxObject.scale.x;
                     return this.gfxObject.position.distanceToSquared(item.gfxObject.position) < minDist*minDist;
         });
+    }
+
+    mergeWith(item) {
+        let resultPermutation = Permutation.compose(this.permutation, item.permutation);
+        return GameItem.createFromPermutation(resultPermutation);
     }
 }
