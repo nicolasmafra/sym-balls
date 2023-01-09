@@ -10,8 +10,9 @@ export default {
     near: 0.1,
     far: 1000,
 
-    renderer: new THREE.WebGLRenderer(),
-    scene: new THREE.Scene(),
+    params: {},
+    renderer: null,
+    scene: null,
     camera: null,
     controls: null,
     objects: [],
@@ -25,7 +26,9 @@ export default {
 
     configure() {
         this.calculateAspectRatio();
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         this.camera.position.z = this.cameraDistance;
 
@@ -33,7 +36,9 @@ export default {
 
         window.addEventListener( 'resize', () => this.resize(), false );
 
-        this.addLights();
+        if (this.params.lightningEnabled) {
+            this.addLights();
+        }
 
         this.addDragListeners();
     },

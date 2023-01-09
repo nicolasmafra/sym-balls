@@ -5,23 +5,24 @@ import Parser from './Parser.mjs';
 
 export default class GameItem {
 
-    constructor(permutationIndexArray, cycles) {
+    constructor(permutationIndexArray, cycles, params) {
+        this.params = params;
         this.permutation = permutationIndexArray;
         this.cycles = cycles;
-        this.gfxObject = PermutationBubble.cyclesToBubble(this.cycles);
+        this.gfxObject = PermutationBubble.cyclesToBubble(this.cycles, params);
         this.gfxObject.userData = this;
     }
 
-    static createFromCycleNotation(text, length) {
+    static createFromCycleNotation(text, length, params) {
         let cycles = Parser.fromCycleNotation(text);
         let permutation = Cycle.cyclesToArray(cycles, length);
-        return new GameItem(permutation, cycles);
+        return new GameItem(permutation, cycles, params);
     }
 
-    static createFromPermutation(permutation) {
+    static createFromPermutation(permutation, params) {
         let cycles = Cycle.arrayToCycles(permutation);
         cycles = Cycle.normalizeCycles(cycles);
-        return new GameItem(permutation, cycles);
+        return new GameItem(permutation, cycles, params);
     }
 
     animate() {
@@ -39,6 +40,6 @@ export default class GameItem {
 
     mergeWith(item) {
         let resultPermutation = Permutation.compose(this.permutation, item.permutation);
-        return GameItem.createFromPermutation(resultPermutation);
+        return GameItem.createFromPermutation(resultPermutation, this.params);
     }
 }

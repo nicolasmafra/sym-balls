@@ -9,6 +9,7 @@ const levelInitialItems = [
 
 export default {
 
+    params: {},
     gfx: null,
 
     start(Gfx) {
@@ -27,7 +28,7 @@ export default {
 
     addInitialItems() {
         let initialItemList = levelInitialItems.map(text => {
-            return GameItem.createFromCycleNotation(text, levelLength);
+            return GameItem.createFromCycleNotation(text, levelLength, this.params);
         });
 
         initialItemList[0].gfxObject.position.setX(-0.75);
