@@ -20,9 +20,8 @@ module.exports = {
   plugins: [
 
     new HtmlWebpackPlugin({
-
-      title: 'Sym-balls - A puzzle game of composing permutations',
-
+      template: "src/index.html",
+      inject: true,
     }),
 
   ],
