@@ -1,6 +1,6 @@
 import '../css/style.css';
 import '../css/main-menu.css';
-import '../css/side-menu.css';
+import '../css/modal-menu.css';
 
 import Params from './Params.mjs';
 import Gfx from './Gfx.mjs';
