@@ -4,6 +4,10 @@ import { DragControls } from './vendor/DragControls.js'
 const white = new THREE.Color(0xffffff);
 
 export default {
+    domContainer: null,
+    requestAnimationFrameId: null,
+    started: false,
+
     fieldOfView: 60,
     cameraDistance: 1.732, // sqrt(3)
     aspectRatio: 16/9,
@@ -33,13 +37,11 @@ export default {
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         this.camera.position.z = this.cameraDistance;
 
-        document.body.appendChild(this.renderer.domElement);
+        if (!this.domContainer) this.domContainer = document.body;
+
+        this.domContainer.appendChild(this.renderer.domElement);
 
         window.addEventListener( 'resize', () => this.resize(), false );
-
-        if (this.params.lightningEnabled) {
-            this.addLights();
-        }
 
         this.addDragListeners();
     },
@@ -96,10 +98,36 @@ export default {
         this.scene.remove(object);
     },
 
+    start() {
+        if (this.started) return;
+
+        this.started = true;
+
+        this.objects.forEach(obj => this.removeObject(obj));
+        this.scene.remove.apply(this.scene, this.scene.children);
+
+        if (this.params.lightningEnabled) {
+            this.addLights();
+        }
+
+        this.loop();
+    },
+
+    stop() {
+        if (!this.started) return;
+
+        if (this.requestAnimationFrameId) {
+            cancelAnimationFrame(this.requestAnimationFrameId);
+        }
+        this.started = false;
+    },
+
     loop() {
+        this.requestAnimationFrameId = null;
+        
         this.update();
 
-        requestAnimationFrame( () => this.loop() );
+        this.requestAnimationFrameId = requestAnimationFrame( () => this.loop() );
     },
 
     update() {

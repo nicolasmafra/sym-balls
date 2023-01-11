@@ -12,12 +12,16 @@ export default {
     params: {},
     gfx: null,
 
-    start(Gfx) {
-
-        this.gfx = Gfx;
+    start() {
         this.gfx.dragend = (gfxObject) => this.ondragend(gfxObject);
 
+        this.gfx.start();
+
         this.addInitialItems();
+    },
+
+    stop() {
+        this.gfx.stop();
     },
 
     reset() {

@@ -1,4 +1,6 @@
 import '../css/style.css';
+import '../css/main-menu.css';
+import '../css/side-menu.css';
 
 import Params from './Params.mjs';
 import Gfx from './Gfx.mjs';
@@ -11,9 +13,8 @@ Gfx.params = Params.value;
 Game.params = Params.value;
 
 Menu.game = Game;
-Menu.create();
+Menu.configure();
 
 Gfx.configure();
-Gfx.loop();
 
-Game.start(Gfx);
+Game.gfx = Gfx;

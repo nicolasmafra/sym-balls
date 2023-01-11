@@ -2,24 +2,37 @@ export default {
 
     game: null,
 
-    create() {
-        document.body.innerHTML = `
-        <div class="menu">
-            <input type="checkbox" id="menu-toggle">
-            <label for="menu-toggle">
-                <div class="bar bar1"></div>
-                <div class="bar bar2"></div>
-                <div class="bar bar3"></div>
-            </label>
-            <div class="menu-content">
-                <ul>
-                    <li id="resetButton">Reset</li>
-                </ul>
-            </div>
-        </div>
-        `;
+    configure() {
+        this.addButton(".startButton", () => this.start());
+        this.addButton(".exitButton", () => this.exit());
+        this.addButton(".resetButton", () => this.reset());
+        this.addButton(".stopButton", () => this.stop());
+    },
 
-        document.getElementById("resetButton").addEventListener("click", () => this.reset());
+    addButton(selector, fn) {
+        document.querySelectorAll(selector).forEach(x => x.addEventListener("click", fn));
+    },
+
+    hideMenus() {
+        document.querySelector('.main-menu').style.display = "none";
+    },
+
+    showMainMenu() {
+        document.querySelector('.main-menu').style.display = "block";
+    },
+
+    start() {
+        this.hideMenus();
+        this.game.start();
+    },
+
+    stop() {
+        this.game.stop();
+        this.showMainMenu();
+    },
+
+    exit() {
+        location.reload();
     },
 
     reset() {
