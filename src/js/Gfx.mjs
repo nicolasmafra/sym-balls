@@ -1,3 +1,4 @@
+import Params from './Params.mjs';
 import * as THREE from 'three';
 import { DragControls } from './vendor/DragControls.js'
 
@@ -14,7 +15,6 @@ export default {
     near: 0.1,
     far: 1000,
 
-    params: {},
     renderer: null,
     scene: null,
     camera: null,
@@ -106,7 +106,7 @@ export default {
         this.objects.forEach(obj => this.removeObject(obj));
         this.scene.remove.apply(this.scene, this.scene.children);
 
-        if (this.params.lightningEnabled) {
+        if (Params.value.lightningEnabled) {
             this.addLights();
         }
 

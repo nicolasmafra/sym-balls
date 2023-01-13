@@ -1,3 +1,4 @@
+import Params from './Params.mjs';
 import * as THREE from 'three';
 
 const colorList = [
@@ -21,29 +22,29 @@ const cycleGroupRotationSpeed = 0.03;
 
 export default {
 
-    indexToBall(i, params) {
+    indexToBall(i) {
         const color = colorList[i];
 
         const materialParams = {
             color: color,
         };
-        const material = params.lightningEnabled
+        const material = Params.value.lightningEnabled
             ? new THREE.MeshPhongMaterial(materialParams)
             : new THREE.MeshBasicMaterial(materialParams);
         
         return new THREE.Mesh(ballGeometry, material);
     },
 
-    cycleToGroup(cycle, params) {
+    cycleToGroup(cycle) {
 
-        let balls = cycle.map(index => this.indexToBall(index, params));
+        let balls = cycle.map(index => this.indexToBall(index));
 
         return this.createCircleGroup(balls, 1, cycleMargin);
     },
 
-    cyclesToBubble(cycles, params) {
+    cyclesToBubble(cycles) {
 
-        let cycleGroups = cycles.map(cycle => this.cycleToGroup(cycle, params));
+        let cycleGroups = cycles.map(cycle => this.cycleToGroup(cycle));
         let group = this.createCircleGroup(cycleGroups, 1, bubbleMargin);
 
         const materialParams = {
@@ -51,7 +52,7 @@ export default {
             transparent: true,
             opacity: bubbleOpacity
         };
-        const material = params.lightningEnabled
+        const material = Params.value.lightningEnabled
             ? new THREE.MeshPhongMaterial(materialParams)
             : new THREE.MeshBasicMaterial(materialParams);
         

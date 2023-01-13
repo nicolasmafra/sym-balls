@@ -1,13 +1,17 @@
-export default {
+import Game from './Game.mjs';
 
-    game: null,
+const Menu = {
 
     configure() {
-        this.addButton(".startButton", () => this.start());
-        this.addButton(".exitButton", () => this.exit());
-        this.addButton(".resetButton", () => this.reset());
-        this.addButton(".stopButton", () => this.stop());
+        Menu.configureModal();
 
+        Menu.addButton(".startButton", Menu.start);
+        Menu.addButton(".exitButton", Menu.exit);
+        Menu.addButton(".resetButton", Menu.reset);
+        Menu.addButton(".stopButton", Menu.stop);
+    },
+
+    configureModal() {
         let modal = document.querySelector(".modal");
         document.querySelector(".modal-menu-toggle").onclick = () => {
             modal.style.display = "block";
@@ -37,14 +41,14 @@ export default {
     },
 
     start() {
-        this.hideMenus();
-        this.game.start();
+        Menu.hideMenus();
+        Game.start();
     },
 
     stop() {
-        this.hideMenus();
-        this.game.stop();
-        this.showMainMenu();
+        Menu.hideMenus();
+        Game.stop();
+        Menu.showMainMenu();
     },
 
     exit() {
@@ -52,7 +56,9 @@ export default {
     },
 
     reset() {
-        this.hideMenus();
-        this.game.reset();
+        Menu.hideMenus();
+        Game.reset();
     },
 }
+
+export default Menu;
