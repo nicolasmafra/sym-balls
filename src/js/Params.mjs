@@ -1,10 +1,40 @@
-export default {
+const Params = {
     value: {
         lightningEnabled: false,
     },
 
+    configure() {
+        Params.calculateDefaultValue();
+        Params.loadParams();
+    },
+
     calculateDefaultValue() {
-        this.value.lightningEnabled = !this.isMobile();
+        Params.value.lightningEnabled = !this.isMobile();
+    },
+
+    loadParams() {
+        for (const paramName in Params.value) {
+            let paramValue = localStorage.getItem(paramName);
+            if (paramValue !== null) {
+
+                if (paramValue === "true") paramValue = true;
+                if (paramValue === "false") paramValue = false;
+
+                Params.value[paramName] = paramValue;
+            }
+        }
+    },
+
+    toggleParam(paramName) {
+        let value = !Params.value[paramName];
+        Params.setParam(paramName, value);
+    },
+
+    setParam(paramName, value) {
+        console.log(`Changing param: ${paramName}=${value}`);
+        Params.value[paramName] = value;
+        localStorage.setItem(paramName, value);
+        debugger;
     },
 
     isMobile() {
@@ -13,3 +43,5 @@ export default {
         return check;
     },
 };
+
+export default Params;

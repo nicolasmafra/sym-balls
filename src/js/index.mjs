@@ -6,7 +6,7 @@ import Params from './Params.mjs';
 import Gfx from './Gfx.mjs';
 import Menu from './Menu.mjs';
 
-Params.calculateDefaultValue();
+Params.configure();
 Menu.configure();
 Gfx.configure();
 
