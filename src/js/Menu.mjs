@@ -1,14 +1,13 @@
 import Game from './Game.mjs';
+import Params from './Params.mjs';
 
 const Menu = {
 
+    stack: ['root'],
+
     configure() {
         Menu.configureModal();
-
-        Menu.addButton(".startButton", Menu.start);
-        Menu.addButton(".exitButton", Menu.exit);
-        Menu.addButton(".resetButton", Menu.reset);
-        Menu.addButton(".stopButton", Menu.stop);
+        Menu.addButtons();
     },
 
     configureModal() {
@@ -27,8 +26,9 @@ const Menu = {
         }
     },
 
-    addButton(selector, fn) {
-        document.querySelectorAll(selector).forEach(x => x.addEventListener("click", fn));
+    addButtons() {
+        document.querySelectorAll(".menu-button")
+            .forEach(x => x.addEventListener("click", (e) => Menu[x.dataset.action](x, e)));
     },
 
     hideMenus() {
@@ -38,6 +38,10 @@ const Menu = {
 
     showMainMenu() {
         document.querySelector('.main-menu').style.display = "block";
+
+        let current = Menu.stack[Menu.stack.length - 1];
+        document.querySelectorAll('.main-menu-content').forEach(x => x.style.display = "none");
+        document.querySelector('#menu-' + current).style.display = "block";
     },
 
     start() {
@@ -58,6 +62,22 @@ const Menu = {
     reset() {
         Menu.hideMenus();
         Game.reset();
+    },
+
+    open(element) {
+        Menu.stack.push(element.dataset.nextMenu);
+        Menu.showMainMenu();
+    },
+
+    back() {
+        Menu.stack.pop();
+        Menu.showMainMenu();
+    },
+
+    toggleParam(element) {
+        let paramName = element.dataset.paramName
+        Params.value[paramName] = !Params.value[paramName];
+        console.log(`Changing param: ${paramName}=${Params.value[paramName]}`);
     },
 }
 
