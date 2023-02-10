@@ -1,6 +1,15 @@
 const Params = {
     value: {
         lightningEnabled: false,
+        itemOscillation: true,
+        rotateCycles: '3D',
+    },
+    options: {
+        rotateCycles: [
+            'DISABLED',
+            '2D',
+            '3D'
+        ]
     },
 
     configure() {
@@ -17,6 +26,9 @@ const Params = {
             let paramValue = localStorage.getItem(paramName);
             if (paramValue !== null) {
 
+                if (Params.options[paramName] && !Params.options[paramName].includes(paramValue)) {
+                    continue; // invalid option
+                }
                 if (paramValue === "true") paramValue = true;
                 if (paramValue === "false") paramValue = false;
 
@@ -26,15 +38,20 @@ const Params = {
     },
 
     toggleParam(paramName) {
-        let value = !Params.value[paramName];
-        Params.setParam(paramName, value);
+
+        if (Params.options[paramName]) {
+            let i = Params.options[paramName].indexOf(Params.value[paramName]);
+            i = (i + 1) % Params.options[paramName].length;
+            Params.setParam(paramName, Params.options[paramName][i]);
+        } else {
+            Params.setParam(paramName, !Params.value[paramName]);
+        }
     },
 
     setParam(paramName, value) {
         console.log(`Changing param: ${paramName}=${value}`);
         Params.value[paramName] = value;
         localStorage.setItem(paramName, value);
-        debugger;
     },
 
     isMobile() {

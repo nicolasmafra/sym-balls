@@ -24,8 +24,8 @@ export default class GameItem {
         return new GameItem(permutation, cycles);
     }
 
-    animate() {
-        PermutationBubble.animateBubble(this.gfxObject);
+    animate(dt, time) {
+        PermutationBubble.animateBubble(this.gfxObject, dt, time);
     }
 
     findCollidedItem(items) {

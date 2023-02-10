@@ -8,6 +8,8 @@
     "build:dev": "webpack --mode development",
     "build:prd": "webpack --mode production",
     "start": "node index.cjs",
+    "start:dev": "yarn build:dev && yarn start",
+    "start:prd": "yarn build:prd && yarn start",
     "predeploy": "npm run build:prd",
     "deploy": "gh-pages -d dist"
   },

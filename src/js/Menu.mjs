@@ -28,7 +28,12 @@ const Menu = {
 
     addButtons() {
         document.querySelectorAll(".menu-button")
-            .forEach(x => x.addEventListener("click", (e) => Menu[x.dataset.action](x, e)));
+            .forEach(x => {
+                if (Menu[x.dataset.action + 'Prepare']) {
+                    Menu[x.dataset.action + 'Prepare'](x);
+                }
+                x.addEventListener("click", (e) => Menu[x.dataset.action](x, e))
+            });
     },
 
     hideMenus() {
@@ -74,10 +79,18 @@ const Menu = {
         Menu.showMainMenu();
     },
 
+    toggleParamPrepare(element) {
+        let paramName = element.dataset.paramName;
+        let label = Params.value[paramName];
+        if (label === true) label = 'ON';
+        if (label === false) label = 'OFF';
+        element.querySelector('.menu-param-value').innerHTML = label;
+    },
+
     toggleParam(element) {
         let paramName = element.dataset.paramName
-        Params.value[paramName] = !Params.value[paramName];
-        console.log(`Changing param: ${paramName}=${Params.value[paramName]}`);
+        Params.toggleParam(paramName);
+        Menu.toggleParamPrepare(element);
     },
 }
 

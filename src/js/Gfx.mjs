@@ -5,6 +5,10 @@ import { DragControls } from './vendor/DragControls.js'
 const white = new THREE.Color(0xffffff);
 
 export default {
+
+    startTime: null,
+    lastUpdate: null,
+    totalTime: null,
     domContainer: null,
     requestAnimationFrameId: null,
     started: false,
@@ -102,6 +106,7 @@ export default {
         if (this.started) return;
 
         this.started = true;
+        this.startTime = Date.now();
 
         this.objects.forEach(obj => this.removeObject(obj));
         this.scene.remove.apply(this.scene, this.scene.children);
@@ -123,6 +128,11 @@ export default {
     },
 
     loop() {
+        let now = Date.now();
+        this.dt = (now - this.lastUpdate) / 1000;
+        this.lastUpdate = now;
+        this.totalTime = (this.lastUpdate - this.startTime) / 1000;
+
         this.requestAnimationFrameId = null;
         
         this.update();
@@ -141,7 +151,7 @@ export default {
 
         this.scene.children.forEach(obj => {
             if (obj.userData && obj.userData.animate) {
-                obj.userData.animate();
+                obj.userData.animate(this.dt, this.totalTime);
             }
         });
     },

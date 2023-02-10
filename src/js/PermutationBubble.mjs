@@ -10,6 +10,7 @@ const colorList = [
     0xff00ff,
 ];
 const bubbleSize = 0.5;
+const bubbleRadius = bubbleSize/2;
 const ballGeometry = new THREE.SphereGeometry(1, 16, 8);
 const bubbleGeometry = new THREE.SphereGeometry(1, 32, 16);
 const white = new THREE.Color(0xffffff);
@@ -17,8 +18,12 @@ const white = new THREE.Color(0xffffff);
 const bubbleOpacity = 0.3;
 const cycleMargin = 0.5;
 const bubbleMargin = 0.4;
-const bubbleRotationSpeed = 0.005;
-const cycleGroupRotationSpeed = 0.03;
+const bubbleRotationSpeed = 0.25;
+const cycleGroupRotationSpeed = 1.5;
+const cycleXRotationSpeed = 0.5;
+const oscillationSpeed = 1.0 * Math.PI;
+const oscillationAmplitudeRatio = 0.05;
+const oscillationAmplitude = oscillationAmplitudeRatio * bubbleRadius;
 
 export default {
 
@@ -58,7 +63,7 @@ export default {
         
         const bubble = new THREE.Mesh(bubbleGeometry, material);
         bubble.add(group);
-        bubble.scale.multiplyScalar(bubbleSize/2);
+        bubble.scale.multiplyScalar(bubbleRadius);
 
         return bubble;
     },
@@ -90,13 +95,32 @@ export default {
         });
     },
 
-    animateBubble(bubble) {
-        bubble.children[0].rotation.x += bubbleRotationSpeed;
-        bubble.children[0].rotation.z += bubbleRotationSpeed;
+    animateBubble(bubble, dt, time) {
+        if (Params.value.itemOscillation) {
+            this.oscilateGroupSize(bubble, time);
+        }
+        if (Params.value.rotateCycles !== 'DISABLED') {
+            this.rotateBubble(bubble, time);
+        }
+    },
+
+    oscilateGroupSize(bubble, time) {
+        let cos = Math.cos(time * oscillationSpeed);
+        bubble.scale.setScalar(bubbleRadius * (1 + oscillationAmplitude * cos));
+    },
+
+    rotateBubble(bubble, time) {
+        if (Params.value.rotateCycles === '3D') {
+            bubble.children[0].rotation.x = time * bubbleRotationSpeed;
+        }
+        bubble.children[0].rotation.z = time * bubbleRotationSpeed;
 
         let cycleGroups = bubble.children[0].children;
         cycleGroups.filter(c => c.children.length >= 2).forEach(cycleGroup => {
-            cycleGroup.rotation.z += cycleGroupRotationSpeed / cycleGroup.children.length;
+            if (Params.value.rotateCycles === '3D') {
+                cycleGroup.rotation.x = time * cycleXRotationSpeed;
+            }
+            cycleGroup.rotation.z = time * cycleGroupRotationSpeed / cycleGroup.children.length;
         });
-    },
+    }
 }
