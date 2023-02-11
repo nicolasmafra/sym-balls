@@ -50,6 +50,8 @@ const Menu = {
     },
 
     start() {
+        Menu.enterFullScreen();
+        Menu.rotateToLandscape();
         Menu.hideMenus();
         Game.start();
     },
@@ -91,6 +93,19 @@ const Menu = {
         let paramName = element.dataset.paramName
         Params.toggleParam(paramName);
         Menu.toggleParamPrepare(element);
+    },
+
+    enterFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        }
+    },
+
+    rotateToLandscape() {
+        let orientation = screen.orientation.type;
+        if (!orientation.startsWith("landscape")) {
+            screen.orientation.lock("landscape");
+        }
     },
 }
 

@@ -10,8 +10,8 @@
     "start": "node index.cjs",
     "start:dev": "yarn build:dev && yarn start",
     "start:prd": "yarn build:prd && yarn start",
-    "predeploy": "npm run build:prd",
-    "deploy": "gh-pages -d dist"
+    "deploy:only": "gh-pages -d dist",
+    "deploy": "yarn build:prd && yarn deploy:only"
   },
   "repository": {
     "type": "git",
