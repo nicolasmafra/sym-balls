@@ -2,15 +2,6 @@ import Game from './Game.mjs';
 import Parser from './Parser.mjs';
 import Cycle from './Cycle.mjs';
 
-const defaultLevel = {
-    length: 6,
-    initialItems: [
-        '(1,2)(3,4)(5,6)',
-        '(1,3)',
-        '(1,2,3,4)(5,6)',
-    ]
-}
-
 const GameLoader = {
 
     loadGameFromObject(obj) {
@@ -25,10 +16,6 @@ const GameLoader = {
             allowedInversion: false,
         };
         return new Game(schema);
-    },
-
-    loadDefaultLevel() {
-        return this.loadGameFromObject(defaultLevel);
     },
 
     isFilledArray(array) {

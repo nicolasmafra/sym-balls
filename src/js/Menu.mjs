@@ -1,5 +1,6 @@
 import GameGfx from './gfx/GameGfx.mjs';
 import Params from './Params.mjs';
+import LevelLoader from './core/LevelLoader.mjs';
 
 const Menu = {
 
@@ -25,12 +26,18 @@ const Menu = {
 
     addButtons() {
         document.querySelectorAll(".menu-button")
-            .forEach(x => {
-                if (Menu[x.dataset.action + 'Prepare']) {
-                    Menu[x.dataset.action + 'Prepare'](x);
+            .forEach(button => {
+                if (Menu[button.dataset.action + 'Prepare']) {
+                    Menu[button.dataset.action + 'Prepare'](button);
                 }
-                x.addEventListener("click", (e) => Menu[x.dataset.action](x, e))
+                Menu.addButtonListener(button);
             });
+    },
+
+    addButtonListener(button) {
+        if (Menu[button.dataset.action]) {
+            button.addEventListener("click", (e) => Menu[button.dataset.action](button, e))
+        }
     },
 
     hideMenus() {
@@ -104,6 +111,26 @@ const Menu = {
             screen.orientation.lock("landscape");
         }
     },
+
+    loadLevelPrepare(template) {
+        let container = template.parentNode;
+        let levelList = LevelLoader.getLevelList();
+        levelList.forEach(level => {
+            let newItem = template.cloneNode();
+            newItem.classList.remove('template');
+            container.appendChild(newItem);
+
+            newItem.innerHTML = level.title;
+            newItem.dataset.levelid = level.id;
+            Menu.addButtonListener(newItem);
+        });
+    },
+
+    loadLevel(element) {
+        let levelSchema = LevelLoader.loadLevelSchema(element.dataset.levelid);
+        GameGfx.setLevelSchema(levelSchema);
+        Menu.start();
+    }
 }
 
 export default Menu;

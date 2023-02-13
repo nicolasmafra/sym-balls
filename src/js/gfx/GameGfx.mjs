@@ -12,10 +12,15 @@ const GameGfx = {
      */
     game: null,
     resultShown: false,
+    levelSchema: null,
 
     async configure() {
         await GameGfxItem.configure();
         Gfx.configure();
+    },
+
+    setLevelSchema(levelSchema) {
+        this.levelSchema = levelSchema;
     },
 
     start() {
@@ -23,7 +28,7 @@ const GameGfx = {
 
         Gfx.start();
 
-        this.game = GameLoader.loadDefaultLevel();
+        this.game = GameLoader.loadGameFromObject(this.levelSchema);
         this.addInitialItems();
     },
 
@@ -39,13 +44,24 @@ const GameGfx = {
     },
 
     addInitialItems() {
-        let initialItemList = this.game.getItems().map(GameGfxItem.createInstance);
+        let items = this.game.getItems().map(GameGfxItem.createInstance);
 
-        initialItemList[0].gfxObject.position.setX(-0.75);
-        initialItemList[1].gfxObject.position.setX(-0.25);
-        initialItemList[2].gfxObject.position.setX(0.25);
+        let root = Math.ceil(Math.sqrt(items.length));
+        if (root < 4) root = 4;
+        let rows = Math.ceil(items.length / root);
+        let cols = root;
+        let rowOffset = (rows-1)/2;
+        let colOffset = (cols-1)/2;
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            let row = Math.floor(i / cols);
+            let col = i % cols;
+            let position = item.gfxObject.position;
+            position.setY(-0.5 * (row - rowOffset));
+            position.setX(0.5 * (col - colOffset));
+        }
         
-        initialItemList.forEach(item => Gfx.addObject(item.gfxObject));
+        items.forEach(item => Gfx.addObject(item.gfxObject));
     },
 
     /**

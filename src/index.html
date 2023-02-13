@@ -13,9 +13,20 @@
     <div class="main-menu" style="display:none">
       <div class="main-menu-content" id="menu-root">
         <ul>
-          <li class="menu-button" data-action="start">Start</li>
+          <li class="menu-button" data-action="open" data-next-menu="select-level">Select Level</li>
           <li class="menu-button" data-action="open" data-next-menu="options">Options</li>
           <li class="menu-button" data-action="exit">Exit</li>
+        </ul>
+      </div>
+      <div class="main-menu-content" id="menu-select-level">
+        <ul>
+          <li>
+            <span>Select Level</span>
+            <ul>
+              <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
+            </ul>
+          </li>
+          <li class="menu-button" data-action="back">Back</li>
         </ul>
       </div>
       <div class="main-menu-content" id="menu-options">
