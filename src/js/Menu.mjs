@@ -6,24 +6,21 @@ const Menu = {
     stack: ['root'],
 
     configure() {
-        Menu.configureModal();
+        Menu.configureModals();
         Menu.addButtons();
     },
 
-    configureModal() {
-        let modal = document.querySelector(".modal");
+    configureModals() {
+        let modalMenu = document.querySelector(".modal-menu");
         document.querySelector(".modal-menu-toggle").onclick = () => {
-            modal.style.display = "block";
+            modalMenu.style.display = "block";
         };
-        document.querySelector(".modal-content-close").onclick = () => {
-            modal.style.display = "none";
-        };
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+        document.querySelectorAll(".modal").forEach(modal => {
+            modal.querySelector(".modal-content-close").onclick = () => {
                 modal.style.display = "none";
-            }
-        }
+            };
+            modal.addEventListener("click", () => {modal.style.display = "none"});
+        });
     },
 
     addButtons() {
@@ -38,7 +35,7 @@ const Menu = {
 
     hideMenus() {
         document.querySelector('.main-menu').style.display = "none";
-        document.querySelector('.modal').style.display = "none";
+        document.querySelector('.modal-menu').style.display = "none";
     },
 
     showMainMenu() {

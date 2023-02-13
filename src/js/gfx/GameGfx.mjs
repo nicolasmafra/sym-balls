@@ -11,6 +11,7 @@ const GameGfx = {
      * @type {Game}
      */
     game: null,
+    resultShown: false,
 
     async configure() {
         await GameGfxItem.configure();
@@ -33,6 +34,7 @@ const GameGfx = {
     reset() {
         Gfx.objects.forEach(gfxObject => Gfx.removeObject(gfxObject));
         this.game.reset();
+        this.resultShown = false;
         this.addInitialItems();
     },
 
@@ -72,6 +74,22 @@ const GameGfx = {
         Gfx.addObject(resultGfxItem.gfxObject, collidedGfxItem.gfxObject);
         Gfx.removeObject(movedGfxItem.gfxObject);
         Gfx.removeObject(collidedGfxItem.gfxObject);
+        this.checkWinning();
+    },
+
+    checkWinning() {
+        if (this.resultShown) {
+            return;
+        }
+        let winningResult = this.game.getWinningResult();
+        if (winningResult == null) {
+            return;
+        }
+        let messageModal = document.querySelector('.message-modal');
+        let messageTag = messageModal.querySelector('.message');
+        messageTag.innerHTML = winningResult ? "You Win!" : "You Lose!";
+        messageModal.style.display = "block";
+        this.resultShown = true;
     },
 }
 

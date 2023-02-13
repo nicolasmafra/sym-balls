@@ -51,6 +51,10 @@ export default class GameItem {
         return new GameItem(Permutation.invertArray(this.permutation), this.locked);
     }
 
+    isIdentity() {
+        return Permutation.isIdentityArray(this.permutation);
+    }
+
     /**
      * @param {GameItem} anotherItem 
      * @returns {GameItem}

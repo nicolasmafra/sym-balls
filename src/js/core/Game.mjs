@@ -12,12 +12,15 @@ export default class Game {
      */
     dockItems = [];
 
+    winningResult = null;
+
     constructor(schema) {
         this.schema = schema;
         this.reset();
     }
 
     reset() {
+        this.winningResult = null;
         if (this.schema.initialItems) {
             this.items = this.schema.initialItems
                 .map(schemaItem => new GameItem(schemaItem, this.schema.lockInitialItems));
@@ -40,6 +43,13 @@ export default class Game {
      */
     getDockItems() {
         return this.dockItems;
+    }
+
+    /**
+     * @returns {boolean} or null if not finished
+     */
+    getWinningResult() {
+        return this.winningResult;
     }
 
     #findItemWithId(itemList, itemId) {
@@ -78,6 +88,7 @@ export default class Game {
         let item = this.#findNotLockedItemWithId(this.items, itemId);
 
         this.#removeItem(item);
+        this.#checkWinningResult();
     }
 
     /**
@@ -117,7 +128,9 @@ export default class Game {
         this.#removeItem(item1);
         this.#removeItem(item2);
         let resultItem = item1.mergeWith(item2);
-        return this.#addItem(resultItem);
+        this.#addItem(resultItem);
+        this.#checkWinningResult();
+        return resultItem;
     }
 
     /**
@@ -127,5 +140,22 @@ export default class Game {
         let dockItem = this.#findItemWithId(this.dockItems, dockItemId);
         let item = dockItem.clone();
         return this.#addItem(item);
+    }
+
+    #checkWinningResult() {
+        if (this.winningResult !== null) {
+            return this.winningResult;
+        }
+        if (this.dockItems.length > 0) {
+            return null;
+        }
+        if (this.items.length == 0) {
+            return this.winningResult = true;
+        }
+        if (this.items.length == 1) {
+            let lastItem = this.items[0];
+            return this.winningResult = lastItem.isIdentity();
+        }
+        return this.winningResult;
     }
 }
