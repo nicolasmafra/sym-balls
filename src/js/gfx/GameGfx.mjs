@@ -1,21 +1,29 @@
 import Gfx from './Gfx.mjs';
-import GameItemGfx from './GameItemGfx.mjs';
-
-const levelLength = 6;
-const levelInitialItems = [
-    '(1,2)(3,4)(5,6)',
-    '(1,3)',
-    '(1,2,3,4)(5,6)',
-];
+import Game from '../core/Game.mjs';
+import GameLoader from '../core/GameLoader.mjs';
+import GameGfxItem from './GameGfxItem.mjs';
+import { Object3D } from 'three';
+import GameItem from '../core/GameItem.mjs';
 
 const GameGfx = {
+
+    /**
+     * @type {Game}
+     */
+    game: null,
+
+    async configure() {
+        await GameGfxItem.configure();
+        Gfx.configure();
+    },
 
     start() {
         Gfx.dragend = (gfxObject) => GameGfx.ondragend(gfxObject);
 
         Gfx.start();
 
-        GameGfx.addInitialItems();
+        this.game = GameLoader.loadDefaultLevel();
+        this.addInitialItems();
     },
 
     stop() {
@@ -24,14 +32,12 @@ const GameGfx = {
 
     reset() {
         Gfx.objects.forEach(gfxObject => Gfx.removeObject(gfxObject));
-
-        GameGfx.addInitialItems();
+        this.game.reset();
+        this.addInitialItems();
     },
 
     addInitialItems() {
-        let initialItemList = levelInitialItems.map(text => {
-            return GameItemGfx.createFromCycleNotation(text, levelLength);
-        });
+        let initialItemList = this.game.getItems().map(GameGfxItem.createInstance);
 
         initialItemList[0].gfxObject.position.setX(-0.75);
         initialItemList[1].gfxObject.position.setX(-0.25);
@@ -40,16 +46,32 @@ const GameGfx = {
         initialItemList.forEach(item => Gfx.addObject(item.gfxObject));
     },
 
+    /**
+     * @param {Object3D} gfxObject 
+     * @returns {GameGfxItem}
+     */
+    getGfxItemFromObject(gfxObject) {
+        return gfxObject.userData;
+    },
+
     ondragend(gfxObject) {
-        let item = gfxObject.userData;
-        let itemList = Gfx.objects.map(gfxObject => gfxObject.userData);
-        let collidedItem = item.findCollidedItem(itemList);
+        let gfxItem = this.getGfxItemFromObject(gfxObject);
+        let gfxItemList = Gfx.objects.map(this.getGfxItemFromObject);
+        let collidedItem = gfxItem.findCollidedItem(gfxItemList);
         if (collidedItem) {
-            let resultItem = item.mergeWith(collidedItem);
-            Gfx.addObject(resultItem.gfxObject, collidedItem.gfxObject);
-            Gfx.removeObject(item.gfxObject);
-            Gfx.removeObject(collidedItem.gfxObject);
+            this.mergeItems(gfxItem, collidedItem);
         }
+    },
+
+    mergeItems(movedGfxItem, collidedGfxItem) {
+        let resultGameItem = this.game.mergeItem(
+            movedGfxItem.gameItem.getId(),
+            collidedGfxItem.gameItem.getId()
+        );
+        let resultGfxItem = GameGfxItem.createInstance(resultGameItem);
+        Gfx.addObject(resultGfxItem.gfxObject, collidedGfxItem.gfxObject);
+        Gfx.removeObject(movedGfxItem.gfxObject);
+        Gfx.removeObject(collidedGfxItem.gfxObject);
     },
 }
 

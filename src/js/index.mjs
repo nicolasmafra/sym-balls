@@ -3,11 +3,15 @@ import '../css/main-menu.css';
 import '../css/modal-menu.css';
 
 import Params from './Params.mjs';
-import Gfx from './Gfx.mjs';
 import Menu from './Menu.mjs';
+import GameGfx from './gfx/GameGfx.mjs';
 
-Params.configure();
-Menu.configure();
-Gfx.configure();
+async function start() {
+    Params.configure();
+    Menu.configure();
+    await GameGfx.configure();
+    
+    Menu.showMainMenu();
+}
 
-Menu.showMainMenu();
+start();

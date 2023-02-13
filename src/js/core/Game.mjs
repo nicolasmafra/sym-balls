@@ -3,25 +3,41 @@ import GameItem from './GameItem.mjs'
 export default class Game {
 
     schema = null;
+    /**
+     * @type {GameItem[]}
+     */
     items = [];
+    /**
+     * @type {GameItem[]}
+     */
     dockItems = [];
 
     constructor(schema) {
         this.schema = schema;
-        if (schema.initialItems) {
-            this.items = schema.initialItems
-                .map(schemaItem => new GameItem(schemaItem, schema.lockInitialItems));
+        this.reset();
+    }
+
+    reset() {
+        if (this.schema.initialItems) {
+            this.items = this.schema.initialItems
+                .map(schemaItem => new GameItem(schemaItem, this.schema.lockInitialItems));
         }
-        if (schema.generatingSet) {
-            this.dockItems = schema.generatingSet
+        if (this.schema.generatingSet) {
+            this.dockItems = this.schema.generatingSet
                 .map(schemaItem => new GameItem(schemaItem, false));
         }
     }
 
+    /**
+     * @returns {GameItem[]}
+     */
     getItems() {
         return this.items;
     }
 
+    /**
+     * @returns {GameItem[]}
+     */
     getDockItems() {
         return this.dockItems;
     }
@@ -64,6 +80,9 @@ export default class Game {
         this.#removeItem(item);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     duplicateItem(itemId) {
         if (!this.schema.allowedDuplication) {
             throw new Error("Duplication is not allowed.");
@@ -74,6 +93,9 @@ export default class Game {
         return this.#addItem(clone);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     invertItem(itemId) {
         if (!this.schema.allowedInversion) {
             throw new Error("Inversion is not allowed.");
@@ -85,6 +107,9 @@ export default class Game {
         return this.#addItem(inverse);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     mergeItem(itemId1, itemId2) {
         let item1 = this.#findNotLockedItemWithId(this.items, itemId1);
         let item2 = this.#findItemWithId(this.items, itemId2);
@@ -95,6 +120,9 @@ export default class Game {
         return this.#addItem(resultItem);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     addItemFromDock(dockItemId) {
         let dockItem = this.#findItemWithId(this.dockItems, dockItemId);
         let item = dockItem.clone();

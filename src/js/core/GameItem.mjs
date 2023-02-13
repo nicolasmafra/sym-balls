@@ -1,4 +1,4 @@
-import Permutation from '../Permutation.mjs'
+import Permutation from '../core/Permutation.mjs'
 
 export default class GameItem {
 
@@ -30,18 +30,31 @@ export default class GameItem {
         return this.locked;
     }
 
+    /**
+     * @returns {GameItem}
+     */
     clone() {
         return new GameItem(this.permutation, this.locked);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     unlock() {
         return new GameItem(this.permutation, false);
     }
 
+    /**
+     * @returns {GameItem}
+     */
     inverse() {
         return new GameItem(Permutation.invertArray(this.permutation), this.locked);
     }
 
+    /**
+     * @param {GameItem} anotherItem 
+     * @returns {GameItem}
+     */
     mergeWith(anotherItem) {
         let permutation = Permutation.compose(this.permutation, anotherItem.permutation);
         let locked = this.locked || anotherItem.locked;

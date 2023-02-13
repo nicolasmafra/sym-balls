@@ -1,4 +1,4 @@
-import GameGfx from './GameGfx.mjs';
+import GameGfx from './gfx/GameGfx.mjs';
 import Params from './Params.mjs';
 
 const Menu = {

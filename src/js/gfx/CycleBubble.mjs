@@ -1,4 +1,4 @@
-import GameItemGfx from './GameItemGfx.mjs';
+import GameGfxItem from './GameGfxItem.mjs';
 import GameItem from '../core/GameItem.mjs';
 import Cycle from '../core/Cycle.mjs';
 import Params from '../Params.mjs';
@@ -99,17 +99,24 @@ let CycleBubbleBuilder = {
     },
 };
 
-export default class CycleBubble extends GameItemGfx {
+export default class CycleBubble extends GameGfxItem {
 
-    cycles = null;
+    cycles = [];
 
     /**
      * @param {GameItem} gameItem 
      */
     constructor(gameItem) {
-        super(gameItem);
+        super();
+        this.gameItem = gameItem;
         this.cycles = Cycle.arrayToCycles(gameItem.getPermutation());
+        this.cycles = Cycle.normalizeCycles(this.cycles);
         this.gfxObject = CycleBubbleBuilder.cyclesToBubble(this.cycles);
+        this.gfxObject.userData = this;
+    }
+
+    createNewFrom(gameItem) {
+        return new CycleBubble(gameItem);
     }
 
     animate(dt, time) {
