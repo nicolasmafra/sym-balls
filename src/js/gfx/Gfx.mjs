@@ -1,6 +1,6 @@
-import Params from './Params.mjs';
+import Params from '../Params.mjs';
 import * as THREE from 'three';
-import { DragControls } from './vendor/DragControls.js'
+import { DragControls } from '../vendor/DragControls.js'
 
 const white = new THREE.Color(0xffffff);
 

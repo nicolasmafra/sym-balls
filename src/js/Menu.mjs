@@ -1,4 +1,4 @@
-import Game from './Game.mjs';
+import GameGfx from './GameGfx.mjs';
 import Params from './Params.mjs';
 
 const Menu = {
@@ -53,12 +53,12 @@ const Menu = {
         Menu.enterFullScreen();
         Menu.rotateToLandscape();
         Menu.hideMenus();
-        Game.start();
+        GameGfx.start();
     },
 
     stop() {
         Menu.hideMenus();
-        Game.stop();
+        GameGfx.stop();
         Menu.showMainMenu();
     },
 
@@ -68,7 +68,7 @@ const Menu = {
 
     reset() {
         Menu.hideMenus();
-        Game.reset();
+        GameGfx.reset();
     },
 
     open(element) {

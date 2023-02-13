@@ -1,5 +1,5 @@
 import Gfx from './Gfx.mjs';
-import GameItem from './GameItem.mjs';
+import GameItemGfx from './GameItemGfx.mjs';
 
 const levelLength = 6;
 const levelInitialItems = [
@@ -8,14 +8,14 @@ const levelInitialItems = [
     '(1,2,3,4)(5,6)',
 ];
 
-const Game = {
+const GameGfx = {
 
     start() {
-        Gfx.dragend = (gfxObject) => Game.ondragend(gfxObject);
+        Gfx.dragend = (gfxObject) => GameGfx.ondragend(gfxObject);
 
         Gfx.start();
 
-        Game.addInitialItems();
+        GameGfx.addInitialItems();
     },
 
     stop() {
@@ -25,12 +25,12 @@ const Game = {
     reset() {
         Gfx.objects.forEach(gfxObject => Gfx.removeObject(gfxObject));
 
-        Game.addInitialItems();
+        GameGfx.addInitialItems();
     },
 
     addInitialItems() {
         let initialItemList = levelInitialItems.map(text => {
-            return GameItem.createFromCycleNotation(text, levelLength);
+            return GameItemGfx.createFromCycleNotation(text, levelLength);
         });
 
         initialItemList[0].gfxObject.position.setX(-0.75);
@@ -53,4 +53,4 @@ const Game = {
     },
 }
 
-export default Game;
+export default GameGfx;

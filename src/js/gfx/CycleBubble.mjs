@@ -1,4 +1,7 @@
-import Params from './Params.mjs';
+import GameItemGfx from './GameItemGfx.mjs';
+import GameItem from '../core/GameItem.mjs';
+import Cycle from '../core/Cycle.mjs';
+import Params from '../Params.mjs';
 import * as THREE from 'three';
 
 const colorList = [
@@ -25,7 +28,7 @@ const oscillationSpeed = 1.0 * Math.PI;
 const oscillationAmplitudeRatio = 0.05;
 const oscillationAmplitude = oscillationAmplitudeRatio * bubbleRadius;
 
-export default {
+let CycleBubbleBuilder = {
 
     indexToBall(i) {
         const color = colorList[i];
@@ -94,28 +97,42 @@ export default {
             obj.position.y = radius * Math.sin(i * angle);
         });
     },
+};
 
-    animateBubble(bubble, dt, time) {
+export default class CycleBubble extends GameItemGfx {
+
+    cycles = null;
+
+    /**
+     * @param {GameItem} gameItem 
+     */
+    constructor(gameItem) {
+        super(gameItem);
+        this.cycles = Cycle.arrayToCycles(gameItem.getPermutation());
+        this.gfxObject = CycleBubbleBuilder.cyclesToBubble(this.cycles);
+    }
+
+    animate(dt, time) {
         if (Params.value.itemOscillation) {
-            this.oscilateGroupSize(bubble, time);
+            this.#oscilateGroupSize(time);
         }
         if (Params.value.rotateCycles !== 'DISABLED') {
-            this.rotateBubble(bubble, time);
+            this.#rotate(time);
         }
-    },
+    }
 
-    oscilateGroupSize(bubble, time) {
+    #oscilateGroupSize(time) {
         let cos = Math.cos(time * oscillationSpeed);
-        bubble.scale.setScalar(bubbleRadius * (1 + oscillationAmplitude * cos));
-    },
+        this.gfxObject.scale.setScalar(bubbleRadius * (1 + oscillationAmplitude * cos));
+    }
 
-    rotateBubble(bubble, time) {
+    #rotate(time) {
         if (Params.value.rotateCycles === '3D') {
-            bubble.children[0].rotation.x = time * bubbleRotationSpeed;
+            this.gfxObject.children[0].rotation.x = time * bubbleRotationSpeed;
         }
-        bubble.children[0].rotation.z = time * bubbleRotationSpeed;
+        this.gfxObject.children[0].rotation.z = time * bubbleRotationSpeed;
 
-        let cycleGroups = bubble.children[0].children;
+        let cycleGroups = this.gfxObject.children[0].children;
         cycleGroups.filter(c => c.children.length >= 2).forEach(cycleGroup => {
             if (Params.value.rotateCycles === '3D') {
                 cycleGroup.rotation.x = time * cycleXRotationSpeed;
@@ -123,4 +140,5 @@ export default {
             cycleGroup.rotation.z = time * cycleGroupRotationSpeed / cycleGroup.children.length;
         });
     }
+
 }
