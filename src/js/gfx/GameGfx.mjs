@@ -29,6 +29,7 @@ const GameGfx = {
         Gfx.start();
 
         this.game = GameLoader.loadGameFromObject(this.levelSchema);
+        this.resultShown = false;
         this.addInitialItems();
     },
 
