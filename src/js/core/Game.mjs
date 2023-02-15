@@ -161,6 +161,9 @@ export default class Game {
             if (this.dockItems.length > 0) {
                 return this.winningResult;
             }
+            if (!lastItem.isIdentity()) {
+                return this.winningResult = false;
+            }
         }
         return this.winningResult;
     }
