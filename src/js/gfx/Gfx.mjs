@@ -113,12 +113,8 @@ export default {
 
     /**
      * @param {Object3D} object 
-     * @param {Object3D} objectReference 
      */
-    addObject(object, objectReference) {
-        if (objectReference) {
-            object.position.add(objectReference.position);
-        }
+    addObject(object) {
         this.objects.push(object);
         this.scene.add(object);
         this.controls.getObjects().push(object);

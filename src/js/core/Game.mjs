@@ -81,6 +81,10 @@ export default class Game {
         return item;
     }
 
+    isOnDock(itemId) {
+        return this.dockItems.find(item => item.getId() === itemId) !== undefined;
+    }
+
     deleteItem(itemId) {
         if (!this.schema.allowedDeletion) {
             throw new Error("Deletion is not allowed.");
@@ -146,15 +150,17 @@ export default class Game {
         if (this.winningResult !== null) {
             return this.winningResult;
         }
-        if (this.dockItems.length > 0) {
-            return null;
-        }
         if (this.items.length == 0) {
             return this.winningResult = true;
         }
         if (this.items.length == 1) {
             let lastItem = this.items[0];
-            return this.winningResult = lastItem.isIdentity();
+            if (lastItem.isIdentity()) {
+                return this.winningResult = true;
+            }
+            if (this.dockItems.length > 0) {
+                return this.winningResult;
+            }
         }
         return this.winningResult;
     }

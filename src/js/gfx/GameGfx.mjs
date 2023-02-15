@@ -32,7 +32,6 @@ const GameGfx = {
         Gfx.start();
 
         this.game = GameLoader.loadGameFromLevelSchema(this.levelSchema);
-        this.addDockItems();
         this.reset();
     },
 
@@ -44,6 +43,7 @@ const GameGfx = {
         Gfx.objects.forEach(gfxObject => Gfx.removeObject(gfxObject));
         this.game.reset();
         this.resultShown = false;
+        this.addDockItems();
         this.addInitialItems();
     },
 
@@ -51,8 +51,12 @@ const GameGfx = {
         let items = this.game.getDockItems().map(GameGfxItem.createInstance);
         let rowOffset = (items.length - 1) / 2;
         items.forEach((item, i) => {
-            item.gfxObject.position.setY(itemSpacing * (i - rowOffset));
-            Gfx.addObject(item.gfxObject, Gfx.dock);
+            item.setPosition(new Vector3(
+                Gfx.dock.position.x,
+                itemSpacing * (i - rowOffset),
+                0
+            ));
+            Gfx.addObject(item.gfxObject);
         })
 
     },
@@ -98,7 +102,16 @@ const GameGfx = {
 
     ondragend(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
-        let gfxItemList = Gfx.objects.map(this.getGfxItemFromObject);
+        if (this.game.isOnDock(gfxItem.gameItem.getId())) {
+            let newItem = this.game.addItemFromDock(gfxItem.gameItem.getId());
+            let newGfxItem = GameGfxItem.createInstance(newItem);
+            newGfxItem.setPosition(gfxItem.gfxObject.position);
+            Gfx.addObject(newGfxItem.gfxObject);
+            gfxItem.resetPosition();
+            gfxItem = newGfxItem;
+        }
+        let gfxItemList = Gfx.objects.map(this.getGfxItemFromObject)
+            .filter(gi => !this.game.isOnDock(gi.gameItem.getId()));
         let collidedItem = gfxItem.findCollidedItem(gfxItemList);
         if (collidedItem) {
             try {
@@ -117,8 +130,8 @@ const GameGfx = {
             collidedGfxItem.gameItem.getId()
         );
         let resultGfxItem = GameGfxItem.createInstance(resultGameItem);
-        Gfx.addObject(resultGfxItem.gfxObject, collidedGfxItem.gfxObject);
-        resultGfxItem.fixPosition();
+        resultGfxItem.setPosition(collidedGfxItem.gfxObject.position);
+        Gfx.addObject(resultGfxItem.gfxObject);
         Gfx.removeObject(movedGfxItem.gfxObject);
         Gfx.removeObject(collidedGfxItem.gfxObject);
         this.checkWinning();
