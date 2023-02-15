@@ -5,6 +5,8 @@ import GameGfxItem from './GameGfxItem.mjs';
 import { Object3D } from 'three';
 import GameItem from '../core/GameItem.mjs';
 
+const itemSpacing = 0.7;
+
 const GameGfx = {
 
     /**
@@ -58,8 +60,8 @@ const GameGfx = {
             let row = Math.floor(i / cols);
             let col = i % cols;
             let position = item.gfxObject.position;
-            position.setY(-0.5 * (row - rowOffset));
-            position.setX(0.5 * (col - colOffset));
+            position.setY(-itemSpacing * (row - rowOffset));
+            position.setX(itemSpacing * (col - colOffset));
         }
         
         items.forEach(item => Gfx.addObject(item.gfxObject));

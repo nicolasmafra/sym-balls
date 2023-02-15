@@ -1,14 +1,19 @@
 const Params = {
     value: {
         lightningEnabled: false,
+        itemType: 'cycle',
         itemOscillation: true,
-        rotateCycles: '3D',
+        rotateMode: '3D',
     },
     options: {
-        rotateCycles: [
+        rotateMode: [
             'DISABLED',
             '2D',
             '3D'
+        ],
+        itemType: [
+            'cycle',
+            'mapping'
         ]
     },
 

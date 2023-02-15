@@ -1,5 +1,13 @@
 import GameItem from '../core/GameItem.mjs';
 import { Object3D } from 'three';
+import Params from '../Params.mjs';
+
+const bubbleSize = 0.5;
+const bubbleRadius = bubbleSize/2;
+
+const oscillationSpeed = 1.0 * Math.PI;
+const oscillationAmplitudeRatio = 0.05;
+const oscillationAmplitude = oscillationAmplitudeRatio * bubbleRadius;
 
 export default class GameGfxItem {
 
@@ -12,14 +20,17 @@ export default class GameGfxItem {
      */
     gfxObject = null;
 
-    static impl = null;
+    static implMapping = null;
 
     static async configure() {
-        GameGfxItem.impl = (await import('./CycleBubble.mjs')).default;
+        GameGfxItem.impl = {};
+        GameGfxItem.impl['cycle'] = (await import('./CycleBubble.mjs')).default;
+        GameGfxItem.impl['mapping'] = (await import('./MappingBubble.mjs')).default;
     }
 
     static createInstance(gameItem) {
-        return new GameGfxItem.impl(gameItem);
+        let impl = GameGfxItem.impl[Params.value.itemType];
+        return new impl(gameItem);
     }
 
     /**
@@ -30,7 +41,14 @@ export default class GameGfxItem {
     }
 
     animate(dt, time) {
-        throw new Error("Not implemented");
+        if (Params.value.itemOscillation) {
+            this.oscilateGroupSize(time);
+        }
+    }
+
+    oscilateGroupSize(time) {
+        let cos = Math.cos(time * oscillationSpeed);
+        this.gfxObject.scale.setScalar(bubbleRadius * (1 + oscillationAmplitude * cos));
     }
 
     /**
@@ -40,9 +58,15 @@ export default class GameGfxItem {
     findCollidedItem(gfxItems) {
         return gfxItems
                 .filter(gfxItem => gfxItem !== this)
-                .find(gfxItem => {
-                    let minDist = this.gfxObject.scale.x + gfxItem.gfxObject.scale.x;
-                    return this.gfxObject.position.distanceToSquared(gfxItem.gfxObject.position) < minDist*minDist;
-        });
+                .map(gfxItem => ({
+                    gfxItem,
+                    distSquared: this.gfxObject.position.distanceToSquared(gfxItem.gfxObject.position)
+                }))
+                .filter(obj => {
+                    let minDist = this.gfxObject.scale.x + obj.gfxItem.gfxObject.scale.x;
+                    return obj.distSquared < minDist*minDist;
+                })
+                .sort((a,b) => a.distSquared - b.distSquared)
+                .map(obj => obj.gfxItem)[0];
     }
 }
