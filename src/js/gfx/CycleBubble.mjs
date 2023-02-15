@@ -46,7 +46,7 @@ export default class CycleBubble extends GameGfxItem {
         this.cycles = Cycle.arrayToCycles(gameItem.getPermutation());
         this.cycles = Cycle.normalizeCycles(this.cycles);
         this.gfxObject = CycleBubbleBuilder.build(this.cycles);
-        this.gfxObject.userData = this;
+        GameGfxItem.configNewObject(this);
     }
 
     createNewFrom(gameItem) {

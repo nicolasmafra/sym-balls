@@ -68,7 +68,7 @@ export default class MappingBubble extends GameGfxItem {
                 to: p
             })).filter(m => m.from != m.to);
         this.gfxObject = MappingBubbleBuilder.build(this.mapping);
-        this.gfxObject.userData = this;
+        GameGfxItem.configNewObject(this);
     }
 
     createNewFrom(gameItem) {

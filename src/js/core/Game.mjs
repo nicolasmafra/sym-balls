@@ -77,7 +77,7 @@ export default class Game {
     }
 
     #addItem(item) {
-        this.items.push(item);
+        this.items.unshift(item);
         return item;
     }
 

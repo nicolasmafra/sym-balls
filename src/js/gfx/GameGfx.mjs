@@ -2,7 +2,7 @@ import Gfx from './Gfx.mjs';
 import Game from '../core/Game.mjs';
 import GameLoader from '../core/GameLoader.mjs';
 import GameGfxItem from './GameGfxItem.mjs';
-import { Object3D } from 'three';
+import { Object3D, Vector3 } from 'three';
 import GameItem from '../core/GameItem.mjs';
 
 const itemSpacing = 0.7;
@@ -27,12 +27,13 @@ const GameGfx = {
 
     start() {
         Gfx.dragend = (gfxObject) => GameGfx.ondragend(gfxObject);
+        Gfx.dragstart = (gfxObject) => GameGfx.ondragstart(gfxObject);
 
         Gfx.start();
 
-        this.game = GameLoader.loadGameFromObject(this.levelSchema);
-        this.resultShown = false;
-        this.addInitialItems();
+        this.game = GameLoader.loadGameFromLevelSchema(this.levelSchema);
+        this.addDockItems();
+        this.reset();
     },
 
     stop() {
@@ -46,6 +47,16 @@ const GameGfx = {
         this.addInitialItems();
     },
 
+    addDockItems() {
+        let items = this.game.getDockItems().map(GameGfxItem.createInstance);
+        let rowOffset = (items.length - 1) / 2;
+        items.forEach((item, i) => {
+            item.gfxObject.position.setY(itemSpacing * (i - rowOffset));
+            Gfx.addObject(item.gfxObject, Gfx.dock);
+        })
+
+    },
+
     addInitialItems() {
         let items = this.game.getItems().map(GameGfxItem.createInstance);
 
@@ -55,16 +66,17 @@ const GameGfx = {
         let cols = root;
         let rowOffset = (rows-1)/2;
         let colOffset = (cols-1)/2;
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
+        items.forEach((item, i) => {
             let row = Math.floor(i / cols);
             let col = i % cols;
-            let position = item.gfxObject.position;
-            position.setY(-itemSpacing * (row - rowOffset));
-            position.setX(itemSpacing * (col - colOffset));
-        }
-        
-        items.forEach(item => Gfx.addObject(item.gfxObject));
+
+            item.setPosition(new Vector3(
+                itemSpacing * (col - colOffset) - Gfx.dockWidth/2,
+                -itemSpacing * (row - rowOffset),
+                0
+            ));
+            Gfx.addObject(item.gfxObject);
+        });
     },
 
     /**
@@ -75,12 +87,27 @@ const GameGfx = {
         return gfxObject.userData;
     },
 
+    ondragstart(gfxObject) {
+        let gfxItem = this.getGfxItemFromObject(gfxObject);
+        if (gfxItem.gameItem.isLocked()) {
+            this.showMessage("Can't move: item is locked!");
+            gfxItem.resetPosition();
+            return;
+        }
+    },
+
     ondragend(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
         let gfxItemList = Gfx.objects.map(this.getGfxItemFromObject);
         let collidedItem = gfxItem.findCollidedItem(gfxItemList);
         if (collidedItem) {
-            this.mergeItems(gfxItem, collidedItem);
+            try {
+                this.mergeItems(gfxItem, collidedItem);
+            } catch (e) {
+                console.error(e);
+                this.showMessage("Error: " + e.message);
+                gfxItem.resetPosition();
+            }
         }
     },
 
@@ -91,6 +118,7 @@ const GameGfx = {
         );
         let resultGfxItem = GameGfxItem.createInstance(resultGameItem);
         Gfx.addObject(resultGfxItem.gfxObject, collidedGfxItem.gfxObject);
+        resultGfxItem.fixPosition();
         Gfx.removeObject(movedGfxItem.gfxObject);
         Gfx.removeObject(collidedGfxItem.gfxObject);
         this.checkWinning();
@@ -104,12 +132,16 @@ const GameGfx = {
         if (winningResult == null) {
             return;
         }
-        let messageModal = document.querySelector('.message-modal');
-        let messageTag = messageModal.querySelector('.message');
-        messageTag.innerHTML = winningResult ? "You Win!" : "You Lose!";
-        messageModal.style.display = "block";
+        this.showMessage(winningResult ? "You Win!" : "You Lose!");
         this.resultShown = true;
     },
+
+    showMessage(message) {
+        let messageModal = document.querySelector('.message-modal');
+        let messageTag = messageModal.querySelector('.message');
+        messageTag.innerHTML = message;
+        messageModal.style.display = "block";
+    }
 }
 
 export default GameGfx;

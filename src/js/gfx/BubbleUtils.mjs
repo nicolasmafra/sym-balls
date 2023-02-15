@@ -1,13 +1,17 @@
 import * as THREE from 'three';
 import Params from "../Params.mjs";
 
-const bubbleSize = 0.5;
+const bubbleSize = 0.3;
 const bubbleRadius = bubbleSize/2;
 const bubbleGeometry = new THREE.SphereGeometry(1, 32, 16);
 const bubbleOpacity = 0.3;
 const bubbleMargin = 0.4;
 
 const white = new THREE.Color(0xffffff);
+const orange = new THREE.Color(0xff8800);
+
+const outlineFactor = 1.05;
+const lockedOutlineMaterial = new THREE.MeshBasicMaterial( { color: orange, side: THREE.BackSide } );
 
 export default {
     colorList: [
@@ -70,9 +74,10 @@ export default {
         return new THREE.Mesh(geometry, material);
     },
 
-    makeBubble(subGroups,) {
+    makeBubble(subGroups) {
 
         let group = this.createCircleGroup(subGroups, 1, bubbleMargin);
+        group.name = 'content';
 
         const materialParams = {
             color: white,
@@ -88,5 +93,12 @@ export default {
         bubble.scale.multiplyScalar(bubbleRadius);
 
         return bubble;
+    },
+
+    addLockedOutline(bubble) {
+        var mesh = new THREE.Mesh( bubbleGeometry, lockedOutlineMaterial );
+        mesh.name = 'locked';
+        mesh.scale.multiplyScalar(outlineFactor);
+        bubble.add(mesh);
     },
 }

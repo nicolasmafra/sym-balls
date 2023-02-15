@@ -1,10 +1,15 @@
 import Params from '../Params.mjs';
 import * as THREE from 'three';
 import { DragControls } from '../vendor/DragControls.js'
+import { Object3D } from 'three';
 
 const white = new THREE.Color(0xffffff);
 
 export default {
+
+    dockWidth: 0.6,
+    /** @type {Object3D} */
+    dock: null,
 
     startTime: null,
     lastUpdate: null,
@@ -13,12 +18,15 @@ export default {
     requestAnimationFrameId: null,
     started: false,
 
-    fieldOfView: 60,
-    cameraDistance: 1.732, // sqrt(3)
+    fieldOfView: 45,
+    cameraViewRadius: 1,
     aspectRatio: 16/9,
     near: 0.1,
     far: 1000,
 
+    /**
+     * @type {THREE.WebGLRenderer}
+     */
     renderer: null,
     scene: null,
     camera: null,
@@ -39,7 +47,8 @@ export default {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
-        this.camera.position.z = this.cameraDistance;
+        
+        this.camera.position.z = this.calculateCameraDistance();
 
         if (!this.domContainer) this.domContainer = document.body;
 
@@ -48,6 +57,10 @@ export default {
         window.addEventListener( 'resize', () => this.resize(), false );
 
         this.addDragListeners();
+    },
+
+    calculateCameraDistance() {
+        return this.cameraViewRadius/Math.tan(2*Math.PI * (this.fieldOfView / 360)/2);
     },
 
     resize() {
@@ -68,6 +81,20 @@ export default {
         this.scene.add(ambLight);
     },
 
+    addDock() {
+        const geometry = new THREE.BoxGeometry(this.dockWidth, 2, this.dockWidth);
+        const material = new THREE.MeshBasicMaterial( {
+            color: 0x0000ff,
+            transparent: true,
+            opacity: 0.2
+        } );
+        this.dock = new THREE.Mesh( geometry, material );
+        this.dock.name = 'dock';
+        this.dock.position.set(this.aspectRatio - this.dockWidth, 0, 0);
+        this.dock.renderOrder = 1;
+        this.scene.add( this.dock );
+    },
+
     addDragListeners() {
         this.controls = new DragControls([], this.camera, this.renderer.domElement);
 
@@ -84,9 +111,13 @@ export default {
         } );
     },
 
+    /**
+     * @param {Object3D} object 
+     * @param {Object3D} objectReference 
+     */
     addObject(object, objectReference) {
         if (objectReference) {
-            object.position.copy(objectReference.position);
+            object.position.add(objectReference.position);
         }
         this.objects.push(object);
         this.scene.add(object);
@@ -114,6 +145,7 @@ export default {
         if (Params.value.lightningEnabled) {
             this.addLights();
         }
+        this.addDock();
 
         this.loop();
     },

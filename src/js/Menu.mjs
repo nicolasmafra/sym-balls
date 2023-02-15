@@ -54,8 +54,10 @@ const Menu = {
     },
 
     start() {
-        Menu.enterFullScreen();
-        Menu.rotateToLandscape();
+        if (Params.isMobile) {
+            Menu.enterFullScreen();
+            Menu.rotateToLandscape();
+        }
         Menu.hideMenus();
         GameGfx.start();
     },

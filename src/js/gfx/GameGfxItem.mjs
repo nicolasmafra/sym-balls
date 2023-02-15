@@ -1,6 +1,7 @@
 import GameItem from '../core/GameItem.mjs';
-import { Object3D } from 'three';
+import { Object3D, Vector3 } from 'three';
 import Params from '../Params.mjs';
+import BubbleUtils from './BubbleUtils.mjs';
 
 const bubbleSize = 0.5;
 const bubbleRadius = bubbleSize/2;
@@ -19,6 +20,10 @@ export default class GameGfxItem {
      * @type {Object3D}
      */
     gfxObject = null;
+    /**
+     * @type {Vector3}
+     */
+    originalPosition = null;
 
     static implMapping = null;
 
@@ -28,9 +33,34 @@ export default class GameGfxItem {
         GameGfxItem.impl['mapping'] = (await import('./MappingBubble.mjs')).default;
     }
 
+    /**
+     * @param {GameItem} gameItem 
+     * @returns {GameGfxItem}
+     */
     static createInstance(gameItem) {
         let impl = GameGfxItem.impl[Params.value.itemType];
         return new impl(gameItem);
+    }
+
+    static configNewObject(gfxItem) {
+        gfxItem.gfxObject.userData = gfxItem;
+
+        if (gfxItem.gameItem.isLocked()) {
+            BubbleUtils.addLockedOutline(gfxItem.gfxObject);
+        }
+    }
+
+    setPosition(position) {
+        this.originalPosition = position;
+        this.resetPosition();
+    }
+
+    resetPosition() {
+        this.gfxObject.position.copy(this.originalPosition);
+    }
+
+    fixPosition() {
+        this.originalPosition = this.gfxObject.position;
     }
 
     /**
