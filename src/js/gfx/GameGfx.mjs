@@ -18,7 +18,6 @@ const GameGfx = {
 
     async configure() {
         await GameGfxItem.configure();
-        Gfx.configure();
     },
 
     setLevelSchema(levelSchema) {
@@ -26,6 +25,9 @@ const GameGfx = {
     },
 
     start() {
+        if (!Gfx.configured) {
+            Gfx.configure();
+        }
         Gfx.dragend = (gfxObject) => GameGfx.ondragend(gfxObject);
         Gfx.dragstart = (gfxObject) => GameGfx.ondragstart(gfxObject);
 

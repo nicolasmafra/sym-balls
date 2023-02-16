@@ -7,6 +7,7 @@ const white = new THREE.Color(0xffffff);
 
 export default {
 
+    configured: false,
     dockWidth: 0.6,
     /** @type {Object3D} */
     dock: null,
@@ -41,6 +42,7 @@ export default {
     },
 
     configure() {
+        this.configured = true;
         this.calculateAspectRatio();
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -69,7 +71,7 @@ export default {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         if (this.dock) {
-            let x = this.aspectRatio - this.dockWidth;
+            let x = this.aspectRatio - this.dockWidth/2;
             this.dock.position.set(x, 0, 0);
             this.objects.filter(object => object.userData && object.userData.isOnDock)
                 .forEach(object => {
@@ -99,7 +101,7 @@ export default {
         } );
         this.dock = new THREE.Mesh( geometry, material );
         this.dock.name = 'dock';
-        this.dock.position.set(this.aspectRatio - this.dockWidth, 0, 0);
+        this.dock.position.set(this.aspectRatio - this.dockWidth/2, 0, 0);
         this.dock.renderOrder = 1;
         this.scene.add( this.dock );
     },

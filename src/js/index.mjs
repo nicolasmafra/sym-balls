@@ -10,9 +10,9 @@ import GameGfx from './gfx/GameGfx.mjs';
 
 async function start() {
     Params.configure();
+    await GameGfx.configure();
     await LevelLoader.configure();
     Menu.configure();
-    await GameGfx.configure();
     
     Menu.init();
 }
