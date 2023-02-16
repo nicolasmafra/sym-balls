@@ -1,19 +1,19 @@
-.modal-menu-toggle {
+.modal-menu-game {
     display: inline-block;
-    cursor: pointer;
     position: fixed;
     background-color: rgba(56, 90, 142, 0.48);
     color: #fff;
-    padding: 0px 30px;
     border-radius: 5px;
     box-shadow: 1px 2px 3px rgba(163, 187, 223, 0.74);
 }
-.modal-menu-toggle .bar {
-    width: 35px;
-    height: 5px;
-    background-color: #aaa;
-    margin: 6px 0;
-    transition: 0.4s;
+
+.modal-menu-game span {
+    cursor: pointer;
+    padding: 0px 1vmin;
+}
+
+.modal-menu-game * {
+    font-size: 4vmin;
 }
 
 .modal {

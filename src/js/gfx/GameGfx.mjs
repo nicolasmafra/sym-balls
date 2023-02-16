@@ -68,7 +68,7 @@ const GameGfx = {
         let items = this.game.getItems().map(GameGfxItem.createInstance);
 
         let root = Math.ceil(Math.sqrt(items.length));
-        if (root < 4) root = 4;
+        if (root < 3) root = 3;
         let rows = Math.ceil(items.length / root);
         let cols = root;
         let rowOffset = (rows-1)/2;
@@ -97,7 +97,7 @@ const GameGfx = {
     ondragstart(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
         if (gfxItem.gameItem.isLocked()) {
-            this.showMessage("Can't move: item is locked!");
+            this.showMessage("Can't move: item is locked!\nUse dock items instead.");
             gfxItem.resetPosition();
             return;
         }
@@ -132,9 +132,11 @@ const GameGfx = {
             movedGfxItem.gameItem.getId(),
             collidedGfxItem.gameItem.getId()
         );
-        let resultGfxItem = GameGfxItem.createInstance(resultGameItem);
-        resultGfxItem.setPosition(collidedGfxItem.gfxObject.position);
-        Gfx.addObject(resultGfxItem.gfxObject);
+        if (resultGameItem) {
+            let resultGfxItem = GameGfxItem.createInstance(resultGameItem);
+            resultGfxItem.setPosition(collidedGfxItem.gfxObject.position);
+            Gfx.addObject(resultGfxItem.gfxObject);
+        }
         Gfx.removeObject(movedGfxItem.gfxObject);
         Gfx.removeObject(collidedGfxItem.gfxObject);
         this.checkWinning();
@@ -153,6 +155,7 @@ const GameGfx = {
     },
 
     showMessage(message) {
+        message = message.replace('\n', '<br>');
         let messageModal = document.querySelector('.message-modal');
         let messageTag = messageModal.querySelector('.message');
         messageTag.innerHTML = message;

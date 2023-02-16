@@ -18,10 +18,6 @@ const Menu = {
     },
 
     configureModals() {
-        let modalMenu = document.querySelector(".modal-menu");
-        document.querySelector(".modal-menu-toggle").onclick = () => {
-            modalMenu.style.display = "block";
-        };
         document.querySelectorAll(".modal").forEach(modal => {
             modal.querySelector(".modal-content-close").onclick = () => {
                 modal.style.display = "none";
@@ -48,7 +44,6 @@ const Menu = {
 
     hideMenus() {
         document.querySelector('.main-menu').style.display = "none";
-        document.querySelector('.modal-menu').style.display = "none";
     },
 
     showMainMenu() {

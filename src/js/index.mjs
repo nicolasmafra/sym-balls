@@ -3,6 +3,10 @@ import '../assets/ico168.png';
 import '../css/style.css';
 import '../css/main-menu.css';
 import '../css/modal-menu.css';
+import '@fortawesome/fontawesome-free/js/fontawesome.js'
+import '@fortawesome/fontawesome-free/js/solid.js'
+import '@fortawesome/fontawesome-free/js/regular.js'
+import '@fortawesome/fontawesome-free/js/brands.js'
 import '../sw.js';
 
 import Params from './Params.mjs';

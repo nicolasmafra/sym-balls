@@ -66,7 +66,11 @@ export default class Game {
         }
     }
 
-    #findNotLockedItemWithId(itemList, itemId) {
+    /**
+     * @param {number} itemId 
+     * @returns {GameItem}
+     */
+    #findNotLockedItemWithId(itemId) {
         let item = this.#findItemWithId(this.items, itemId);
         this.#assertNotLockedItem(item);
         return item;
@@ -89,7 +93,7 @@ export default class Game {
         if (!this.schema.allowedDeletion) {
             throw new Error("Deletion is not allowed.");
         }
-        let item = this.#findNotLockedItemWithId(this.items, itemId);
+        let item = this.#findNotLockedItemWithId(itemId);
 
         this.#removeItem(item);
         this.#checkWinningResult();
@@ -102,7 +106,7 @@ export default class Game {
         if (!this.schema.allowedDuplication) {
             throw new Error("Duplication is not allowed.");
         }
-        let item = this.#findNotLockedItemWithId(this.items, itemId);
+        let item = this.#findNotLockedItemWithId(itemId);
 
         let clone = item.clone();
         return this.#addItem(clone);
@@ -115,7 +119,7 @@ export default class Game {
         if (!this.schema.allowedInversion) {
             throw new Error("Inversion is not allowed.");
         }
-        let item = this.#findNotLockedItemWithId(this.items, itemId);
+        let item = this.#findNotLockedItemWithId(itemId);
 
         this.#removeItem(item);
         let inverse = item.inverse();
@@ -126,13 +130,17 @@ export default class Game {
      * @returns {GameItem}
      */
     mergeItem(itemId1, itemId2) {
-        let item1 = this.#findNotLockedItemWithId(this.items, itemId1);
+        let item1 = this.#findNotLockedItemWithId(itemId1);
         let item2 = this.#findItemWithId(this.items, itemId2);
 
         this.#removeItem(item1);
         this.#removeItem(item2);
         let resultItem = item1.mergeWith(item2);
-        this.#addItem(resultItem);
+        if (resultItem.isIdentity()) {
+            resultItem = undefined;
+        } else {
+            this.#addItem(resultItem);
+        }
         this.#checkWinningResult();
         return resultItem;
     }
