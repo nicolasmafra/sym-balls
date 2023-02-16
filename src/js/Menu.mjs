@@ -145,6 +145,12 @@ const Menu = {
     },
 
     installWebAppPrepare(element) {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('./sw.js')
+                .then(() => { console.log('Service Worker Registered'); })
+                .catch(e => { console.log('Error whilst registering service worker'); });
+        }
         window.addEventListener("beforeinstallprompt", (e) => {
             e.preventDefault();
             deferredPrompt = e;
