@@ -49,6 +49,7 @@ const GameGfx = {
 
     addDockItems() {
         let items = this.game.getDockItems().map(GameGfxItem.createInstance);
+        items.forEach(gfxItem => gfxItem.isOnDock = true);
         let rowOffset = (items.length - 1) / 2;
         items.forEach((item, i) => {
             item.setPosition(new Vector3(

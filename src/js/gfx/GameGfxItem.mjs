@@ -17,6 +17,10 @@ export default class GameGfxItem {
      */
     gameItem = null;
     /**
+     * @type {boolean}
+     */
+    isOnDock = false;
+    /**
      * @type {Object3D}
      */
     gfxObject = null;
@@ -60,14 +64,7 @@ export default class GameGfxItem {
     }
 
     fixPosition() {
-        this.originalPosition = this.gfxObject.position;
-    }
-
-    /**
-     * @param {GameItem} gameItem
-     */
-    createNewFrom(gameItem) {
-        throw new Error("Not implemented");
+        this.originalPosition = this.gfxObject.position.clone();
     }
 
     animate(dt, time) {

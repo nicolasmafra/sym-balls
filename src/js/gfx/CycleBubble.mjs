@@ -49,10 +49,6 @@ export default class CycleBubble extends GameGfxItem {
         GameGfxItem.configNewObject(this);
     }
 
-    createNewFrom(gameItem) {
-        return new CycleBubble(gameItem);
-    }
-
     animate(dt, time) {
         super.animate(dt, time);
 

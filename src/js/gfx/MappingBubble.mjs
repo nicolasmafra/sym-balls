@@ -71,10 +71,6 @@ export default class MappingBubble extends GameGfxItem {
         GameGfxItem.configNewObject(this);
     }
 
-    createNewFrom(gameItem) {
-        return new MappingBubble(gameItem);
-    }
-
     animate(dt, time) {
         if (Params.value.itemOscillation) {
             this.#oscilateGroupSize(time);

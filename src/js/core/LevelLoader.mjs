@@ -1,11 +1,21 @@
-import levels from '../../assets/levels.json';
+import levelsPath from '../../assets/levels.json';
 
 export default {
+
+    levels: null,
+
+    async configure() {
+        return fetch(levelsPath)
+            .then(res => res.json())
+            .then(json => this.levels = json)
+            .catch(err => { throw err });
+    },
+
     getLevelList() {
-        return levels;
+        return this.levels;
     },
 
     loadLevelSchema(levelId) {
-        return levels.find(level => level.id == levelId);
+        return this.levels.find(level => level.id == levelId);
     }
 }

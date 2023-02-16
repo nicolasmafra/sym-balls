@@ -2,6 +2,8 @@ import GameGfx from './gfx/GameGfx.mjs';
 import Params from './Params.mjs';
 import LevelLoader from './core/LevelLoader.mjs';
 
+let deferredPrompt;
+
 const Menu = {
 
     stack: ['root'],
@@ -9,6 +11,10 @@ const Menu = {
     configure() {
         Menu.configureModals();
         Menu.addButtons();
+    },
+
+    init() {
+        Menu.showMainMenu();
     },
 
     configureModals() {
@@ -53,11 +59,15 @@ const Menu = {
         document.querySelector('#menu-' + current).style.display = "block";
     },
 
-    start() {
+    checkMobileMode() {
         if (Params.isMobile) {
             Menu.enterFullScreen();
             Menu.rotateToLandscape();
         }
+    },
+
+    start() {
+        Menu.checkMobileMode();
         Menu.hideMenus();
         GameGfx.start();
     },
@@ -132,6 +142,29 @@ const Menu = {
         let levelSchema = LevelLoader.loadLevelSchema(element.dataset.levelid);
         GameGfx.setLevelSchema(levelSchema);
         Menu.start();
+    },
+
+    installWebAppPrepare(element) {
+        window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            element.style.display = "block";
+        });
+    },
+
+    installWebApp(element) {
+        element.style.display = "none";
+
+        deferredPrompt.prompt();
+        
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === "accepted") {
+            console.log("User accepted the A2HS prompt");
+          } else {
+            console.log("User dismissed the A2HS prompt");
+          }
+          deferredPrompt = null;
+        });
     }
 }
 

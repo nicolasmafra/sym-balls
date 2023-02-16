@@ -15,6 +15,13 @@ module.exports = {
           "css-loader"
         ],
       },
+      {
+        test: /\.(json|webmanifest)/,
+        type: "asset/resource",
+        generator: {
+          filename: 'assets/[name][ext]'
+        }
+      },
     ],
   },
   plugins: [

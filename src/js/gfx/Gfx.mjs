@@ -68,6 +68,15 @@ export default {
         this.camera.aspect = this.aspectRatio;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        if (this.dock) {
+            let x = this.aspectRatio - this.dockWidth;
+            this.dock.position.set(x, 0, 0);
+            this.objects.filter(object => object.userData && object.userData.isOnDock)
+                .forEach(object => {
+                    object.position.setX(x);
+                    object.userData.fixPosition();
+                });
+        }
     },
 
     addLights() {
