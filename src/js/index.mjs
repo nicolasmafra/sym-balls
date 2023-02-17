@@ -1,14 +1,3 @@
-import '../manifest.webmanifest';
-import '../assets/ico168.png';
-import '../css/style.css';
-import '../css/main-menu.css';
-import '../css/modal-menu.css';
-import '@fortawesome/fontawesome-free/js/fontawesome.js'
-import '@fortawesome/fontawesome-free/js/solid.js'
-import '@fortawesome/fontawesome-free/js/regular.js'
-import '@fortawesome/fontawesome-free/js/brands.js'
-import '../sw.js';
-
 import Params from './Params.mjs';
 import LevelLoader from './core/LevelLoader.mjs';
 import Menu from './Menu.mjs';
@@ -18,9 +7,10 @@ async function start() {
     Params.configure();
     await GameGfx.configure();
     await LevelLoader.configure();
-    Menu.configure();
+    await Menu.configure();
     
-    Menu.init();
+    Menu.start();
+    document.body.style = "";
 }
 
 document.body.onload = start;

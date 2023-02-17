@@ -1,48 +1,23 @@
+import GUI from './GUI.mjs';
+import PWA from './PWA.mjs';
 import GameGfx from './gfx/GameGfx.mjs';
 import Params from './Params.mjs';
 import LevelLoader from './core/LevelLoader.mjs';
-
-let deferredPrompt;
 
 const Menu = {
 
     stack: ['root'],
 
-    configure() {
-        Menu.configureModals();
-        Menu.addButtons();
+    async configure() {
+        await GUI.configure();
+        GUI.addButtons(Menu);
     },
 
-    init() {
+    start() {
         Menu.showMainMenu();
     },
 
-    configureModals() {
-        document.querySelectorAll(".modal").forEach(modal => {
-            modal.querySelector(".modal-content-close").onclick = () => {
-                modal.style.display = "none";
-            };
-            modal.addEventListener("click", () => {modal.style.display = "none"});
-        });
-    },
-
-    addButtons() {
-        document.querySelectorAll(".menu-button")
-            .forEach(button => {
-                if (Menu[button.dataset.action + 'Prepare']) {
-                    Menu[button.dataset.action + 'Prepare'](button);
-                }
-                Menu.addButtonListener(button);
-            });
-    },
-
-    addButtonListener(button) {
-        if (Menu[button.dataset.action]) {
-            button.addEventListener("click", (e) => Menu[button.dataset.action](button, e))
-        }
-    },
-
-    hideMenus() {
+    hideMainMenu() {
         document.querySelector('.main-menu').style.display = "none";
     },
 
@@ -56,29 +31,25 @@ const Menu = {
 
     checkMobileMode() {
         if (Params.isMobile) {
-            Menu.enterFullScreen();
-            Menu.rotateToLandscape();
+            GUI.enterFullScreen();
+            GUI.rotateToLandscape();
         }
     },
 
-    start() {
+    startGame() {
         Menu.checkMobileMode();
-        Menu.hideMenus();
+        Menu.hideMainMenu();
         GameGfx.start();
     },
 
-    stop() {
-        Menu.hideMenus();
+    stopGame() {
+        Menu.hideMainMenu();
         GameGfx.stop();
         Menu.showMainMenu();
     },
 
-    exit() {
-        location.reload();
-    },
-
     reset() {
-        Menu.hideMenus();
+        Menu.hideMainMenu();
         GameGfx.reset();
     },
 
@@ -106,19 +77,6 @@ const Menu = {
         Menu.toggleParamPrepare(element);
     },
 
-    enterFullScreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        }
-    },
-
-    rotateToLandscape() {
-        let orientation = screen.orientation.type;
-        if (!orientation.startsWith("landscape")) {
-            screen.orientation.lock("landscape");
-        }
-    },
-
     loadLevelPrepare(template) {
         let container = template.parentNode;
         let levelList = LevelLoader.getLevelList();
@@ -129,43 +87,22 @@ const Menu = {
 
             newItem.innerHTML = level.title;
             newItem.dataset.levelid = level.id;
-            Menu.addButtonListener(newItem);
+            GUI.addButtonListener(Menu, newItem);
         });
     },
 
     loadLevel(element) {
         let levelSchema = LevelLoader.loadLevelSchema(element.dataset.levelid);
         GameGfx.setLevelSchema(levelSchema);
-        Menu.start();
+        Menu.startGame();
     },
 
     installWebAppPrepare(element) {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('./sw.js')
-                .then(() => { console.log('Service Worker Registered'); })
-                .catch(e => { console.log('Error whilst registering service worker'); });
-        }
-        window.addEventListener("beforeinstallprompt", (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            element.style.display = "block";
-        });
+        PWA.prepare(element);
     },
 
     installWebApp(element) {
-        element.style.display = "none";
-
-        deferredPrompt.prompt();
-        
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === "accepted") {
-            console.log("User accepted the A2HS prompt");
-          } else {
-            console.log("User dismissed the A2HS prompt");
-          }
-          deferredPrompt = null;
-        });
+        PWA.install(element);
     }
 }
 

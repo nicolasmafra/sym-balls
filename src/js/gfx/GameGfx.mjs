@@ -1,3 +1,4 @@
+import GUI from '../GUI.mjs';
 import Gfx from './Gfx.mjs';
 import Game from '../core/Game.mjs';
 import GameLoader from '../core/GameLoader.mjs';
@@ -97,7 +98,7 @@ const GameGfx = {
     ondragstart(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
         if (gfxItem.gameItem.isLocked()) {
-            this.showMessage("Can't move: item is locked!\nUse dock items instead.");
+            GUI.showMessage('game.locked');
             gfxItem.resetPosition();
             return;
         }
@@ -121,7 +122,7 @@ const GameGfx = {
                 this.mergeItems(gfxItem, collidedItem);
             } catch (e) {
                 console.error(e);
-                this.showMessage("Error: " + e.message);
+                GUI.showMessage("Error: " + e.message);
                 gfxItem.resetPosition();
             }
         }
@@ -150,17 +151,9 @@ const GameGfx = {
         if (winningResult == null) {
             return;
         }
-        this.showMessage(winningResult ? "You Win!" : "You Lose!");
+        GUI.showMessage(winningResult ? 'game.win' : 'game.lose');
         this.resultShown = true;
     },
-
-    showMessage(message) {
-        message = message.replace('\n', '<br>');
-        let messageModal = document.querySelector('.message-modal');
-        let messageTag = messageModal.querySelector('.message');
-        messageTag.innerHTML = message;
-        messageModal.style.display = "block";
-    }
 }
 
 export default GameGfx;

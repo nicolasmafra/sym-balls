@@ -16,7 +16,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(json|webmanifest|png)/,
+        test: /\.(json|webmanifest|png|properties)/,
         type: "asset/resource",
         generator: {
           filename: 'assets/[name][ext]'
