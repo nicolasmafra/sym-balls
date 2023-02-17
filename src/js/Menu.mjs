@@ -66,8 +66,7 @@ const Menu = {
     toggleParamPrepare(element) {
         let paramName = element.dataset.paramName;
         let label = Params.value[paramName];
-        if (label === true) label = 'ON';
-        if (label === false) label = 'OFF';
+        label = GUI.resolveMessage('param.' + label, label);
         element.querySelector('.menu-param-value').innerHTML = label;
     },
 
@@ -75,6 +74,15 @@ const Menu = {
         let paramName = element.dataset.paramName
         Params.toggleParam(paramName);
         Menu.toggleParamPrepare(element);
+        let afterFunction = Menu[element.dataset.paramName + 'AfterChange'];
+        if (afterFunction) {
+            afterFunction(element);
+        }
+    },
+
+    languageAfterChange() {
+        GUI.loadLanguage(Params.value.language)
+            .then(GUI.replaceMenuLabels);
     },
 
     loadLevelPrepare(template) {
@@ -85,8 +93,9 @@ const Menu = {
             newItem.classList.remove('template');
             container.appendChild(newItem);
 
-            newItem.innerHTML = level.title;
             newItem.dataset.levelid = level.id;
+            newItem.dataset.label = level.title;
+            GUI.replaceMenuLabel(newItem);
             GUI.addButtonListener(Menu, newItem);
         });
     },

@@ -10,6 +10,11 @@ const Params = {
         rotateMode: '3D',
     },
     options: {
+        language: [
+            'en',
+            'pt-BR',
+            'ko-KR'
+        ],
         rotateMode: [
             'DISABLED',
             '2D',

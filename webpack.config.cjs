@@ -16,14 +16,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.(json|webmanifest|png|properties)/,
+        test: /\.(json|png|properties)/,
         type: "asset/resource",
         generator: {
           filename: 'assets/[name][ext]'
         }
       },
       {
-        test: /sw\.js/,
+        test: /(sw\.js|\.webmanifest)/,
         type: "asset/resource",
         generator: {
           filename: '[name][ext]'

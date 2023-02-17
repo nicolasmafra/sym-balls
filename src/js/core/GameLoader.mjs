@@ -22,16 +22,14 @@ const GameLoader = {
         return Array.isArray(array) && array.length > 0;
     },
 
-    parseCycleNotation(text, length) {
-        let cycles = Parser.fromCycleNotation(text);
-        return Cycle.cyclesToArray(cycles, length);
-    },
     createCycleNotationParser(length) {
         return array => {
             if (!array) {
                 return [];
             }
-            return array.map(text => this.parseCycleNotation(text, length));
+            return array
+                .map(text => Parser.fromCycleNotation(text))
+                .map(cycles => Cycle.cyclesToArray(cycles, length));
         };
     },
 };

@@ -43,6 +43,7 @@ const GameGfx = {
     },
 
     reset() {
+        Gfx.resetTime();
         Gfx.objects.forEach(gfxObject => Gfx.removeObject(gfxObject));
         this.game.reset();
         this.resultShown = false;

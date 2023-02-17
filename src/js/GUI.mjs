@@ -60,9 +60,11 @@ const GUI = {
 
     replaceMenuLabels() {
         let elements = document.querySelectorAll('[data-label]');
-        elements.forEach(element => {
-            element.innerHTML = GUI.resolveMessage(element.dataset.label);
-        })
+        elements.forEach(GUI.replaceMenuLabel)
+    },
+
+    replaceMenuLabel(element) {
+        element.innerHTML = GUI.resolveMessage(element.dataset.label);
     },
 
     showMessage(messageCode) {
@@ -74,10 +76,10 @@ const GUI = {
         messageModal.style.display = "block";
     },
 
-    resolveMessage(messageCode) {
+    resolveMessage(messageCode, fallbackMessage) {
         let message = GUI.getFromMessageSource(Params.value.language, messageCode);
         if (!message) message = GUI.getFromMessageSource(Params.fallbackLanguage, messageCode);
-        if (!message) message = messageCode;
+        if (!message) message = fallbackMessage ? fallbackMessage : messageCode;
         return message;
     },
 
@@ -89,13 +91,13 @@ const GUI = {
 
     async loadLanguage(language) {
         try {
-            await GUI.loadMessagesFile(language);
+            await GUI.loadMessagesSource(language);
         } catch (e) {
             console.error('Not found language=' + language);
             if (language.includes('-')) {
                 try {
                     language = language.split('-')[0];
-                    await GUI.loadMessagesFile(language);
+                    await GUI.loadMessagesSource(language);
                 } catch (e) {
                     console.error('Not found language=' + language);
                 }
@@ -103,7 +105,10 @@ const GUI = {
         }
     },
 
-    async loadMessagesFile(suffix) {
+    async loadMessagesSource(suffix) {
+        if (GUI.messageSources[suffix]) {
+            return;
+        }
         let propertiesPath = (await import(`../assets/messages-${suffix}.properties`)).default;
         let properties = await fetch(propertiesPath)
             .then(res => res.text());

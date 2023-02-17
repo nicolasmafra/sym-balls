@@ -6,6 +6,9 @@ export default {
         let array = [...Array(length).keys()];
         cycles.forEach(cycle => {
             cycle.forEach((x, i) => {
+                if (x > length) {
+                    throw new Error("invalid permutation length for cycles!");
+                }
                 let nextIndex = (i + 1) % cycle.length;
                 array[x] = cycle[nextIndex];
             })

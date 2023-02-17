@@ -157,6 +157,10 @@ export default {
         this.loop();
     },
 
+    resetTime() {
+        this.startTime = Date.now();
+    },
+
     stop() {
         if (!this.started) return;
 

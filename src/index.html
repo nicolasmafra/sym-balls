@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="manifest" href="assets/manifest.webmanifest" />
+  <link rel="manifest" href="manifest.webmanifest" />
 </head>
 
 <body style="display:none">
@@ -17,7 +17,13 @@
       <ul>
         <li class="menu-button" data-action="installWebApp" style="display:none" data-label="menu.install"></li>
         <li class="menu-button" data-action="open" data-next-menu="select-level" data-label="menu.goto.select-level"></li>
-        <li class="menu-button" data-action="open" data-next-menu="options" data-label="menu.goto.options"></li>
+        <li class="menu-button" data-action="open" data-next-menu="options">
+          <i class="fa-solid fa-gears"></i>
+        </li>
+        <li class="menu-button" data-action="toggleParam" data-param-name="language">
+          <i class="fa-solid fa-language"></i>
+          <span class="menu-param-value">value</span>
+        </li>
       </ul>
     </div>
 
@@ -27,10 +33,12 @@
         <li>
           <span data-label="menu.select-level"></span>
           <ul>
-            <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
+            <li class="template menu-button" data-action="loadLevel" data-levelid="?" data-label="Level Name">Level name</li>
           </ul>
         </li>
-        <li class="menu-button" data-action="back" data-label="menu.back"></li>
+        <li class="menu-button" data-action="back">
+          <i class="fa-solid fa-arrow-left"></i>
+        </li>
       </ul>
     </div>
 
@@ -39,22 +47,28 @@
       <ul>
 
         <li class="menu-button" data-action="toggleParam" data-param-name="lightningEnabled">
-          3D Lightning: <span class="menu-param-value">value</span>
+          <span data-label="options.lightningEnabled"></span>:
+          <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button" data-action="toggleParam" data-param-name="itemType">
-          Item Type: <span class="menu-param-value">value</span>
+          <span data-label="options.itemType"></span>:
+          <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button" data-action="toggleParam" data-param-name="itemOscillation">
-          Item oscillation: <span class="menu-param-value">value</span>
+          <span data-label="options.itemOscillation"></span>:
+          <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button" data-action="toggleParam" data-param-name="rotateMode">
-          Rotation Mode: <span class="menu-param-value">value</span>
+          <span data-label="options.rotateMode"></span>:
+          <span class="menu-param-value">value</span>
         </li>
 
-        <li class="menu-button" data-action="back" data-label="menu.back"></li>
+        <li class="menu-button" data-action="back">
+          <i class="fa-solid fa-arrow-left"></i>
+        </li>
       </ul>
     </div>
   </div>
