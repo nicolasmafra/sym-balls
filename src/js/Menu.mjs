@@ -11,6 +11,7 @@ const Menu = {
     async configure() {
         await GUI.configure();
         GUI.addButtons(Menu);
+        GUI.replaceMenuLabels();
     },
 
     start() {
@@ -64,10 +65,10 @@ const Menu = {
     },
 
     toggleParamPrepare(element) {
-        let paramName = element.dataset.paramName;
-        let label = Params.value[paramName];
-        label = GUI.resolveMessage('param.' + label, label);
-        element.querySelector('.menu-param-value').innerHTML = label;
+        let paramValue = Params.value[element.dataset.paramName];
+        let paramValueElement = element.querySelector('.menu-param-value');
+        paramValueElement.dataset.label = 'param.' + paramValue;
+        paramValueElement.dataset.labelFallback = paramValue;
     },
 
     toggleParam(element) {
@@ -78,6 +79,7 @@ const Menu = {
         if (afterFunction) {
             afterFunction(element);
         }
+        GUI.replaceMenuLabels(element);
     },
 
     languageAfterChange() {
@@ -112,7 +114,13 @@ const Menu = {
 
     installWebApp(element) {
         PWA.install(element);
-    }
+    },
+
+    resetOptions() {
+        Params.resetParams();
+        GUI.prepareButtons(Menu, '[data-action="toggleParam"]');
+        Menu.languageAfterChange();
+    },
 }
 
 export default Menu;

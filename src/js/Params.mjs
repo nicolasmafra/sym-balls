@@ -1,13 +1,15 @@
 const Params = {
     isMobile: true,
     fallbackLanguage: 'en',
-    initialLanguage: 'en',
-    value: {
+    deviceLanguage: 'en',
+    defaultValue: {
         language: 'en',
         lightningEnabled: true,
         itemType: 'cycle',
         itemOscillation: true,
         rotateMode: '3D',
+    },
+    value: {
     },
     options: {
         language: [
@@ -28,14 +30,38 @@ const Params = {
 
     configure() {
         Params.checkMobile();
-        Params.checkInitialLanguage();
-        Params.calculateDefaultValue();
+        Params.checkDeviceLanguage();
+        Params.setDefaultValues();
         Params.loadParams();
     },
 
-    calculateDefaultValue() {
-        Params.value.language = Params.initialLanguage;
+    setDefaultValues() {
+        Params.value = JSON.parse(JSON.stringify(Params.defaultValue));
+        Params.setLanguageIfExists(Params.deviceLanguage);
         Params.value.lightningEnabled = !this.isMobile;
+    },
+
+    setLanguageIfExists(language) {
+        if (Params.options.language.includes(language)) {
+            Params.value.language = language;
+            return;
+        }
+        if (language.includes('-')) {
+            let langPrefix = language.split('-')[0];
+            if (Params.options.language.includes(langPrefix)) {
+                console.log(`Using generic language ${langPrefix} instead ${language}`);
+                Params.value.language = langPrefix;
+                return;
+            } else {
+                let similarLanguage = Params.options.language.find(lang => lang.split('-')[0] == langPrefix);
+                if (similarLanguage) {
+                    console.log(`Using similar language ${similarLanguage} instead ${language}`);
+                    Params.value.language = similarLanguage;
+                    return;
+                }
+            }
+        }
+        console.log(`Not found language for device language ${language}. Using fallback.`);
     },
 
     loadParams() {
@@ -52,6 +78,14 @@ const Params = {
                 Params.value[paramName] = paramValue;
             }
         }
+    },
+
+    resetParams() {
+        let selectedLanguage = Params.value.language;
+        localStorage.clear();
+        Params.setDefaultValues();
+        Params.loadParams();
+        Params.setParam('language', selectedLanguage);
     },
 
     toggleParam(paramName) {
@@ -77,8 +111,8 @@ const Params = {
         this.isMobile = check;
     },
 
-    checkInitialLanguage() {
-        this.initialLanguage = window.navigator.language || window.navigator.userLanguage;
+    checkDeviceLanguage() {
+        this.deviceLanguage = window.navigator.language || window.navigator.userLanguage;
     }
 };
 

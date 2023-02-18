@@ -16,7 +16,6 @@ const GUI = {
         GUI.configureModals();
         await GUI.loadLanguage(Params.value.language);
         await GUI.loadLanguage(Params.fallbackLanguage);
-        GUI.replaceMenuLabels();
     },
 
     configureModals() {
@@ -29,13 +28,18 @@ const GUI = {
     },
 
     addButtons(menuObject) {
+        GUI.prepareButtons(menuObject, ".menu-button");
         document.querySelectorAll(".menu-button")
-            .forEach(button => {
-                if (menuObject[button.dataset.action + 'Prepare']) {
-                    menuObject[button.dataset.action + 'Prepare'](button);
-                }
-                GUI.addButtonListener(menuObject, button);
-            });
+            .forEach(button => GUI.addButtonListener(menuObject, button));
+    },
+
+    prepareButtons(menuObject, query) {
+        document.querySelectorAll(query).forEach(button => {
+            let prepareFunction = menuObject[button.dataset.action + 'Prepare'];
+            if (prepareFunction) {
+                prepareFunction(button);
+            }
+        });
     },
 
     addButtonListener(menuObject, button) {
@@ -58,13 +62,14 @@ const GUI = {
         }
     },
 
-    replaceMenuLabels() {
-        let elements = document.querySelectorAll('[data-label]');
+    replaceMenuLabels(rootElement) {
+        if (!rootElement) rootElement = document;
+        let elements = rootElement.querySelectorAll('[data-label]');
         elements.forEach(GUI.replaceMenuLabel)
     },
 
     replaceMenuLabel(element) {
-        element.innerHTML = GUI.resolveMessage(element.dataset.label);
+        element.innerHTML = GUI.resolveMessage(element.dataset.label, element.dataset.labelFallback);
     },
 
     showMessage(messageCode) {
