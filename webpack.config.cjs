@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       {
-        test: /(sw\.js|\.webmanifest)/,
+        test: /(sw\.js|\.webmanifest|privacy_policy\.txt)/,
         type: "asset/resource",
         generator: {
           filename: '[name][ext]'
