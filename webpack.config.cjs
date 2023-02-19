@@ -17,6 +17,9 @@ module.exports = {
       },
       {
         test: /\.(json|png|properties)/,
+        exclude: [
+            path.resolve(__dirname, "src/.well-known")
+        ],
         type: "asset/resource",
         generator: {
           filename: 'assets/[name][ext]'
@@ -27,6 +30,16 @@ module.exports = {
         type: "asset/resource",
         generator: {
           filename: '[name][ext]'
+        }
+      },
+      {
+        test: /assetlinks\.json/,
+        include: [
+            path.resolve(__dirname, "src/.well-known")
+        ],
+        type: "asset/resource",
+        generator: {
+          filename: '.well-known/[name][ext]'
         }
       },
     ],

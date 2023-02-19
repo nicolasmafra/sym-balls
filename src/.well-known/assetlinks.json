@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.nickmafra.symballs",
+               "sha256_cert_fingerprints": ["F8:FA:16:0E:BB:81:12:67:9B:39:8F:5A:F6:26:2D:A4:34:B5:C3:48:B5:C5:0A:B2:A6:4B:8A:C6:A0:47:B0:65"] }
+}]
