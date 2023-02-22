@@ -4,11 +4,13 @@ import { DragControls } from '../vendor/DragControls.js'
 import { Object3D } from 'three';
 
 const white = new THREE.Color(0xffffff);
+const dockColor = new THREE.Color(0xa0a0a0);
 
 export default {
 
     configured: false,
-    dockWidth: 0.6,
+    dockRadius: 0.3,
+    dockHeight: 1.8,
     /** @type {Object3D} */
     dock: null,
 
@@ -21,6 +23,7 @@ export default {
 
     fieldOfView: 45,
     cameraViewRadius: 1,
+    cameraDistance: null,
     aspectRatio: 16/9,
     near: 0.1,
     far: 1000,
@@ -50,7 +53,8 @@ export default {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         
-        this.camera.position.z = this.calculateCameraDistance();
+        this.calculateCameraDistance();
+        this.camera.position.z = this.cameraDistance;
 
         if (!this.domContainer) this.domContainer = document.body;
 
@@ -62,7 +66,7 @@ export default {
     },
 
     calculateCameraDistance() {
-        return this.cameraViewRadius/Math.tan(2*Math.PI * (this.fieldOfView / 360)/2);
+        this.cameraDistance = this.cameraViewRadius/Math.tan(2*Math.PI * (this.fieldOfView / 360)/2);
     },
 
     resize() {
@@ -71,13 +75,7 @@ export default {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         if (this.dock) {
-            let x = this.aspectRatio - this.dockWidth/2;
-            this.dock.position.set(x, 0, 0);
-            this.objects.filter(object => object.userData && object.userData.isOnDock)
-                .forEach(object => {
-                    object.position.setX(x);
-                    object.userData.fixPosition();
-                });
+            this.resetDockPosition();
         }
     },
 
@@ -93,17 +91,30 @@ export default {
     },
 
     addDock() {
-        const geometry = new THREE.BoxGeometry(this.dockWidth, 2, this.dockWidth);
+        const geometry = new THREE.CylinderGeometry(this.dockRadius, this.dockRadius, this.dockHeight, 16);
         const material = new THREE.MeshBasicMaterial( {
-            color: 0x0000ff,
+            color: dockColor,
             transparent: true,
             opacity: 0.2
         } );
         this.dock = new THREE.Mesh( geometry, material );
         this.dock.name = 'dock';
-        this.dock.position.set(this.aspectRatio - this.dockWidth/2, 0, 0);
         this.dock.renderOrder = 1;
         this.scene.add( this.dock );
+        this.resetDockPosition();
+    },
+
+    resetDockPosition() {
+        let x = this.aspectRatio - this.dockRadius;
+        let angle = -Math.atan2(x, this.cameraDistance);
+        
+        this.dock.position.x = x;
+        this.dock.rotation.y = angle;
+        this.objects.filter(object => object.userData && object.userData.isOnDock)
+            .forEach(object => {
+                object.position.setX(x);
+                object.userData.fixPosition();
+            });
     },
 
     addDragListeners() {

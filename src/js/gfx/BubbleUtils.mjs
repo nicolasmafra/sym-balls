@@ -8,10 +8,14 @@ const bubbleOpacity = 0.3;
 const bubbleMargin = 0.4;
 
 const white = new THREE.Color(0xffffff);
-const orange = new THREE.Color(0xff8800);
 
 const outlineFactor = 1.05;
-const lockedOutlineMaterial = new THREE.MeshBasicMaterial( { color: orange, side: THREE.BackSide } );
+const lockedOutlineMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff4400,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0.8
+});
 
 export default {
     colorList: [
@@ -27,10 +31,10 @@ export default {
         0x00ff88,
         0x8800ff,
 
-        0x442200,
+        0x884422,
 
-        0x000000,
         0xffffff,
+        0x000000,
     ],
 
     /**
@@ -107,6 +111,7 @@ export default {
 
     addLockedOutline(bubble) {
         var mesh = new THREE.Mesh( bubbleGeometry, lockedOutlineMaterial );
+        mesh.renderOrder = 2;
         mesh.name = 'locked';
         mesh.scale.multiplyScalar(outlineFactor);
         bubble.add(mesh);

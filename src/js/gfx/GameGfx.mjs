@@ -80,7 +80,7 @@ const GameGfx = {
             let col = i % cols;
 
             item.setPosition(new Vector3(
-                itemSpacing * (col - colOffset) - Gfx.dockWidth/2,
+                itemSpacing * (col - colOffset) - Gfx.dockRadius,
                 -itemSpacing * (row - rowOffset),
                 0
             ));
