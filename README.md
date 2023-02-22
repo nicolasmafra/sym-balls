@@ -5,7 +5,7 @@ A puzzle game of composing permutations.
 
 Deploy URL: https://nickmafra.github.io/sym-balls/
 
-Play-Store URL: coming soon
+Play-Store URL: https://play.google.com/store/apps/details?id=com.nickmafra.symballs
 
 Privacy policy: https://nickmafra.github.io/sym-balls/privacy_policy.txt
 
