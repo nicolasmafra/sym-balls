@@ -6,12 +6,16 @@
 
 .main-menu-content {
     display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.main-menu-body {
     position: absolute;
     left: 50%;
     top: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    width: 100%;
 }
 
 .main-menu ul {
@@ -36,6 +40,20 @@
     max-height: 45vh;
     border: 2px solid black;
     background-color: gray;
+}
+
+.main-menu footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.main-menu footer ul > li {
+    display: inline-block;
+}
+
+.menu-param-value {
+    font-weight: bold;
 }
 
 .template {

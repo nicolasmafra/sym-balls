@@ -17,6 +17,6 @@ html, body, canvas {
     overflow: hidden;
 }
 
-.menu-param-value {
-    font-weight: bold;
+a, a:visited, a:hover, a:active {
+    color: inherit;
 }

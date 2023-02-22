@@ -14,7 +14,7 @@
 
   <div class="main-menu">
     <div class="main-menu-content" id="menu-root">
-      <ul>
+      <ul class="main-menu-body">
         <li class="menu-button" data-action="installWebApp" style="display:none" data-label="menu.install"></li>
         <li class="menu-button" data-action="enterFullScreen" data-label="menu.enter-full-screen"></li>
         <li class="menu-button" data-action="open" data-next-menu="select-level" data-label="menu.goto.select-level"></li>
@@ -22,16 +22,26 @@
           <i class="fa-solid fa-gears"></i>
           <span data-label="menu.goto.options"></span>
         </li>
-        <li class="menu-button" data-action="toggleParam" data-param-name="language">
-          <i class="fa-solid fa-language"></i>
-          <span class="menu-param-value">value</span>
-        </li>
       </ul>
+
+      <footer>
+        <ul>
+          <li class="menu-button" data-action="toggleParam" data-param-name="language">
+            <i class="fa-solid fa-language"></i>
+            <span class="menu-param-value">value</span>
+          </li>
+          <li>
+            <a href="https://github.com/nickmafra/sym-balls" target="_blank">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </li>
+        </ul>
+      </footer>
     </div>
 
 
     <div class="main-menu-content" id="menu-select-level">
-      <ul>
+      <ul class="main-menu-body">
         <li>
           <span data-label="menu.select-level"></span>
           <ul>
@@ -46,7 +56,7 @@
 
 
     <div class="main-menu-content" id="menu-options">
-      <ul>
+      <ul class="main-menu-body">
 
         <li class="menu-button" data-action="toggleParam" data-param-name="lightningEnabled">
           <span data-label="options.lightningEnabled"></span>:
