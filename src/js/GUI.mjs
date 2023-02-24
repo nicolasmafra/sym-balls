@@ -11,6 +11,7 @@ import Params from './Params.mjs';
 const GUI = {
 
     messageSources: {},
+    modalMessageCallback: null,
 
     async configure() {
         GUI.configureModals();
@@ -21,10 +22,18 @@ const GUI = {
     configureModals() {
         document.querySelectorAll(".modal").forEach(modal => {
             modal.querySelector(".modal-content-close").onclick = () => {
-                modal.style.display = "none";
+                GUI.closeModal(modal);
             };
-            modal.addEventListener("click", () => {modal.style.display = "none"});
+            modal.addEventListener("click", () => GUI.closeModal(modal));
         });
+    },
+
+    closeModal(modal) {
+        modal.style.display = "none";
+        if (modal.classList.contains("message-modal") && GUI.modalMessageCallback) {
+            GUI.modalMessageCallback();
+            GUI.modalMessageCallback = null;
+        }
     },
 
     addButtons(menuObject) {
@@ -72,7 +81,8 @@ const GUI = {
         element.innerHTML = GUI.resolveMessage(element.dataset.label, element.dataset.labelFallback);
     },
 
-    showMessage(messageCode) {
+    showMessage(messageCode, callback) {
+        GUI.modalMessageCallback = callback;
         let message = GUI.resolveMessage(messageCode);
         message = message.replace('\n', '<br>').replace('\\n', '<br>');
         let messageModal = document.querySelector('.message-modal');

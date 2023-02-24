@@ -202,6 +202,10 @@ class DragControls extends EventDispatcher {
 
 		}
 
+		function deselect() {
+			_selected = null;
+		}
+
 		activate();
 
 		// API
@@ -214,6 +218,7 @@ class DragControls extends EventDispatcher {
 		this.dispose = dispose;
 		this.getObjects = getObjects;
 		this.getRaycaster = getRaycaster;
+		this.deselect = deselect;
 
 	}
 

@@ -34,6 +34,9 @@ export default {
     renderer: null,
     scene: null,
     camera: null,
+    /**
+     * @type {DragControls}
+     */
     controls: null,
     objects: [],
 
@@ -46,10 +49,8 @@ export default {
 
     configure() {
         this.configured = true;
-        this.calculateAspectRatio();
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         
@@ -59,6 +60,8 @@ export default {
         if (!this.domContainer) this.domContainer = document.body;
 
         this.domContainer.appendChild(this.renderer.domElement);
+
+        this.resize();
 
         window.addEventListener( 'resize', () => this.resize(), false );
 
@@ -208,5 +211,9 @@ export default {
                 obj.userData.animate(this.dt, this.totalTime);
             }
         });
+    },
+
+    cancelDrag() {
+        this.controls.deselect();
     },
 }

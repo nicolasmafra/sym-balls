@@ -98,7 +98,12 @@ const GameGfx = {
 
     ondragstart(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
+        if (!(gfxItem instanceof GameGfxItem)) {
+            Gfx.cancelDrag();
+            return;
+        }
         if (gfxItem.gameItem.isLocked()) {
+            Gfx.cancelDrag();
             GUI.showMessage('game.locked');
             gfxItem.resetPosition();
             return;
