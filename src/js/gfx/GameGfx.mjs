@@ -7,6 +7,7 @@ import { Object3D, Vector3 } from 'three';
 import GameItem from '../core/GameItem.mjs';
 
 const itemSpacing = 0.7;
+const allowUseDockWithoutMerge = false;
 
 const GameGfx = {
 
@@ -112,17 +113,19 @@ const GameGfx = {
 
     ondragend(gfxObject) {
         let gfxItem = this.getGfxItemFromObject(gfxObject);
-        if (this.game.isOnDock(gfxItem.gameItem.getId())) {
-            let newItem = this.game.addItemFromDock(gfxItem.gameItem.getId());
-            let newGfxItem = GameGfxItem.createInstance(newItem);
-            newGfxItem.setPosition(gfxItem.gfxObject.position);
-            Gfx.addObject(newGfxItem.gfxObject);
-            gfxItem.resetPosition();
-            gfxItem = newGfxItem;
-        }
+
         let gfxItemList = Gfx.objects.map(this.getGfxItemFromObject)
             .filter(gi => !this.game.isOnDock(gi.gameItem.getId()));
         let collidedItem = gfxItem.findCollidedItem(gfxItemList);
+
+        if (this.game.isOnDock(gfxItem.gameItem.getId())) {
+            let realItem = gfxItem;
+            if (collidedItem || allowUseDockWithoutMerge) {
+                gfxItem = this.addGfxItemFromDock(gfxItem);
+            }
+            realItem.resetPosition();
+        }
+
         if (collidedItem) {
             try {
                 this.mergeItems(gfxItem, collidedItem);
@@ -132,6 +135,14 @@ const GameGfx = {
                 gfxItem.resetPosition();
             }
         }
+    },
+
+    addGfxItemFromDock(gfxItem) {
+        let newItem = this.game.addItemFromDock(gfxItem.gameItem.getId());
+        let newGfxItem = GameGfxItem.createInstance(newItem);
+        newGfxItem.setPosition(gfxItem.gfxObject.position);
+        Gfx.addObject(newGfxItem.gfxObject);
+        return newGfxItem;
     },
 
     mergeItems(movedGfxItem, collidedGfxItem) {
