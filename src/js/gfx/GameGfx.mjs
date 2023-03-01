@@ -50,6 +50,10 @@ const GameGfx = {
         this.resultShown = false;
         this.addDockItems();
         this.addInitialItems();
+
+        if (this.levelSchema.tip) {
+            GUI.showMessage(this.levelSchema.tip);
+        }
     },
 
     addDockItems() {

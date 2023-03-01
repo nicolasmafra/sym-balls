@@ -27,14 +27,14 @@ export default {
         0x00ffff,
         0xff00ff,
 
+        0xffffff,
+        0x606060,
+
         0xff8800,
         0x00ff88,
         0x8800ff,
 
         0x884422,
-
-        0xffffff,
-        0x000000,
     ],
 
     /**
