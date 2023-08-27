@@ -7,7 +7,7 @@ const Params = {
         lightningEnabled: true,
         itemType: 'cycle',
         itemOscillation: true,
-        rotateMode: '3D',
+        rotateMode: 'DISABLED',
     },
     value: {
     },
