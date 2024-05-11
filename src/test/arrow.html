@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+  </head>
+  <body>
+    <script src="arrow.js"></script>
+    <script>
+        const app = new PIXI.Application();
+        (async () => {
+            await app.init({ antialias: true, resizeTo: window });
+            document.body.appendChild(app.canvas);
+
+            let group = new ArrowGroup([0xff0000, 0xffff00, 0x00ff00, 0x0000ff]);
+            group.gfx.x = app.screen.width / 2;
+            group.gfx.y = app.screen.height / 2;
+
+            app.stage.addChild(group.gfx);
+        })()
+
+    </script>
+  </body>
+</html>
