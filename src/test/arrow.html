@@ -16,6 +16,16 @@
             group.gfx.y = app.screen.height / 2;
 
             app.stage.addChild(group.gfx);
+
+            let counter = 0;
+            app.ticker.add((ticker) => {
+
+              counter++;
+
+              if (counter == 100) group.animateToLine();
+              
+              group.update(ticker.deltaTime);
+            });
         })()
 
     </script>
