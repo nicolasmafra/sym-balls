@@ -24,8 +24,6 @@ class Arrow {
     
     constructor(colorOrigin, colorDestination, partRadius, curveAngle, centerDist) {
         this.gfx = new PIXI.Container();
-        this.gfx.scale.x = 2;
-        this.gfx.scale.y = 2;
     
         this.origin = createArrowPart(colorOrigin, false, partRadius);
         this.origin.x = -10;
@@ -55,8 +53,11 @@ class Arrow {
 class ArrowGroup {
 
     partRadius = 10;
+    circleScale = 2;
+    lineScale = 1.5;
     arrows = [];
-    animationProgress = 1;
+    animationProgress = 0;
+    animationDuration = 1000;
     
     constructor(colors) {
         this.colors = colors;
@@ -67,26 +68,28 @@ class ArrowGroup {
             let color1 = colors[i];
             let color2 = colors[(i + 1) % colors.length];
             let arrow = new Arrow(color1, color2, this.partRadius, curveAngle, centerDist);
-            arrow.gfx.rotation = 2 * curveAngle * i;
             this.arrows.push(arrow);
             this.gfx.addChild(arrow.gfx);
         }
+        this.animateToCircle();
+        this.update(this.animationDuration);
     }
 
-    animate(duration) {
+    setAnimation(duration) {
         this.animationProgress = 0;
         this.animationDuration = duration;
     }
 
     animateToLine(duration=1000) {
-        this.animate(duration);
+        this.setAnimation(duration);
 
-        let spacing = 4 * this.partRadius;
+        let spacing = 2 * this.partRadius * this.lineScale;
         let offsetY = -spacing * (this.arrows.length-1)/2;
         for (let i = 0; i < this.arrows.length; i++) {
             let arrow = this.arrows[i];
             
             arrow.targetY = offsetY + spacing * i;
+            arrow.targetScale = this.lineScale;
             arrow.targetRotation = 0;
             arrow.targetCurveAngle = 0;
             arrow.targetCenterDist = 0;
@@ -94,7 +97,7 @@ class ArrowGroup {
     }
 
     animateToCircle(duration=1000) {
-        this.animate(duration);
+        this.setAnimation(duration);
         this.toCircle();
     }
 
@@ -105,22 +108,27 @@ class ArrowGroup {
             let arrow = this.arrows[i];
             
             arrow.targetY = 0;
-            arrow.targetRotation = 2 * curveAngle * i;;
+            arrow.targetScale = this.circleScale;
+            arrow.targetRotation = 2 * curveAngle * i;
             arrow.targetCurveAngle = curveAngle;
             arrow.targetCenterDist = centerDist;
         }
     }
 
     update(deltaTime) {
-        if (this.animationProgress == 1) return;
+        if (this.animationProgress == -1) return;
 
-        this.animationProgress = Math.min(this.animationProgress + deltaTime / this.animationDuration, 1);
+        let originalProgress = this.animationProgress + deltaTime / this.animationDuration;
+        this.animationProgress = Math.min(originalProgress, 1);
         
         this.arrows.forEach(arrow => {
             arrow.gfx.y = lerp(arrow.gfx.y, arrow.targetY, this.animationProgress);
+            arrow.gfx.scale.set(lerp(arrow.gfx.scale.x, arrow.targetScale, this.animationProgress));
             arrow.gfx.rotation = lerp(arrow.gfx.rotation, arrow.targetRotation, this.animationProgress);
             arrow.setCurveAngle(lerp(arrow.curveAngle, arrow.targetCurveAngle, this.animationProgress));
             arrow.setCenterDist(lerp(arrow.centerDist, arrow.targetCenterDist, this.animationProgress));
         });
+
+        if (originalProgress >= 1) this.animationProgress = -1;
     }
 }
