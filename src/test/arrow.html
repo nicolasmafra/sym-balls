@@ -22,10 +22,10 @@
 
               counter++;
 
-              if (counter == 100) group.animateToLine();
-              if (counter == 300) group.animateToCircle();
+              if (counter == 40) group.animateToLine();
+              if (counter == 100) group.animateToCircle();
               
-              group.update(ticker.deltaTime);
+              group.animate(ticker.deltaTime);
             });
         })()
 

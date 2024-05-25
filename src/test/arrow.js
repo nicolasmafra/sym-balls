@@ -1,19 +1,19 @@
-function createArrowPart(color, dest, radius) {
-    let arrowPart = new PIXI.Graphics();
-    arrowPart.width = 2*radius;
-    arrowPart.height = 2*radius;
+function createBallSlice(color, dest, radius, x) {
+    let gfx = new PIXI.Graphics();
+    gfx.width = 2*radius;
+    gfx.height = 2*radius;
+    gfx.x = x;
 
-    arrowPart
-        .moveTo(0, 0)
+    gfx.moveTo(0, 0)
         .arc(0, 0, radius, -Math.PI/4, Math.PI/4, dest)
         .lineTo(0, 0)
         .fill({ color: color })
-        .stroke({ color: 0x888888, alpha: 0.5 });
-    return arrowPart;
+        .stroke({ color: 0x000000, alpha: 0.25, width: 1.5 });
+    return gfx;
 }
 
-function calcCenter(curveAngle) {
-    return 1 / Math.tan(curveAngle);
+function calcCenter(ballRotation) {
+    return 1 / Math.tan(ballRotation);
 }
 
 function lerp(start, end, progress) {
@@ -21,32 +21,29 @@ function lerp(start, end, progress) {
 }
 
 class Arrow {
+
+    ballRotation = 0;
+    centerDist = 0;
     
-    constructor(colorOrigin, colorDestination, partRadius, curveAngle, centerDist) {
+    constructor(colorOrigin, colorDestination, ballRadius) {
         this.gfx = new PIXI.Container();
     
-        this.origin = createArrowPart(colorOrigin, false, partRadius);
-        this.origin.x = -10;
-        this.gfx.addChild(this.origin);
-    
-        this.destination = createArrowPart(colorDestination, true, partRadius);
-        this.destination.x = 10;
-        this.gfx.addChild(this.destination);
-
-        this.setCurveAngle(curveAngle);
-        this.setCenterDist(centerDist);
+        this.gfx.addChild(
+            this.orig = createBallSlice(colorOrigin, false, ballRadius, -10),
+            this.dest = createBallSlice(colorDestination, true, ballRadius, 10),
+        );
     }
 
-    setCurveAngle(curveAngle) {
-        this.curveAngle = curveAngle;
-        this.origin.rotation = -curveAngle;
-        this.destination.rotation = curveAngle;
+    setBallRotation(ballRotation) {
+        this.ballRotation = ballRotation;
+        this.orig.rotation = -ballRotation;
+        this.dest.rotation = ballRotation;
     }
 
     setCenterDist(centerDist) {
         this.centerDist = centerDist;
-        this.origin.y = -centerDist;
-        this.destination.y = -centerDist;
+        this.orig.y = -centerDist;
+        this.dest.y = -centerDist;
     }
 }
 
@@ -56,32 +53,43 @@ class ArrowGroup {
     circleScale = 2;
     lineScale = 1.5;
     arrows = [];
-    animationProgress = 0;
-    animationDuration = 1000;
+    animationProgress = 1;
+    animationDuration = 100;
     
     constructor(colors) {
         this.colors = colors;
         this.gfx = new PIXI.Container();
-        let curveAngle = Math.PI / colors.length;
-        let centerDist = this.partRadius * calcCenter(curveAngle);
         for (let i = 0; i < colors.length; i++) {
             let color1 = colors[i];
             let color2 = colors[(i + 1) % colors.length];
-            let arrow = new Arrow(color1, color2, this.partRadius, curveAngle, centerDist);
+            let arrow = new Arrow(color1, color2, this.partRadius);
             this.arrows.push(arrow);
             this.gfx.addChild(arrow.gfx);
         }
-        this.animateToCircle();
-        this.update(this.animationDuration);
+        this.toCircle();
+        this.update();
     }
 
-    setAnimation(duration) {
+    toCircle() {
+        let ballRotation = Math.PI / this.arrows.length;
+        let centerDist = this.partRadius * calcCenter(ballRotation);
+        for (let i = 0; i < this.arrows.length; i++) {
+            let arrow = this.arrows[i];
+            
+            arrow.targetY = 0;
+            arrow.targetScale = this.circleScale;
+            arrow.targetRotation = 2 * ballRotation * i;
+            arrow.targetBallRotation = ballRotation;
+            arrow.targetCenterDist = centerDist;
+        }
+    }
+
+    resetAnimation() {
         this.animationProgress = 0;
-        this.animationDuration = duration;
     }
 
-    animateToLine(duration=1000) {
-        this.setAnimation(duration);
+    animateToLine() {
+        this.resetAnimation();
 
         let spacing = 2 * this.partRadius * this.lineScale;
         let offsetY = -spacing * (this.arrows.length-1)/2;
@@ -91,44 +99,36 @@ class ArrowGroup {
             arrow.targetY = offsetY + spacing * i;
             arrow.targetScale = this.lineScale;
             arrow.targetRotation = 0;
-            arrow.targetCurveAngle = 0;
+            arrow.targetBallRotation = 0;
             arrow.targetCenterDist = 0;
         }
     }
 
-    animateToCircle(duration=1000) {
-        this.setAnimation(duration);
+    animateToCircle() {
+        this.resetAnimation();
         this.toCircle();
     }
 
-    toCircle() {
-        let curveAngle = Math.PI / this.arrows.length;
-        let centerDist = this.partRadius * calcCenter(curveAngle);
-        for (let i = 0; i < this.arrows.length; i++) {
-            let arrow = this.arrows[i];
-            
-            arrow.targetY = 0;
-            arrow.targetScale = this.circleScale;
-            arrow.targetRotation = 2 * curveAngle * i;
-            arrow.targetCurveAngle = curveAngle;
-            arrow.targetCenterDist = centerDist;
-        }
+    animate(deltaTime) {
+        if (this.animationProgress == 1) return;
+
+        this.animationProgress += deltaTime / this.animationDuration;
+        if (this.animationProgress > 1) this.animationProgress = 1;
+
+        this.update();
     }
 
-    update(deltaTime) {
-        if (this.animationProgress == -1) return;
+    lerp(current, target) {
+        return lerp(current, target, this.animationProgress);
+    }
 
-        let originalProgress = this.animationProgress + deltaTime / this.animationDuration;
-        this.animationProgress = Math.min(originalProgress, 1);
-        
+    update() {
         this.arrows.forEach(arrow => {
-            arrow.gfx.y = lerp(arrow.gfx.y, arrow.targetY, this.animationProgress);
-            arrow.gfx.scale.set(lerp(arrow.gfx.scale.x, arrow.targetScale, this.animationProgress));
-            arrow.gfx.rotation = lerp(arrow.gfx.rotation, arrow.targetRotation, this.animationProgress);
-            arrow.setCurveAngle(lerp(arrow.curveAngle, arrow.targetCurveAngle, this.animationProgress));
-            arrow.setCenterDist(lerp(arrow.centerDist, arrow.targetCenterDist, this.animationProgress));
+            arrow.gfx.y = this.lerp(arrow.gfx.y, arrow.targetY);
+            arrow.gfx.scale.set(this.lerp(arrow.gfx.scale.x, arrow.targetScale));
+            arrow.gfx.rotation = this.lerp(arrow.gfx.rotation, arrow.targetRotation);
+            arrow.setBallRotation(this.lerp(arrow.ballRotation, arrow.targetBallRotation));
+            arrow.setCenterDist(this.lerp(arrow.centerDist, arrow.targetCenterDist));
         });
-
-        if (originalProgress >= 1) this.animationProgress = -1;
     }
 }
