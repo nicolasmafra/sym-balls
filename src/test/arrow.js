@@ -12,8 +12,12 @@ function createBallSlice(color, dest, radius, x) {
     return gfx;
 }
 
-function calcCenter(ballRotation) {
-    return 1 / Math.tan(ballRotation);
+function inradius(vertexAngle) {
+    return 1 / Math.tan(vertexAngle);
+}
+
+function circumradius(vertexAngle) {
+    return 1 / Math.sin(vertexAngle);
 }
 
 function lerp(start, end, progress) {
@@ -23,7 +27,9 @@ function lerp(start, end, progress) {
 class Arrow {
 
     ballRotation = 0;
-    centerDist = 0;
+    targetBallRotation = 0;
+    ballY = 0;
+    targetBallY = 0;
     
     constructor(colorOrigin, colorDestination, ballRadius) {
         this.gfx = new PIXI.Container();
@@ -40,48 +46,66 @@ class Arrow {
         this.dest.rotation = ballRotation;
     }
 
-    setCenterDist(centerDist) {
-        this.centerDist = centerDist;
-        this.orig.y = -centerDist;
-        this.dest.y = -centerDist;
+    setBallY(ballY) {
+        this.ballY = ballY;
+        this.orig.y = -ballY;
+        this.dest.y = -ballY;
     }
 }
 
 class ArrowGroup {
 
-    partRadius = 10;
-    circleScale = 2;
+    ballRadius = 10;
+    bubbleScale = 2;
     lineScale = 1.5;
     arrows = [];
     animationProgress = 1;
     animationDuration = 100;
     
-    constructor(colors) {
-        this.colors = colors;
+    constructor(colors, mapping) {
+        this.mapping = mapping;
         this.gfx = new PIXI.Container();
-        for (let i = 0; i < colors.length; i++) {
+        for (let i = 0; i < mapping.length; i++) {
             let color1 = colors[i];
-            let color2 = colors[(i + 1) % colors.length];
-            let arrow = new Arrow(color1, color2, this.partRadius);
+            let color2 = colors[mapping[i]];
+            let arrow = new Arrow(color1, color2, this.ballRadius);
             this.arrows.push(arrow);
             this.gfx.addChild(arrow.gfx);
         }
-        this.toCircle();
+        this.calcCicles();
+        this.toBubbles();
         this.update();
     }
 
-    toCircle() {
-        let ballRotation = Math.PI / this.arrows.length;
-        let centerDist = this.partRadius * calcCenter(ballRotation);
-        for (let i = 0; i < this.arrows.length; i++) {
-            let arrow = this.arrows[i];
-            
-            arrow.targetY = 0;
-            arrow.targetScale = this.circleScale;
-            arrow.targetRotation = 2 * ballRotation * i;
-            arrow.targetBallRotation = ballRotation;
-            arrow.targetCenterDist = centerDist;
+    calcCicles() {
+        this.cicles = [
+            [ 0, 1, 2 ],
+            [ 3, 4 ]
+        ]
+    }
+
+    toBubbles() {
+        let yOffset = 0;
+        for (let c = 0; c < this.cicles.length; c++) {
+            let cicle = this.cicles[c];
+
+            let vertexAngle = Math.PI / cicle.length;
+            let ballY = this.ballRadius * inradius(vertexAngle);
+            let bubbleRadius = this.bubbleScale * this.ballRadius * (1 + circumradius(vertexAngle));
+            let y = yOffset + bubbleRadius;
+            for (let i = 0; i < cicle.length; i++) {
+                let index = cicle[i];
+                let arrow = this.arrows[index];
+                
+                arrow.targetY = y;
+                arrow.targetScale = this.bubbleScale;
+                arrow.targetRotation = 2 * vertexAngle * i;
+                arrow.targetBallRotation = vertexAngle;
+                arrow.targetBallY = ballY;
+            }
+            yOffset += 2 * bubbleRadius;
         }
+        this.arrows.forEach(a => a.targetY -= yOffset/2)
     }
 
     resetAnimation() {
@@ -91,7 +115,7 @@ class ArrowGroup {
     animateToLine() {
         this.resetAnimation();
 
-        let spacing = 2 * this.partRadius * this.lineScale;
+        let spacing = 2 * this.ballRadius * this.lineScale;
         let offsetY = -spacing * (this.arrows.length-1)/2;
         for (let i = 0; i < this.arrows.length; i++) {
             let arrow = this.arrows[i];
@@ -100,13 +124,13 @@ class ArrowGroup {
             arrow.targetScale = this.lineScale;
             arrow.targetRotation = 0;
             arrow.targetBallRotation = 0;
-            arrow.targetCenterDist = 0;
+            arrow.targetBallY = 0;
         }
     }
 
-    animateToCircle() {
+    animateToBubbles() {
         this.resetAnimation();
-        this.toCircle();
+        this.toBubbles();
     }
 
     animate(deltaTime) {
@@ -128,7 +152,7 @@ class ArrowGroup {
             arrow.gfx.scale.set(this.lerp(arrow.gfx.scale.x, arrow.targetScale));
             arrow.gfx.rotation = this.lerp(arrow.gfx.rotation, arrow.targetRotation);
             arrow.setBallRotation(this.lerp(arrow.ballRotation, arrow.targetBallRotation));
-            arrow.setCenterDist(this.lerp(arrow.centerDist, arrow.targetCenterDist));
+            arrow.setBallY(this.lerp(arrow.ballY, arrow.targetBallY));
         });
     }
 }
