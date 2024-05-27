@@ -25,19 +25,20 @@
 
       init(() => {
         const newBtn = (i, text, fn) => {
-          let x = 10;
-          let y = 10 + 40 * i;
           let btn = new PIXI.Graphics();
-          btn.roundRect(x, y, 80, 30, 5);
+          btn.x = 10;
+          btn.y = 10 + 40 * i;
+          btn.roundRect(0, 0, 80, 30, 5);
           btn.fill(0x888888);
-          btn.addChild(new PIXI.Text({ x, y, text }));
-          btn.on('pointerdown', fn);
+          btn.addChild(new PIXI.Text({ text }));
           btn.eventMode = 'static';
+          btn.on('pointerdown', fn);
           btn.cursor = 'pointer';
           app.stage.addChild(btn);
         }
-        newBtn(0, 'Import', () => fileInput.click());
-        newBtn(1, 'Export', () => {
+        newBtn(0, 'Reset', () => resetLevel());
+        newBtn(1, 'Import', () => fileInput.click());
+        newBtn(2, 'Export', () => {
           const data = JSON.stringify(level);
           const blob = new Blob([data], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
