@@ -1,9 +1,9 @@
 let level = {
     name: 'demo',
     colors: [
-        0xff0000,
-        0x00ff00,
-        0x0000ff,
+        '#ee6600',
+        '#00ee66',
+        '#6600ee',
     ],
     items: [
         [ 1, 2, 0 ],
@@ -35,8 +35,13 @@ function init(callback) {
     });
 }
 
+let parsedColors = [];
+
 function resetLevel() {
     board.removeChildren();
+
+    parsedColors = level.colors.map(color => parseInt(color.substring(1), 16));
+
     let n = Math.ceil(Math.sqrt(level.items.length));
     for (let i = 0; i < level.items.length; i++) {
         let item = level.items[i];
@@ -59,17 +64,17 @@ function createBubble(item) {
     bubble.item = item;
     bubble.radius = item.length*ballSpace/2 + bubbleMargin;
     bubble.circle(0, 0, bubble.radius);
-    bubble.fill(0x222222);
+    bubble.fill(0xffffff, 0.2);
     let yOffset = -(item.length - 1) * ballSpace / 2;
     for (let i = 0; i < item.length; i++) {
-        let color1 = level.colors[i];
-        let color2 = level.colors[item[i]];
+        let color1 = parsedColors[i];
+        let color2 = parsedColors[item[i]];
         let y = yOffset + i * ballSpace;
         let x = ballSpace/2;
         bubble.circle(-x, y, ballRadius);
-        bubble.fill(color1);
+        bubble.fill(color1, 1);
         bubble.circle(+x, y, ballRadius);
-        bubble.fill(color2);
+        bubble.fill(color2, 1);
     }
     bubble.eventMode = 'static';
     bubble.on('pointerdown', onDragStart, bubble);
