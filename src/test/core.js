@@ -12,7 +12,8 @@ let level = {
         [ 2, 1, 0 ],
         [ 0, 2, 1 ],
         [ 0, 2, 1 ],
-    ]
+    ],
+    target: [ 0, 1, 2 ],
 }
 
 const app = new PIXI.Application();
@@ -114,4 +115,20 @@ function mergeBubbles(top, bottom) {
     let newBubble = createBubble(resultItem);
     newBubble.position.copyFrom(bottom.position)
     board.removeChild(top, bottom);
+
+    checkWinning();
+}
+
+function checkWinning() {
+    if (board.children.length != 1) return;
+
+    let last = board.children[0];
+    let equalsTarget = last.item.every((value, index) => value === level.target[index]);
+    setTimeout(() => {
+        if (equalsTarget) {
+            alert('You won!');
+        } else {
+            alert('You lost!');
+        }
+    }, 100);
 }
