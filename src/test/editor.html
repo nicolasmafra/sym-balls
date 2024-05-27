@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+  </head>
+  <body style="margin:0;overflow:clip">
+    <input id="fileInput" type="file" accept="application/json" style="display:none">
+    <a id="fileOutput" download="level.json"></a>
+    <script src="core.js"></script>
+    <script>
+      const fileInput = document.getElementById('fileInput');
+      const fileOutput = document.getElementById('fileOutput');
+      fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = (e) => {
+            level = JSON.parse(e.target.result);
+            resetLevel();
+          };
+          reader.readAsText(file);
+        }
+      });
+
+      init(() => {
+        const newBtn = (i, text, fn) => {
+          let x = 10;
+          let y = 10 + 40 * i;
+          let btn = new PIXI.Graphics();
+          btn.roundRect(x, y, 80, 30, 5);
+          btn.fill(0x888888);
+          btn.addChild(new PIXI.Text({ x, y, text }));
+          btn.on('pointerdown', fn);
+          btn.eventMode = 'static';
+          btn.cursor = 'pointer';
+          app.stage.addChild(btn);
+        }
+        newBtn(0, 'Import', () => fileInput.click());
+        newBtn(1, 'Export', () => {
+          const data = JSON.stringify(level);
+          const blob = new Blob([data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          fileOutput.href = url;
+          fileOutput.click();
+          setTimeout(() => URL.revokeObjectURL(url), 0);
+        });
+      });
+    </script>
+  </body>
+</html>
