@@ -15,7 +15,6 @@ function init(callback) {
         app.stage.on('pointerupoutside', onDragEnd);
 
         if (callback) callback();
-        restartLevel();
     });
 }
 
@@ -128,8 +127,6 @@ function checkWinning() {
 
 function generateRandomLevel(options) {
     let identity = [...Array(options.size).keys()];
-    let hueOffset = Math.random();
-    let hueDirection = Math.random() < 0.5 ? -1 : 1;
     let items = Array(options.count-1).fill(0).map(() => shuffleArray(identity.slice(0)));
     let result = items.reduce((a,b) => mergeArrays(a,b), identity);
     items.push(inverseArray(result));
@@ -137,11 +134,17 @@ function generateRandomLevel(options) {
 
     level = {
         name: 'random',
-        colors: identity.map(i => color(i, hueOffset, hueDirection)),
+        colors: [],
         items,
         target: identity,
     }
+    randomizeColors();
     restartLevel();
+}
+function randomizeColors() {
+    let hueOffset = Math.random();
+    let hueDirection = Math.random() < 0.5 ? -1 : 1;
+    level.colors = level.target.map(i => color(i, hueOffset, hueDirection));
 }
 function distribute(n, base=2) {
     let binary = n.toString(base)
@@ -150,7 +153,9 @@ function distribute(n, base=2) {
 }
 function color(n, offset=0, dir=1, base=2) {
     let hue = (offset + dir*distribute(n, base)) % 1;
-    return `hsl(${hue}turn, 70%, 50%)`
+    let lum = Math.random() < 0.5 ? 60 : 40;
+    let sat = Math.random() < 0.5 ? 100 : 80;
+    return `hsl(${hue}turn, ${sat}%, ${lum}%)`
 }
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
