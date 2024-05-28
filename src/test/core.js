@@ -1,20 +1,4 @@
-let level = {
-    name: 'demo',
-    colors: [
-        '#ee6600',
-        '#00ee66',
-        '#6600ee',
-    ],
-    items: [
-        [ 1, 2, 0 ],
-        [ 2, 0, 1 ],
-        [ 1, 0, 2 ],
-        [ 2, 1, 0 ],
-        [ 0, 2, 1 ],
-        [ 0, 2, 1 ],
-    ],
-    target: [ 0, 1, 2 ],
-}
+let level = {}
 
 const app = new PIXI.Application();
 const board = new PIXI.Container();
@@ -30,17 +14,17 @@ function init(callback) {
         app.stage.on('pointerup', onDragEnd);
         app.stage.on('pointerupoutside', onDragEnd);
 
-        callback();
-        resetLevel();
+        if (callback) callback();
+        restartLevel();
     });
 }
 
 let parsedColors = [];
 
-function resetLevel() {
+function restartLevel() {
     board.removeChildren();
 
-    parsedColors = level.colors.map(color => parseInt(color.substring(1), 16));
+    parsedColors = level.colors.map(color => new PIXI.Color(color));
 
     let n = Math.ceil(Math.sqrt(level.items.length));
     for (let i = 0; i < level.items.length; i++) {
@@ -48,7 +32,7 @@ function resetLevel() {
         let row = Math.floor(i / n);
         let col = i - row * n;
         let x = 200 + col * 100;
-        let y = 100 + row * 100;
+        let y = 300 + row * 100;
         let bubble = createBubble(item, x, y);
         bubble.x = x;
         bubble.y = y;
@@ -111,8 +95,12 @@ function checkCollision(bubble, x, y) {
     return bubble.radius && Math.hypot(bubble.x - x, bubble.y - y) < bubble.radius + dragTarget.radius;
 }
 
+function mergeArrays(first, second) {
+    return first.map(b => second[b]);
+}
+
 function mergeBubbles(top, bottom) {
-    let resultItem = bottom.item.map((b,a) => top.item[b]);
+    let resultItem = mergeArrays(bottom.item, top.item);
     console.log('merging:');
     for (let i = 0; i<resultItem.length; i++) {
         console.log(`${i}->${bottom.item[i]}->${top.item[bottom.item[i]]} = ${i}->${resultItem[i]}`);
@@ -136,4 +124,46 @@ function checkWinning() {
             alert('You lost!');
         }
     }, 100);
+}
+
+function generateRandomLevel(options) {
+    let identity = [...Array(options.size).keys()];
+    let hueOffset = Math.random();
+    let hueDirection = Math.random() < 0.5 ? -1 : 1;
+    let items = Array(options.count-1).fill(0).map(() => shuffleArray(identity.slice(0)));
+    let result = items.reduce((a,b) => mergeArrays(a,b), identity);
+    items.push(inverseArray(result));
+    shuffleArray(items);
+
+    level = {
+        name: 'random',
+        colors: identity.map(i => color(i, hueOffset, hueDirection)),
+        items,
+        target: identity,
+    }
+    restartLevel();
+}
+function distribute(n, base=2) {
+    let binary = n.toString(base)
+    let reverse = binary.split('').reverse().join('');
+    return parseInt(reverse, base)/Math.pow(base, binary.length)
+}
+function color(n, offset=0, dir=1, base=2) {
+    let hue = (offset + dir*distribute(n, base)) % 1;
+    return `hsl(${hue}turn, 70%, 50%)`
+}
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+function inverseArray(array) {
+    let result = Array(array.length);
+    for (let i = 0; i < array.length; i++) {
+        const j = array[i];
+        result[j] = i;
+    }
+    return result;
 }
