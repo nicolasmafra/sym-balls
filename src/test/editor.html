@@ -37,7 +37,7 @@
 
           reader.onload = (e) => {
             level = JSON.parse(e.target.result);
-            resetLevel();
+            restartLevel();
           };
           reader.readAsText(file);
         }

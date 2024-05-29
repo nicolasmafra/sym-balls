@@ -43,15 +43,20 @@ const bubbleMargin = 10;
 const ballRadius = 4;
 
 function createBubble(item) {
+    let perm = item.perm;
     let bubble = new PIXI.Graphics();
     bubble.item = item;
-    bubble.radius = item.length*ballSpace/2 + bubbleMargin;
+    bubble.radius = perm.length*ballSpace/2 + bubbleMargin;
     bubble.circle(0, 0, bubble.radius);
-    bubble.fill(0xffffff, 0.2);
-    let yOffset = -(item.length - 1) * ballSpace / 2;
-    for (let i = 0; i < item.length; i++) {
+    if (item.locked) {
+        bubble.fill(0x605040, 1);
+    } else {
+        bubble.fill(0xffffff, 0.2);
+    }
+    let yOffset = -(perm.length - 1) * ballSpace / 2;
+    for (let i = 0; i < perm.length; i++) {
         let color1 = parsedColors[i];
-        let color2 = parsedColors[item[i]];
+        let color2 = parsedColors[perm[i]];
         let y = yOffset + i * ballSpace;
         let x = ballSpace/2;
         bubble.circle(-x, y, ballRadius);
@@ -68,6 +73,8 @@ function createBubble(item) {
 
 let dragTarget = null;
 function onDragStart() {
+    if (this.item.locked) return;
+
     dragTarget = this;
     this.alpha = 0.7;
     this.parent.addChild(this);
@@ -94,17 +101,16 @@ function checkCollision(bubble, x, y) {
     return bubble.radius && Math.hypot(bubble.x - x, bubble.y - y) < bubble.radius + dragTarget.radius;
 }
 
-function mergeArrays(first, second) {
+function mergePerms(first, second) {
     return first.map(b => second[b]);
 }
 
 function mergeBubbles(top, bottom) {
-    let resultItem = mergeArrays(bottom.item, top.item);
-    console.log('merging:');
-    for (let i = 0; i<resultItem.length; i++) {
-        console.log(`${i}->${bottom.item[i]}->${top.item[bottom.item[i]]} = ${i}->${resultItem[i]}`);
-    }
-    let newBubble = createBubble(resultItem);
+    let perm = mergePerms(bottom.item.perm, top.item.perm);
+    let newBubble = createBubble({
+        ...bottom.item,
+        perm,
+    });
     newBubble.position.copyFrom(bottom.position)
     board.removeChild(top, bottom);
 
@@ -115,7 +121,7 @@ function checkWinning() {
     if (board.children.length != 1) return;
 
     let last = board.children[0];
-    let equalsTarget = last.item.every((value, index) => value === level.target[index]);
+    let equalsTarget = last.item.perm.every((value, index) => value === level.targetPerm[index]);
     setTimeout(() => {
         if (equalsTarget) {
             alert('You won!');
@@ -127,16 +133,23 @@ function checkWinning() {
 
 function generateRandomLevel(options) {
     let identity = [...Array(options.size).keys()];
-    let items = Array(options.count-1).fill(0).map(() => shuffleArray(identity.slice(0)));
-    let result = items.reduce((a,b) => mergeArrays(a,b), identity);
-    items.push(inverseArray(result));
+    let perms = Array(options.count-1).fill(0).map(() => shuffleArray(identity.slice(0)));
+    let items = perms.map(perm => ({
+        perm,
+        locked: false,
+    }));
     shuffleArray(items);
+    let result = perms.reduce((a,b) => mergePerms(a,b), identity);
+    items.push({
+        perm: inverseArray(result),
+        locked: true,
+    });
 
     level = {
         name: 'random',
         colors: [],
-        items,
-        target: identity,
+        items: items,
+        targetPerm: identity,
     }
     randomizeColors();
     restartLevel();
@@ -144,7 +157,7 @@ function generateRandomLevel(options) {
 function randomizeColors() {
     let hueOffset = Math.random();
     let hueDirection = Math.random() < 0.5 ? -1 : 1;
-    level.colors = level.target.map(i => color(i, hueOffset, hueDirection));
+    level.colors = level.targetPerm.map(i => color(i, hueOffset, hueDirection));
 }
 function distribute(n, base=2) {
     let binary = n.toString(base)
