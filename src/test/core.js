@@ -155,20 +155,15 @@ function generateRandomLevel(options) {
     restartLevel();
 }
 function randomizeColors() {
+    let n = level.targetPerm.length;
     let hueOffset = Math.random();
-    let hueDirection = Math.random() < 0.5 ? -1 : 1;
-    level.colors = level.targetPerm.map(i => color(i, hueOffset, hueDirection));
-}
-function distribute(n, base=2) {
-    let binary = n.toString(base)
-    let reverse = binary.split('').reverse().join('');
-    return parseInt(reverse, base)/Math.pow(base, binary.length)
-}
-function color(n, offset=0, dir=1, base=2) {
-    let hue = (offset + dir*distribute(n, base)) % 1;
-    let lum = Math.random() < 0.5 ? 60 : 40;
-    let sat = Math.random() < 0.5 ? 100 : 80;
-    return `hsl(${hue}turn, ${sat}%, ${lum}%)`
+    let lum = 100 * (0.4 + 0.2 * Math.random()).toFixed(1);
+    let sat = 100 * (0.8 + 0.2 * Math.random()).toFixed(1);
+    level.colors = [];
+    for (let i = 0; i < n; i++) {
+        let hue = ((hueOffset + i/n) % 1).toFixed(2);
+        level.colors.push(`hsl(${hue}turn, ${sat}%, ${lum}%)`);
+    }
 }
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
