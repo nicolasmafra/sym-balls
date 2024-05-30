@@ -6,7 +6,6 @@ const board = new PIXI.Container();
 function init(callback) {
     app.init({ resizeTo: window }).then(() => {
         document.body.appendChild(app.canvas);
-        app.stage.addChild(board);
 
         app.stage.eventMode = 'static';
         app.stage.hitArea = app.screen;
@@ -15,18 +14,15 @@ function init(callback) {
         app.stage.on('pointerupoutside', onDragEnd);
 
         if (callback) callback();
-
-        fetch('./levels/example.json').then(res => res.json()).then(json => {
-            level = json;
-            restartLevel();
-        });
     });
 }
 
 let parsedColors = [];
 
 function restartLevel() {
+    app.stage.removeChildren();
     board.removeChildren();
+    app.stage.addChild(board);
 
     parsedColors = level.colors.map(color => new PIXI.Color(color));
 
@@ -184,4 +180,20 @@ function inverseArray(array) {
         result[j] = i;
     }
     return result;
+}
+
+function newBtn(i, text, fn) {
+    const width = 400;
+    const height = 40;
+    const spacing = 10;
+    let btn = new PIXI.Graphics();
+    btn.roundRect(-width/2, 0, width, height, 5);
+    btn.fill(0x888888);
+    btn.addChild(new PIXI.Text({ text, align: 'center' }));
+    btn.eventMode = 'static';
+    btn.on('pointerdown', fn);
+    btn.cursor = 'pointer';
+    btn.x = app.renderer.width / 2;
+    btn.y = (spacing + height) * (0.5 + i);
+    return btn;
 }
