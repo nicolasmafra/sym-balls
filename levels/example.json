@@ -1,0 +1,79 @@
+{
+    "name": "random",
+    "colors": [
+        "hsl(0.40turn, 90%, 40%)",
+        "hsl(0.60turn, 90%, 40%)",
+        "hsl(0.80turn, 90%, 40%)",
+        "hsl(1.00turn, 90%, 40%)",
+        "hsl(0.20turn, 90%, 40%)"
+    ],
+    "items": [
+        {
+            "perm": [
+                4,
+                1,
+                0,
+                2,
+                3
+            ],
+            "locked": false
+        },
+        {
+            "perm": [
+                4,
+                2,
+                0,
+                3,
+                1
+            ],
+            "locked": false
+        },
+        {
+            "perm": [
+                4,
+                1,
+                0,
+                2,
+                3
+            ],
+            "locked": false
+        },
+        {
+            "perm": [
+                4,
+                0,
+                2,
+                3,
+                1
+            ],
+            "locked": false
+        },
+        {
+            "perm": [
+                4,
+                0,
+                3,
+                1,
+                2
+            ],
+            "locked": false
+        },
+        {
+            "perm": [
+                4,
+                3,
+                2,
+                0,
+                1
+            ],
+            "locked": true
+        }
+    ],
+    "targetPerm": [
+        0,
+        1,
+        2,
+        3,
+        4
+    ]
+}

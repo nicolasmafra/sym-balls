@@ -15,6 +15,11 @@ function init(callback) {
         app.stage.on('pointerupoutside', onDragEnd);
 
         if (callback) callback();
+
+        fetch('./levels/example.json').then(res => res.json()).then(json => {
+            level = json;
+            restartLevel();
+        });
     });
 }
 
