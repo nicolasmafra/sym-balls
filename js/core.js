@@ -187,9 +187,17 @@ function newBtn(i, text, fn) {
     const height = 40;
     const spacing = 10;
     let btn = new PIXI.Graphics();
-    btn.roundRect(-width/2, 0, width, height, 5);
+    btn.roundRect(-width/2, -height/2, width, height, 5);
     btn.fill(0x888888);
-    btn.addChild(new PIXI.Text({ text, align: 'center' }));
+    let btnText = new PIXI.Text({
+        text,
+        style: {
+            align: 'center',
+        }
+    })
+    btnText.anchor.x = 0.5;
+    btnText.anchor.y = 0.5;
+    btn.addChild(btnText);
     btn.eventMode = 'static';
     btn.on('pointerdown', fn);
     btn.cursor = 'pointer';
