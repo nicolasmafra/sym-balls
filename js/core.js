@@ -26,16 +26,17 @@ function restartLevel() {
 
     parsedColors = level.colors.map(color => new PIXI.Color(color));
 
-    let n = Math.ceil(Math.sqrt(level.items.length));
-    let spacing = 100;
-    let offsetX = app.screen.width/2
-      - spacing*(n-1)/2;
+    let n = Math.ceil(Math.sqrt(
+      level.items.length));
+    let size = 100;
+    let x0 = app.screen.width/2 - size*(n-1)/2;
+    let y0 = app.screen.height/2 - size*(n-1)/2;
     for (let i = 0; i < level.items.length; i++) {
         let item = level.items[i];
         let row = Math.floor(i / n);
         let col = i - row * n;
-        let x = offsetX + col * spacing;
-        let y = 300 + row * spacing;
+        let x = x0 + col * size;
+        let y = y0 + row * size;
         let bubble = createBubble(item, x, y);
         bubble.x = x;
         bubble.y = y;
