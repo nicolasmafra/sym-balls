@@ -12,6 +12,9 @@ function init(callback) {
         app.stage.on('pointermove', onDragMove);
         app.stage.on('pointerup', onDragEnd);
         app.stage.on('pointerupoutside', onDragEnd);
+        
+        board.x = app.screen.width/2;
+        board.y = app.screen.height/2;
 
         if (callback) callback();
     });
@@ -28,19 +31,19 @@ function restartLevel() {
 
     let n = Math.ceil(Math.sqrt(
       level.items.length));
+    let m = Math.ceil(level.items.length/n)
     let size = 100;
-    let x0 = app.screen.width/2 - size*(n-1)/2;
-    let y0 = app.screen.height/2 - size*(n-1)/2;
-    for (let i = 0; i < level.items.length; i++) {
-        let item = level.items[i];
-        let row = Math.floor(i / n);
-        let col = i - row * n;
-        let x = x0 + col * size;
-        let y = y0 + row * size;
-        let bubble = createBubble(item, x, y);
-        bubble.x = x;
-        bubble.y = y;
-    }
+    let x0 = -size*(n-1)/2;
+    let y0 = -size*(m-1)/2;
+    level.items.forEach((item, i) => {
+      let row = Math.floor(i / n);
+      let col = i - row * n;
+      let x = x0 + col * size;
+      let y =  + row * size;
+      let bubble = createBubble(item, x, y);
+      bubble.x = x;
+      bubble.y = y;
+    });
 }
 
 const ballSpace = 10;
@@ -92,7 +95,7 @@ function onDragEnd(event) {
 
     let merged = false;
     board.children.forEach(child => {
-        if (!merged && child != dragTarget && checkCollision(child, event.data.global.x, event.data.global.y)) {
+        if (!merged && child != dragTarget && checkCollision(child, dragTarget)) {
             mergeBubbles(dragTarget, child);
             merged = true;
         }
@@ -102,8 +105,10 @@ function onDragEnd(event) {
     dragTarget = null;
 }
 
-function checkCollision(bubble, x, y) {
-    return bubble.radius && Math.hypot(bubble.x - x, bubble.y - y) < bubble.radius + dragTarget.radius;
+function checkCollision(b1, b2) {
+    return b1.radius
+      && Math.hypot(b1.x - b2.x, b1.y - b2.y)
+      < b1.radius + b2.radius;
 }
 
 function mergePerms(first, second) {
