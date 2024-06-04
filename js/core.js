@@ -39,7 +39,7 @@ function restartLevel() {
       let row = Math.floor(i / n);
       let col = i - row * n;
       let x = x0 + col * size;
-      let y =  + row * size;
+      let y = y0 + row * size;
       let bubble = createBubble(item, x, y);
       bubble.x = x;
       bubble.y = y;
