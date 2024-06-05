@@ -7,6 +7,11 @@
         "hsl(1.00turn, 90%, 40%)",
         "hsl(0.20turn, 90%, 40%)"
     ],
+    "board": {
+        "allowInvert": true,
+        "allowDuplicate": true,
+        "allowDelete": true
+    },
     "items": [
         {
             "perm": [

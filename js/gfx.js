@@ -7,9 +7,10 @@ function init(callback) {
 
     app.stage.eventMode = 'static';
     app.stage.hitArea = app.screen;
-    app.stage.on('pointermove', onDragMove);
-    app.stage.on('pointerup', onDragEnd);
-    app.stage.on('pointerupoutside', onDragEnd);
+    app.stage.on('pointerdown', onPointerDown);
+    app.stage.on('pointermove', onPointerMove);
+    app.stage.on('pointerup', onPointerUp);
+    app.stage.on('pointerupoutside', onPointerUp);
 
     board.x = app.screen.width / 2;
     board.y = app.screen.height / 2;
@@ -25,7 +26,11 @@ const ballRadius = 4;
 function createBubble(item) {
   let perm = item.perm;
   let bubble = new PIXI.Graphics();
-  bubble.item = item;
+  bubble.moveable = !item.locked;
+  bubble.item = {
+    ...level.board,
+    ...item,
+  };
   bubble.radius = perm.length * ballSpace / 2 + bubbleMargin;
   bubble.circle(0, 0, bubble.radius);
   if (item.locked) {
@@ -45,10 +50,16 @@ function createBubble(item) {
     bubble.fill(color2, 1);
   }
   bubble.eventMode = 'static';
-  bubble.on('pointerdown', onDragStart, bubble);
+  bubble.on('pointerdown', onPointerDown, bubble);
   bubble.cursor = 'pointer';
   board.addChild(bubble);
   return bubble;
+}
+
+function checkCollision(b1, b2) {
+  return b1.radius && b2.radius &&
+    Math.hypot(b1.x - b2.x, b1.y - b2.y) <
+    b1.radius + b2.radius;
 }
 
 function newBtn(i, text, fn) {
@@ -74,4 +85,3 @@ function newBtn(i, text, fn) {
   btn.y = (spacing + height) * (0.5 + i);
   return btn;
 }
-

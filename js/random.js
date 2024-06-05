@@ -18,6 +18,11 @@ function generateRandomLevel(options) {
         colors: [],
         items: items,
         targetPerm: identity,
+        board: {
+            allowInvert: true,
+            allowDuplicate: true,
+            allowDelete: true,
+        },
     }
     randomizeColors();
     restartLevel();
