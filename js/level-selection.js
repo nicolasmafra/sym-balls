@@ -1,12 +1,4 @@
-const urlParams = new URLSearchParams(window.location.search);
-
 async function listLevels() {
-    const levelParam = urlParams.get('level')
-    if (levelParam) {
-        loadLevel(levelParam);
-        return;
-    }
-
     app.stage.removeChildren();
     app.stage.addChild(new PIXI.Text({
         text: 'Listing levels...',

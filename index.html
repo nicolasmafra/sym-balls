@@ -13,9 +13,10 @@
   <script src="js/events.js"></script>
   <script src="js/random.js"></script>
   <script src="js/level-selection.js"></script>
+  <script src="js/main.js"></script>
 </head>
 
-<body style="margin:0;overflow:clip;color:white" onload="init(() => listLevels())">
+<body style="margin:0;overflow:clip;color:white" onload="init()">
 
   <div id="editor" style="position: fixed; display: none">
     <label for="size">Size:</label>
@@ -35,41 +36,41 @@
     <br />
     <input type="button" value="Import" onclick="fileInput.click()" />
     <input id="fileInput" type="file" accept="application/json" style="display:none" />
-  </div>
-  <script>
-    const editor = document.getElementById('editor');
-    const fileInput = document.getElementById('fileInput');
-    const fileOutput = document.getElementById('fileOutput');
-    const size = document.getElementById('size');
-    const count = document.getElementById('count');
-
-    fileInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-          level = JSON.parse(e.target.result);
-          restartLevel();
-        };
-        reader.readAsText(file);
-      }
-    });
-    function exportFile() {
-      const data = JSON.stringify(level);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      fileOutput.href = url;
-      fileOutput.click();
-      setTimeout(() => URL.revokeObjectURL(url), 0);
-    }
-    function onRandomClick() {
-      generateRandomLevel({
-        size: parseInt(size.value),
-        count: parseInt(count.value),
+    <script>
+      const editor = document.getElementById('editor');
+      const fileInput = document.getElementById('fileInput');
+      const fileOutput = document.getElementById('fileOutput');
+      const size = document.getElementById('size');
+      const count = document.getElementById('count');
+  
+      fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+  
+          reader.onload = (e) => {
+            level = JSON.parse(e.target.result);
+            restartLevel();
+          };
+          reader.readAsText(file);
+        }
       });
-    }
-  </script>
+      function exportFile() {
+        const data = JSON.stringify(level);
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        fileOutput.href = url;
+        fileOutput.click();
+        setTimeout(() => URL.revokeObjectURL(url), 0);
+      }
+      function onRandomClick() {
+        generateRandomLevel({
+          size: parseInt(size.value),
+          count: parseInt(count.value),
+        });
+      }
+    </script>
+  </div>
 </body>
 
 </html>

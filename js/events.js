@@ -8,6 +8,15 @@ const longPressDuration = 600;
 let clickCount = 0;
 let timeoutId = null;
 
+function initEvents(app) {
+  app.stage.eventMode = 'static';
+  app.stage.hitArea = app.screen;
+  app.stage.on('pointerdown', onPointerDown);
+  app.stage.on('pointermove', onPointerMove);
+  app.stage.on('pointerup', onPointerUp);
+  app.stage.on('pointerupoutside', onPointerUp);
+}
+
 function onPointerDown() {
   if (pointerTarget) return;
 

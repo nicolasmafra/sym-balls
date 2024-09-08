@@ -1,22 +1,8 @@
-const app = new PIXI.Application();
 const board = new PIXI.Container();
 
-function init(callback) {
-  app.init({ resizeTo: window }).then(() => {
-    document.body.appendChild(app.canvas);
-
-    app.stage.eventMode = 'static';
-    app.stage.hitArea = app.screen;
-    app.stage.on('pointerdown', onPointerDown);
-    app.stage.on('pointermove', onPointerMove);
-    app.stage.on('pointerup', onPointerUp);
-    app.stage.on('pointerupoutside', onPointerUp);
-
-    board.x = app.screen.width / 2;
-    board.y = app.screen.height / 2;
-
-    if (callback) callback();
-  });
+function initGfx(app) {
+  board.x = app.screen.width / 2;
+  board.y = app.screen.height / 2;
 }
 
 const ballSpace = 10;

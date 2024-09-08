@@ -19,6 +19,10 @@ Loading level files requires using any server for static files.
 ### Python 3
 `python -m http.server 8000`
 
+or
+
+`python3 -m http.server 8000`
+
 ### Node
 Install:
 
