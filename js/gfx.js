@@ -42,12 +42,6 @@ function createBubble(item) {
   return bubble;
 }
 
-function checkCollision(b1, b2) {
-  return b1.radius && b2.radius &&
-    Math.hypot(b1.x - b2.x, b1.y - b2.y) <
-    b1.radius + b2.radius;
-}
-
 function newBtn(i, text, fn) {
   const width = 400;
   const height = 40;

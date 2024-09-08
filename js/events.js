@@ -104,3 +104,9 @@ function onDoubleTap(object) {
   console.log('double tap: ', object)
   onDoubleTapDo(object)
 }
+
+function checkCollision(b1, b2) {
+  return b1.radius && b2.radius &&
+    Math.hypot(b1.x - b2.x, b1.y - b2.y) <
+    b1.radius + b2.radius;
+}
