@@ -21,6 +21,10 @@ let parsedColors = [];
 
 function restartLevel() {
     app.stage.removeChildren();
+
+    const restartBtn = newIconBtn(0, '\uf01e', () => restartLevel());
+    app.stage.addChild(restartBtn);
+
     board.removeChildren();
     app.stage.addChild(board);
 
@@ -202,6 +206,28 @@ function newBtn(i, text, fn) {
     btn.on('pointerdown', fn);
     btn.cursor = 'pointer';
     btn.x = app.renderer.width / 2;
+    btn.y = (spacing + height) * (0.5 + i);
+    return btn;
+}
+
+function newIconBtn(i, text, fn) {
+    const width = 40;
+    const height = 40;
+    const spacing = 10;
+    let btn = new PIXI.Graphics();
+    btn.roundRect(-width/2, -height/2, width, height, 5);
+    btn.fill(0x888888);
+    let btnText = new PIXI.Text(text, {
+        fontFamily: 'fontawesome',
+        fill: 0xffffff,
+    })
+    btnText.anchor.x = 0.5;
+    btnText.anchor.y = 0.5;
+    btn.addChild(btnText);
+    btn.eventMode = 'static';
+    btn.on('pointerdown', fn);
+    btn.cursor = 'pointer';
+    btn.x = spacing + width/2;
     btn.y = (spacing + height) * (0.5 + i);
     return btn;
 }
