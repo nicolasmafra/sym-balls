@@ -1,21 +1,27 @@
-import levelsPath from '../../assets/levels.json';
+import levelsW0Path from '../../assets/levels-w0.json';
+import levelsWtestPath from '../../assets/levels-wtest.json';
 
 export default {
 
-    levels: null,
+    levels: {},
 
     async configure() {
-        return fetch(levelsPath)
+        await this.fetch('w0', levelsW0Path);
+        await this.fetch('wtest', levelsWtestPath);
+    },
+
+    async fetch(world, worldPath) {
+        return fetch(worldPath)
             .then(res => res.json())
-            .then(json => this.levels = json)
+            .then(json => this.levels[world] = json)
             .catch(err => { throw err });
     },
 
-    getLevelList() {
-        return this.levels;
+    getLevelList(world) {
+        return this.levels[world];
     },
 
-    loadLevelSchema(levelId) {
-        return this.levels.find(level => level.id == levelId);
+    loadLevelSchema(world, levelId) {
+        return this.levels[world].find(level => level.id == levelId);
     }
 }

@@ -91,23 +91,28 @@ const Menu = {
             .then(GUI.replaceMenuLabels);
     },
 
-    loadLevelPrepare(template) {
+    selectWorld(element) {
+        let world = element.dataset.world;
+        let template = document.querySelector('.template');
         let container = template.parentNode;
-        let levelList = LevelLoader.getLevelList();
+        container.querySelectorAll('li:not(.template)').forEach(e => container.removeChild(e));
+        let levelList = LevelLoader.getLevelList(world);
         levelList.forEach(level => {
             let newItem = template.cloneNode();
             newItem.classList.remove('template');
             container.appendChild(newItem);
 
+            newItem.dataset.world = world;
             newItem.dataset.levelid = level.id;
             newItem.dataset.label = level.title;
             GUI.replaceMenuLabel(newItem);
             GUI.addButtonListener(Menu, newItem);
         });
+        Menu.open(element);
     },
 
     loadLevel(element) {
-        let levelSchema = LevelLoader.loadLevelSchema(element.dataset.levelid);
+        let levelSchema = LevelLoader.loadLevelSchema(element.dataset.world, element.dataset.levelid);
         GameGfx.setLevelSchema(levelSchema);
         Menu.startGame();
     },

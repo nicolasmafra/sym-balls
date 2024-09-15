@@ -17,7 +17,7 @@
       <ul class="main-menu-body">
         <li class="menu-button" data-action="installWebApp" style="display:none" data-label="menu.install"></li>
         <li class="menu-button" data-action="enterFullScreen" data-label="menu.enter-full-screen"></li>
-        <li class="menu-button" data-action="open" data-next-menu="select-level" data-label="menu.goto.select-level"></li>
+        <li class="menu-button" data-action="open" data-next-menu="select-world" data-label="menu.goto.select-world"></li>
         <li class="menu-button" data-action="open" data-next-menu="options">
           <i class="fa-solid fa-gears"></i>
           <span data-label="menu.goto.options"></span>
@@ -31,7 +31,7 @@
             <span class="menu-param-value">value</span>
           </li>
           <li>
-            <a href="https://github.com/nickmafra/sym-balls" target="_blank">
+            <a href="https://github.com/nicolasmafra/sym-balls" target="_blank">
               <i class="fa-brands fa-github"></i>
             </a>
           </li>
@@ -39,6 +39,21 @@
       </footer>
     </div>
 
+
+    <div class="main-menu-content" id="menu-select-world">
+      <ul class="main-menu-body">
+        <li>
+          <span data-label="menu.select-world"></span>
+          <ul>
+            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-w0" data-world="w0"></li>
+            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-wtest" data-world="wtest"></li>
+          </ul>
+        </li>
+        <li class="menu-button" data-action="back">
+          <i class="fa-solid fa-arrow-left"></i>
+        </li>
+      </ul>
+    </div>
 
     <div class="main-menu-content" id="menu-select-level">
       <ul class="main-menu-body">
