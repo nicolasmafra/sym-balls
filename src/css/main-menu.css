@@ -74,6 +74,7 @@
 }
 
 .menu-param-value {
+    display: none;
     font-weight: bold;
 }
 
