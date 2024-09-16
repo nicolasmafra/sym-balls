@@ -16,7 +16,6 @@
     <div class="main-menu-content" id="menu-root">
       <ul class="main-menu-body">
         <li class="menu-button" data-action="installWebApp" style="display:none" data-label="menu.install"></li>
-        <li class="menu-button" data-action="enterFullScreen" data-label="menu.enter-full-screen"></li>
         <li class="menu-button" data-action="open" data-next-menu="select-world" data-label="menu.goto.select-world"></li>
         <li class="menu-button" data-action="open" data-next-menu="options">
           <i class="fa-solid fa-gears"></i>
@@ -26,6 +25,9 @@
 
       <footer>
         <ul>
+          <li class="menu-button" data-action="enterFullScreen">
+            <i class="fa-solid fa-expand"></i>
+          </li>
           <li class="menu-button" data-action="toggleParam" data-param-name="language">
             <i class="fa-solid fa-language"></i>
             <span class="menu-param-value">value</span>
@@ -42,7 +44,7 @@
 
     <div class="main-menu-content" id="menu-select-world">
       <ul class="main-menu-body">
-        <li>
+        <li class="scrollable">
           <span data-label="menu.select-world"></span>
           <ul>
             <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-w0" data-world="w0"></li>
@@ -57,7 +59,7 @@
 
     <div class="main-menu-content" id="menu-select-level">
       <ul class="main-menu-body">
-        <li>
+        <li class="scrollable">
           <span data-label="menu.select-level"></span>
           <ul>
             <li class="template menu-button" data-action="loadLevel" data-levelid="?" data-label="Level Name">Level name</li>

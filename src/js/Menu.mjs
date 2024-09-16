@@ -44,6 +44,7 @@ const Menu = {
     startGame() {
         Menu.checkMobileMode();
         Menu.hideMainMenu();
+        Menu.enterFullScreen();
         GameGfx.start();
     },
 

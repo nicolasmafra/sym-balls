@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     background-color: gray;
+    font-size: 7vmin;
 }
 
 .main-menu-content {
@@ -11,6 +12,9 @@
 }
 
 .main-menu-body {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -18,10 +22,16 @@
     transform: translate(-50%, -50%);
 }
 
+.main-menu-body .menu-button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
 .main-menu ul {
     list-style-type: none;
     padding: 0;
-    width: 100%;
 }
 
 .main-menu li {
@@ -40,6 +50,17 @@
     max-height: 45vh;
     border: 2px solid black;
     background-color: gray;
+}
+
+.scrollable span {
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2vmin;
+    margin-bottom: 2vmin;
+}
+
+.scrollable li {
+    font-size: 6vmin;
 }
 
 .main-menu footer {
