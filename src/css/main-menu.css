@@ -82,5 +82,5 @@
 }
 
 .template {
-    display: none;
+    display: none !important;
 }
