@@ -1,5 +1,3 @@
-import '../privacy_policy.txt';
-
 import Params from './Params.mjs';
 import LevelLoader from './core/LevelLoader.mjs';
 import Menu from './Menu.mjs';

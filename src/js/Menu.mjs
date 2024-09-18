@@ -11,7 +11,6 @@ const Menu = {
     async configure() {
         await GUI.configure();
         GUI.addButtons(Menu);
-        GUI.replaceMenuLabels();
     },
 
     start() {
@@ -72,8 +71,14 @@ const Menu = {
     toggleParamPrepare(element) {
         let paramValue = Params.value[element.dataset.paramName];
         let paramValueElement = element.querySelector('.menu-param-value');
-        paramValueElement.dataset.label = 'param.' + paramValue;
-        paramValueElement.dataset.labelFallback = paramValue;
+        let paramText = paramValue;
+        if (paramValue === true) {
+            paramText = 'ON';
+        }
+        if (paramValue === false) {
+            paramText = 'OFF';
+        }
+        paramValueElement.innerHTML = paramText;
     },
 
     toggleParam(element) {
@@ -84,12 +89,6 @@ const Menu = {
         if (afterFunction) {
             afterFunction(element);
         }
-        GUI.replaceMenuLabels(element);
-    },
-
-    languageAfterChange() {
-        GUI.loadLanguage(Params.value.language)
-            .then(GUI.replaceMenuLabels);
     },
 
     selectWorld(element) {
@@ -105,8 +104,7 @@ const Menu = {
 
             newItem.dataset.world = world;
             newItem.dataset.levelid = level.id;
-            newItem.dataset.label = level.title;
-            GUI.replaceMenuLabel(newItem);
+            newItem.innerHTML = level.title;
             GUI.addButtonListener(Menu, newItem);
         });
         Menu.open(element);
@@ -129,7 +127,6 @@ const Menu = {
     resetOptions() {
         Params.resetParams();
         GUI.prepareButtons(Menu, '[data-action="toggleParam"]');
-        Menu.languageAfterChange();
     },
 }
 

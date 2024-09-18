@@ -1,15 +1,11 @@
-import levelsW0Path from '../../assets/levels-w0.json';
-import levelsW1Path from '../../assets/levels-w1.json';
-import levelsWtestPath from '../../assets/levels-wtest.json';
-
 export default {
 
     levels: {},
 
     async configure() {
-        await this.fetch('w0', levelsW0Path);
-        await this.fetch('w1', levelsW1Path);
-        await this.fetch('wtest', levelsWtestPath);
+        await this.fetch('w0', 'assets/levels-w0.json');
+        await this.fetch('w1', 'assets/levels-w1.json');
+        await this.fetch('wtest', 'assets/levels-wtest.json');
     },
 
     async fetch(world, worldPath) {

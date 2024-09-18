@@ -1,7 +1,4 @@
-import '../manifest.webmanifest';
-import '../assets/ico168.png';
 import '../sw.js';
-import '../.well-known/assetlinks.json';
 
 let deferredPrompt;
 

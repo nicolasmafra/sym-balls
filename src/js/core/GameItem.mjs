@@ -1,4 +1,4 @@
-import Permutation from '../core/Permutation.mjs'
+import Permutation from './Permutation.mjs'
 
 export default class GameItem {
 

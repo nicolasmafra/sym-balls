@@ -8,6 +8,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/main-menu.css" />
+  <link rel="stylesheet" href="css/modal-menu.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script type="importmap">
+    {
+      "imports": {
+				"three": "https://unpkg.com/three@0.151.3/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="js/index.mjs"></script>
 </head>
 
 <body style="display:none">
@@ -15,11 +27,11 @@
   <div class="main-menu">
     <div class="main-menu-content" id="menu-root">
       <ul class="main-menu-body">
-        <li class="menu-button" data-action="installWebApp" style="display:none" data-label="menu.install"></li>
-        <li class="menu-button" data-action="open" data-next-menu="select-world" data-label="menu.goto.select-world"></li>
+        <li class="menu-button" data-action="installWebApp" style="display:none">Install</li>
+        <li class="menu-button" data-action="open" data-next-menu="select-world">Play</li>
         <li class="menu-button" data-action="open" data-next-menu="options">
           <i class="fa-solid fa-gears"></i>
-          <span data-label="menu.goto.options"></span>
+          <span>Options</span>
         </li>
       </ul>
 
@@ -27,10 +39,6 @@
         <ul>
           <li class="menu-button" data-action="enterFullScreen">
             <i class="fa-solid fa-expand"></i>
-          </li>
-          <li class="menu-button" data-action="toggleParam" data-param-name="language">
-            <i class="fa-solid fa-language"></i>
-            <span class="menu-param-value">value</span>
           </li>
           <li>
             <a href="https://github.com/nicolasmafra/sym-balls" target="_blank">
@@ -45,11 +53,11 @@
     <div class="main-menu-content" id="menu-select-world">
       <ul class="main-menu-body">
         <li class="scrollable">
-          <span data-label="menu.select-world"></span>
+          <span>Play</span>
           <ul>
-            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-w0" data-world="w0"></li>
-            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-w1" data-world="w1"></li>
-            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-label="menu.goto.select-wtest" data-world="wtest"></li>
+            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="w0">Introduction</li>
+            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="w1">Easy</li>
+            <li class="menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="wtest">Experimental Levels</li>
           </ul>
         </li>
         <li class="menu-button" data-action="back">
@@ -61,9 +69,9 @@
     <div class="main-menu-content" id="menu-select-level">
       <ul class="main-menu-body">
         <li class="scrollable">
-          <span data-label="menu.select-level"></span>
+          <span>Levels</span>
           <ul>
-            <li class="template menu-button" data-action="loadLevel" data-levelid="?" data-label="Level Name">Level name</li>
+            <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
           </ul>
         </li>
         <li class="menu-button" data-action="back">
@@ -77,28 +85,28 @@
       <ul class="main-menu-body">
 
         <li class="menu-button" data-action="toggleParam" data-param-name="lightningEnabled">
-          <span data-label="options.lightningEnabled"></span>:
+          <span>3D Lightning</span>:
           <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button dev" data-action="toggleParam" data-param-name="itemType">
-          <span data-label="options.itemType"></span>:
+          <span>Item Type</span>:
           <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button dev" data-action="toggleParam" data-param-name="itemOscillation">
-          <span data-label="options.itemOscillation"></span>:
+          <span>Item Oscillation</span>:
           <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button" data-action="toggleParam" data-param-name="rotateMode">
-          <span data-label="options.rotateMode"></span>:
+          <span>Rotation Mode</span>:
           <span class="menu-param-value">value</span>
         </li>
 
         <li class="menu-button" data-action="resetOptions">
           <i class="fa fa-refresh"></i>
-          <span data-label="options.resetOptions"></span>
+          <span>Reset Options</span>
         </li>
 
         <li class="menu-button" data-action="back">

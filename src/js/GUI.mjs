@@ -1,22 +1,11 @@
-import '../css/style.css';
-import '../css/main-menu.css';
-import '../css/modal-menu.css';
-import '@fortawesome/fontawesome-free/js/fontawesome.js'
-import '@fortawesome/fontawesome-free/js/solid.js'
-import '@fortawesome/fontawesome-free/js/regular.js'
-import '@fortawesome/fontawesome-free/js/brands.js'
-
 import Params from './Params.mjs';
 
 const GUI = {
 
-    messageSources: {},
     modalMessageCallback: null,
 
     async configure() {
         GUI.configureModals();
-        await GUI.loadLanguage(Params.value.language);
-        await GUI.loadLanguage(Params.fallbackLanguage);
     },
 
     configureModals() {
@@ -71,74 +60,13 @@ const GUI = {
         }
     },
 
-    replaceMenuLabels(rootElement) {
-        if (!rootElement) rootElement = document;
-        let elements = rootElement.querySelectorAll('[data-label]');
-        elements.forEach(GUI.replaceMenuLabel)
-    },
-
-    replaceMenuLabel(element) {
-        element.innerHTML = GUI.resolveMessage(element.dataset.label, element.dataset.labelFallback);
-    },
-
-    showMessage(messageCode, callback) {
+    showMessage(message, callback) {
         GUI.modalMessageCallback = callback;
-        let message = GUI.resolveMessage(messageCode);
         message = message.replace('\n', '<br>').replace('\\n', '<br>');
         let messageModal = document.querySelector('.message-modal');
         let messageTag = messageModal.querySelector('.message');
         messageTag.innerHTML = message;
         messageModal.style.display = "block";
-    },
-
-    resolveMessage(messageCode, fallbackMessage) {
-        let message = GUI.getFromMessageSource(Params.value.language, messageCode);
-        if (!message) message = GUI.getFromMessageSource(Params.fallbackLanguage, messageCode);
-        if (!message) message = fallbackMessage ? fallbackMessage : messageCode;
-        return message;
-    },
-
-    getFromMessageSource(language, messageCode) {
-        let messageSource = GUI.messageSources[language];
-        if (!messageSource) return undefined;
-        return messageSource[messageCode];
-    },
-
-    async loadLanguage(language) {
-        try {
-            await GUI.loadMessagesSource(language);
-        } catch (e) {
-            console.error('Not found language=' + language);
-            if (language.includes('-')) {
-                try {
-                    language = language.split('-')[0];
-                    await GUI.loadMessagesSource(language);
-                } catch (e) {
-                    console.error('Not found language=' + language);
-                }
-            }
-        }
-    },
-
-    async loadMessagesSource(suffix) {
-        if (GUI.messageSources[suffix]) {
-            return;
-        }
-        let propertiesPath = (await import(`../assets/messages-${suffix}.properties`)).default;
-        let properties = await fetch(propertiesPath)
-            .then(res => res.text());
-        if (!properties) {
-            throw new Error('Not found messages for suffix=' + suffix);
-        }
-        let messageSource = {};
-        properties
-            .split('\n')
-            .filter(line => line.includes('='))
-            .map(line => line.split('='))
-            .forEach(parts => messageSource[parts[0]] = parts[1]);
-        
-        GUI.messageSources[suffix] = messageSource;
-        return messageSource;
     },
 };
 
