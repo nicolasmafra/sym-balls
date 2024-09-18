@@ -4,7 +4,7 @@
   "description": "A puzzle game of composing permutations",
   "private": true,
   "scripts": {
-    "serve": "http-server src",
+    "serve": "http-server .",
     "deploy": "gh-pages -d src"
   },
   "repository": {
@@ -19,8 +19,7 @@
   "homepage": "https://github.com/nickmafra/sym-balls#readme",
   "devDependencies": {
     "gh-pages": "^4.0.0",
-    "http-server": "^14.1.1"
-  },
-  "dependencies": {
+    "http-server": "^14.1.1",
+    "serve": "^14.2.3"
   }
 }
