@@ -1,25 +1,23 @@
 export default {
 
-    levels: {},
+    worlds: {},
 
     async configure() {
-        await this.fetch('w0', 'assets/levels-w0.json');
-        await this.fetch('w1', 'assets/levels-w1.json');
-        await this.fetch('wtest', 'assets/levels-wtest.json');
+        let names = await fetch('assets/levels/packs.json')
+            .then(res => res.json());
+        await Promise.all(names.map(async name => {
+            await this.fetchPack(name);
+        }));
     },
 
-    async fetch(world, worldPath) {
-        return fetch(worldPath)
+    async fetchPack(name) {
+        return fetch(`assets/levels/${name}.json`)
             .then(res => res.json())
-            .then(json => this.levels[world] = json)
+            .then(packData => this.worlds[name] = packData)
             .catch(err => { throw err });
     },
 
-    getLevelList(world) {
-        return this.levels[world];
-    },
-
-    loadLevelSchema(world, levelId) {
-        return this.levels[world].find(level => level.id == levelId);
+    loadLevelSchema(world, levelIndex) {
+        return this.worlds[world].levels[levelIndex];
     }
 }

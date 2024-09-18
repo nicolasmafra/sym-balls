@@ -91,27 +91,42 @@ const Menu = {
         }
     },
 
+    selectWorldPrepare(template) {
+        let container = template.parentNode;
+        let worldNames = Object.keys(LevelLoader.worlds);
+        worldNames.forEach(name => {
+            let world = LevelLoader.worlds[name];
+            let newItem = template.cloneNode();
+            newItem.classList.remove('template');
+            container.appendChild(newItem);
+
+            newItem.dataset.world = name;
+            newItem.innerHTML = world.title;
+        });
+    },
+
     selectWorld(element) {
         let world = element.dataset.world;
-        let template = document.querySelector('.template');
+        let template = document.querySelector('#menu-select-level .template');
         let container = template.parentNode;
         container.querySelectorAll('li:not(.template)').forEach(e => container.removeChild(e));
-        let levelList = LevelLoader.getLevelList(world);
-        levelList.forEach(level => {
+        let levelList = LevelLoader.worlds[world].levels;
+        for (let i = 0; i < levelList.length; i++) {
+            const level = levelList[i];
             let newItem = template.cloneNode();
             newItem.classList.remove('template');
             container.appendChild(newItem);
 
             newItem.dataset.world = world;
-            newItem.dataset.levelid = level.id;
+            newItem.dataset.levelid = i;
             newItem.innerHTML = level.title;
             GUI.addButtonListener(Menu, newItem);
-        });
+        }
         Menu.open(element);
     },
 
     loadLevel(element) {
-        let levelSchema = LevelLoader.loadLevelSchema(element.dataset.world, element.dataset.levelid);
+        let levelSchema = LevelLoader.loadLevelSchema(element.dataset.world, parseInt(element.dataset.levelid));
         GameGfx.setLevelSchema(levelSchema);
         Menu.startGame();
     },
