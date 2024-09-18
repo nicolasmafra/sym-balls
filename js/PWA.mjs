@@ -1,4 +1,4 @@
-import 'sw.js';
+import '../sw.js';
 
 let deferredPrompt;
 
