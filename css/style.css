@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+    font-size: 7vmin;
+    user-select: none;
+    -webkit-user-select: none; /* Para Safari */
+    -moz-user-select: none;    /* Para Firefox */
+    -ms-user-select: none;     /* Para Internet Explorer/Edge */
+}
+
+.dev {
+    display: none;
+}
+
+html, body, canvas {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+a, a:visited, a:hover, a:active {
+    color: inherit;
+}

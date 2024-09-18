@@ -1,6 +1,6 @@
 [
     {
-        "title": "level.test_quaternions.name",
+        "title": "Quaternions",
         "id": "test_quaternions",
         "length": 8,
         "generatingSet": [
@@ -16,7 +16,7 @@
         ]
     },
     {
-        "title": "level.test_many_items.name",
+        "title": "Many items",
         "id": "test_many_items",
         "length": 6,
         "initialItems": [
