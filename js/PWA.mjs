@@ -1,5 +1,3 @@
-import '../sw.js';
-
 let deferredPrompt;
 
 export default {
@@ -8,7 +6,7 @@ export default {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
                 .register('./sw.js')
-                .then(() => { console.log('Service Worker Registered'); })
+                .then(() => { console.log('No-Op Service Worker Registered'); })
                 .catch(e => { console.log('Error whilst registering service worker'); });
         }
         window.addEventListener("beforeinstallprompt", (e) => {
