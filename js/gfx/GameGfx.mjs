@@ -6,7 +6,7 @@ import GameGfxItem from './GameGfxItem.mjs';
 import { Object3D, Vector3 } from 'three';
 import GameItem from '../core/GameItem.mjs';
 
-const itemSpacing = 0.7;
+const itemSpacing = 0.4;
 const allowUseDockWithoutMerge = false;
 
 const GameGfx = {
@@ -172,7 +172,7 @@ const GameGfx = {
         if (winningResult == null) {
             return;
         }
-        GUI.showMessage(winningResult ? 'game.win' : 'game.lose');
+        GUI.showMessage(winningResult ? 'You won!' : 'You lost!');
         this.resultShown = true;
     },
 }
