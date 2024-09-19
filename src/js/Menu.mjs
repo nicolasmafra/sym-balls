@@ -93,8 +93,7 @@ const Menu = {
 
     selectWorldPrepare(template) {
         let container = template.parentNode;
-        let worldNames = Object.keys(LevelLoader.worlds);
-        worldNames.forEach(name => {
+        LevelLoader.worldList.forEach(name => {
             let world = LevelLoader.worlds[name];
             let newItem = template.cloneNode();
             newItem.classList.remove('template');

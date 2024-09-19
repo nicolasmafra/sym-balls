@@ -1,0 +1,18 @@
+{
+    "title": "Pairs",
+    "levels": [
+        {
+            "title": "1",
+            "length": 5,
+            "generatingSet": [
+                "(1,2)",
+                "(2,3)",
+                "(3,4)",
+                "(4,5)"
+            ],
+            "initialItems": [
+                "(1,2,3,4,5)"
+            ]
+        }
+    ]
+}

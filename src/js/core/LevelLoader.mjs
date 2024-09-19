@@ -1,11 +1,12 @@
 export default {
 
-    worlds: {},
+    worldList: [],
+    worlds: [],
 
     async configure() {
-        let names = await fetch('assets/levels/packs.json')
+        this.worldList = await fetch('assets/levels/worlds.json')
             .then(res => res.json());
-        await Promise.all(names.map(async name => {
+        await Promise.all(this.worldList.map(async name => {
             await this.fetchPack(name);
         }));
     },

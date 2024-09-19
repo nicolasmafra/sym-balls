@@ -3,7 +3,7 @@ import { Object3D, Vector3 } from 'three';
 import Params from '../Params.mjs';
 import BubbleUtils from './BubbleUtils.mjs';
 
-const bubbleSize = 0.5;
+const bubbleSize = 0.3;
 const bubbleRadius = bubbleSize/2;
 
 const oscillationSpeed = 1.0 * Math.PI;

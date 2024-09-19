@@ -4,7 +4,6 @@
         {
             "title": "Merging items",
             "tip": "Drag each item onto another item until they are all gone.",
-            "id": "1",
             "length": 9,
             "initialItems": [
                 "(1,2)",
@@ -17,7 +16,6 @@
         {
             "title": "Locked Items",
             "tip": "Drag items from dock (at right) to each locked item.",
-            "id": "2",
             "length": 6,
             "generatingSet": [
                 "(1,2)(3,4)",
@@ -35,7 +33,6 @@
         {
             "title": "Order matters!",
             "tip": "Merge the items in the correct order",
-            "id": "3",
             "length": 3,
             "initialItems": [
                 "(1,2)",
@@ -46,7 +43,6 @@
         {
             "title": "Continue the cycles",
             "tip": "Each item in the dock can be used repeatedly until the cycle ends.",
-            "id": "4",
             "length": 10,
             "generatingSet": [
                 "(9,10)",
