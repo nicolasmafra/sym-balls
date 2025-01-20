@@ -14,6 +14,7 @@ const GameLoader = {
             allowedDeletion: false,
             allowedDuplication: false,
             allowedInversion: false,
+            finiteDock: levelSchema.finiteDock || false,
         };
         return new Game(gameSchema);
     },

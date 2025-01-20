@@ -143,6 +143,9 @@ const GameGfx = {
 
     addGfxItemFromDock(gfxItem) {
         let newItem = this.game.addItemFromDock(gfxItem.gameItem.getId());
+        if (this.game.tryRemoveItemFromDock(gfxItem.gameItem.getId())) {
+            Gfx.removeObject(gfxItem.gfxObject);
+        }
         let newGfxItem = GameGfxItem.createInstance(newItem);
         newGfxItem.setPosition(gfxItem.gfxObject.position);
         Gfx.addObject(newGfxItem.gfxObject);

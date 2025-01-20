@@ -46,11 +46,17 @@ export default class GameGfxItem {
         return new impl(gameItem);
     }
 
+    /**
+     * @param {GameGfxItem} gameItem 
+     */
     static configNewObject(gfxItem) {
         gfxItem.gfxObject.userData = gfxItem;
 
         if (gfxItem.gameItem.isLocked()) {
             BubbleUtils.addLockedOutline(gfxItem.gfxObject);
+        }
+        if (gfxItem.gameItem.isLimited()) {
+            BubbleUtils.addLimitedOutline(gfxItem.gfxObject);
         }
     }
 

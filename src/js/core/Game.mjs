@@ -23,11 +23,11 @@ export default class Game {
         this.winningResult = null;
         if (this.schema.initialItems) {
             this.items = this.schema.initialItems
-                .map(schemaItem => new GameItem(schemaItem, this.schema.lockInitialItems));
+                .map(schemaItem => new GameItem(schemaItem, this.schema.lockInitialItems, false));
         }
         if (this.schema.generatingSet) {
             this.dockItems = this.schema.generatingSet
-                .map(schemaItem => new GameItem(schemaItem, false));
+                .map(schemaItem => new GameItem(schemaItem, false, this.schema.finiteDock));
         }
     }
 
@@ -59,6 +59,14 @@ export default class Game {
         }
         return item;
     }
+
+    #removeItemWithId(itemList, itemId) {
+        let index =  itemList.findIndex(item => item.getId() === itemId);
+        if (index < 0) {
+            throw new Error("Not found item with id=" + itemId);
+        }
+        itemList.splice(index, 1);
+      }
 
     #assertNotLockedItem(item) {
         if (item.isLocked()) {
@@ -154,6 +162,14 @@ export default class Game {
         return this.#addItem(item);
     }
 
+    tryRemoveItemFromDock(dockItemId) {
+        if (this.schema.finiteDock) {
+            this.#removeItemWithId(this.dockItems, dockItemId);
+            return true;
+        }
+        return false;
+    }
+
     #checkWinningResult() {
         if (this.winningResult !== null) {
             return this.winningResult;
@@ -172,6 +188,11 @@ export default class Game {
             if (!lastItem.isIdentity()) {
                 return this.winningResult = false;
             }
+        }
+        let lockedItems = this.items.filter(item => item.locked);
+        let nonLockedItems = this.items.filter(item => !item.locked);
+        if (lockedItems.length > 0 && nonLockedItems.length === 0 && this.dockItems.length === 0) {
+            return this.winningResult = false;
         }
         return this.winningResult;
     }

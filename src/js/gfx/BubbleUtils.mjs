@@ -16,6 +16,12 @@ const lockedOutlineMaterial = new THREE.MeshBasicMaterial({
     transparent: true,
     opacity: 0.8
 });
+const limitedOutlineMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffff00,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0.8
+});
 
 export default {
     colorList: [
@@ -111,9 +117,17 @@ export default {
     },
 
     addLockedOutline(bubble) {
-        var mesh = new THREE.Mesh( bubbleGeometry, lockedOutlineMaterial );
-        mesh.renderOrder = 2;
-        mesh.name = 'locked';
+        this.addOutline(bubble, lockedOutlineMaterial);
+    },
+
+    addLimitedOutline(bubble) {
+        this.addOutline(bubble, limitedOutlineMaterial);
+    },
+
+    addOutline(bubble, material) {
+        var mesh = new THREE.Mesh( bubbleGeometry, material );
+        mesh.renderOrder = 0;
+        mesh.name = 'outline';
         mesh.scale.multiplyScalar(outlineFactor);
         bubble.add(mesh);
     },
