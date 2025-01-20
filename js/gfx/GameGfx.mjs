@@ -63,7 +63,7 @@ const GameGfx = {
         items.forEach((item, i) => {
             item.setPosition(new Vector3(
                 Gfx.dock.position.x,
-                itemSpacing * (i - rowOffset),
+                itemSpacing * ((items.length - 1) - i - rowOffset),
                 0
             ));
             Gfx.addObject(item.gfxObject);
@@ -109,7 +109,7 @@ const GameGfx = {
         }
         if (gfxItem.gameItem.isLocked()) {
             Gfx.cancelDrag();
-            GUI.showMessage('game.locked');
+            GUI.showMessage('Item locked, use the dock!');
             gfxItem.resetPosition();
             return;
         }
@@ -143,6 +143,9 @@ const GameGfx = {
 
     addGfxItemFromDock(gfxItem) {
         let newItem = this.game.addItemFromDock(gfxItem.gameItem.getId());
+        if (this.game.tryRemoveItemFromDock(gfxItem.gameItem.getId())) {
+            Gfx.removeObject(gfxItem.gfxObject);
+        }
         let newGfxItem = GameGfxItem.createInstance(newItem);
         newGfxItem.setPosition(gfxItem.gfxObject.position);
         Gfx.addObject(newGfxItem.gfxObject);

@@ -18,15 +18,15 @@ const Menu = {
     },
 
     hideMainMenu() {
-        document.querySelector('.main-menu').style.display = "none";
+        document.querySelector('.main-menu').classList.add("hide");
     },
 
     showMainMenu() {
-        document.querySelector('.main-menu').style.display = "block";
+        document.querySelector('.main-menu').classList.remove("hide");
 
         let current = Menu.stack[Menu.stack.length - 1];
-        document.querySelectorAll('.main-menu-content').forEach(x => x.style.display = "none");
-        document.querySelector('#menu-' + current).style.display = "block";
+        document.querySelectorAll('.main-menu-content').forEach(x => x.classList.add("hide"));
+        document.querySelector('#menu-' + current).classList.remove("hide");
     },
 
     checkMobileMode() {

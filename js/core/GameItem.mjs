@@ -7,11 +7,13 @@ export default class GameItem {
     #id = 0;
     permutation = [];
     locked = false;
+    limited = false;
 
-    constructor(permutation, locked) {
+    constructor(permutation, locked, limited) {
         this.#id = GameItem.#getNewId();
         this.permutation = [...permutation];
-        this.locked = locked ? true : false;
+        this.locked = locked || false;
+        this.limited = limited || false;
     }
 
     static #getNewId() {
@@ -28,6 +30,10 @@ export default class GameItem {
 
     isLocked() {
         return this.locked;
+    }
+
+    isLimited() {
+        return this.limited;
     }
 
     /**

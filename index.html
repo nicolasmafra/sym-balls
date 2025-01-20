@@ -26,7 +26,7 @@
 <body style="display:none">
 
   <div class="main-menu">
-    <div class="main-menu-content" id="menu-root">
+    <div class="main-menu-content hide" id="menu-root">
       <ul class="main-menu-body">
         <li class="menu-button" data-action="installWebApp" style="display:none">Install</li>
         <li class="menu-button" data-action="open" data-next-menu="select-world">Play</li>
@@ -51,11 +51,11 @@
     </div>
 
 
-    <div class="main-menu-content" id="menu-select-world">
+    <div class="main-menu-content hide" id="menu-select-world">
       <ul class="main-menu-body">
-        <li class="scrollable">
-          <span>Play</span>
-          <ul>
+        <li class="container">
+          <span class="container__title">Play</span>
+          <ul class="container__body">
             <li class="template menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="?">World name</li>
           </ul>
         </li>
@@ -65,11 +65,11 @@
       </ul>
     </div>
 
-    <div class="main-menu-content" id="menu-select-level">
+    <div class="main-menu-content hide" id="menu-select-level">
       <ul class="main-menu-body">
-        <li class="scrollable">
-          <span>Levels</span>
-          <ul>
+        <li class="container">
+          <span class="container__title">Levels</span>
+          <ul class="container__body">
             <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
           </ul>
         </li>
@@ -80,7 +80,7 @@
     </div>
 
 
-    <div class="main-menu-content" id="menu-options">
+    <div class="main-menu-content hide" id="menu-options">
       <ul class="main-menu-body">
 
         <li class="menu-button" data-action="toggleParam" data-param-name="lightningEnabled">

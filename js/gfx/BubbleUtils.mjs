@@ -16,6 +16,12 @@ const lockedOutlineMaterial = new THREE.MeshBasicMaterial({
     transparent: true,
     opacity: 0.8
 });
+const limitedOutlineMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffff00,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0.8
+});
 
 export default {
     colorList: [
@@ -44,12 +50,12 @@ export default {
      * @param {number} margin 
      * @returns {THREE.Group}
      */
-    createCircleGroup(children, maxChildRadius, margin) {
+    createCircleGroup(children, maxChildRadius, margin, angleOffset = 0) {
         const group = new THREE.Group();
         children.forEach(child => group.add(child));
 
         const radius = this.regularPolygonCircumradius(children.length, 2 * maxChildRadius);
-        this.makeCircleWithObjects(children, radius);
+        this.makeCircleWithObjects(children, radius, angleOffset);
         const realRadius = radius + maxChildRadius + margin;
         group.scale.divideScalar(realRadius);
 
@@ -60,11 +66,11 @@ export default {
      * @param {THREE.Object3D[]} objects
      * @param {number} radius 
      */
-    makeCircleWithObjects(objects, radius) {
+    makeCircleWithObjects(objects, radius, angleOffset = 0) {
         let angle = 2 * Math.PI / objects.length;
         objects.forEach((obj, i) => {
-            obj.position.x = radius * Math.cos(i * angle);
-            obj.position.y = radius * Math.sin(i * angle);
+            obj.position.x = radius * Math.cos(angleOffset + i * angle);
+            obj.position.y = radius * Math.sin(angleOffset + i * angle);
         });
     },
 
@@ -90,7 +96,8 @@ export default {
 
     makeBubble(subGroups) {
 
-        let group = this.createCircleGroup(subGroups, 1, bubbleMargin);
+        let angleOffset = Math.PI / 2;
+        let group = this.createCircleGroup(subGroups, 1, bubbleMargin, angleOffset);
         group.name = 'content';
 
         const materialParams = {
@@ -110,9 +117,17 @@ export default {
     },
 
     addLockedOutline(bubble) {
-        var mesh = new THREE.Mesh( bubbleGeometry, lockedOutlineMaterial );
-        mesh.renderOrder = 2;
-        mesh.name = 'locked';
+        this.addOutline(bubble, lockedOutlineMaterial);
+    },
+
+    addLimitedOutline(bubble) {
+        this.addOutline(bubble, limitedOutlineMaterial);
+    },
+
+    addOutline(bubble, material) {
+        var mesh = new THREE.Mesh( bubbleGeometry, material );
+        mesh.renderOrder = 0;
+        mesh.name = 'outline';
         mesh.scale.multiplyScalar(outlineFactor);
         bubble.add(mesh);
     },

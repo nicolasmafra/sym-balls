@@ -4,7 +4,7 @@ import Params from '../Params.mjs';
 import * as THREE from 'three';
 import BubbleUtils from './BubbleUtils.mjs';
 
-const bubbleSize = 0.5;
+const bubbleSize = 0.2;
 const bubbleRadius = bubbleSize/2;
 const ballGeometry = new THREE.SphereGeometry(1, 16, 8);
 const pyramidGeometry = new THREE.SphereGeometry(1, 3, 2);
