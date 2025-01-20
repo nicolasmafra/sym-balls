@@ -109,7 +109,7 @@ const GameGfx = {
         }
         if (gfxItem.gameItem.isLocked()) {
             Gfx.cancelDrag();
-            GUI.showMessage('game.locked');
+            GUI.showMessage('Item locked, use the dock!');
             gfxItem.resetPosition();
             return;
         }
