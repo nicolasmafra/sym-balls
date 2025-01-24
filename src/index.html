@@ -23,19 +23,19 @@
 
 <body style="display:none">
 
-  <div class="main-menu">
-    <div class="main-menu-content hide" id="menu-root">
-      <ul class="main-menu-body">
+  <nav class="main-menu">
+    <nav class="main-menu-content hide" id="menu-root">
+      <menu class="main-menu-body">
         <li class="menu-button" data-action="installWebApp" style="display:none">Install</li>
         <li class="menu-button" data-action="open" data-next-menu="select-world">Play</li>
         <li class="menu-button" data-action="open" data-next-menu="options">
           <i class="fa-solid fa-gears"></i>
           <span>Options</span>
         </li>
-      </ul>
+      </menu>
 
       <footer>
-        <ul>
+        <menu>
           <li class="menu-button" data-action="enterFullScreen">
             <i class="fa-solid fa-expand"></i>
           </li>
@@ -44,42 +44,41 @@
               <i class="fa-brands fa-github"></i>
             </a>
           </li>
-        </ul>
+        </menu>
       </footer>
-    </div>
+    </nav>
 
 
-    <div class="main-menu-content hide" id="menu-select-world">
-      <ul class="main-menu-body">
+    <nav class="main-menu-content hide" id="menu-select-world">
+      <menu class="main-menu-body">
         <li class="container">
           <span class="container__title">Play</span>
-          <ul class="container__body">
+          <menu class="container__body">
             <li class="template menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="?">World name</li>
-          </ul>
+          </menu>
         </li>
         <li class="menu-button" data-action="back">
           <i class="fa-solid fa-arrow-left"></i>
         </li>
-      </ul>
-    </div>
+      </menu>
+    </nav>
 
-    <div class="main-menu-content hide" id="menu-select-level">
-      <ul class="main-menu-body">
+    <nav class="main-menu-content hide" id="menu-select-level">
+      <menu class="main-menu-body">
         <li class="container">
           <span class="container__title">Levels</span>
-          <ul class="container__body">
+          <menu class="container__body">
             <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
-          </ul>
+          </menu>
         </li>
         <li class="menu-button" data-action="back">
           <i class="fa-solid fa-arrow-left"></i>
         </li>
-      </ul>
-    </div>
+      </menu>
+    </nav>
 
-
-    <div class="main-menu-content hide" id="menu-options">
-      <ul class="main-menu-body">
+    <nav class="main-menu-content hide" id="menu-options">
+      <menu class="main-menu-body">
 
         <li class="menu-button dev" data-action="toggleParam" data-param-name="itemType">
           <span>Item Type</span>:
@@ -109,23 +108,27 @@
         <li class="menu-button" data-action="back">
           <i class="fa-solid fa-arrow-left"></i>
         </li>
-      </ul>
-    </div>
-  </div>
+      </menu>
+    </nav>
+  </nav>
 
-  <div class="in-game-menu">
-    <span class="menu-button" data-action="stopGame">
-      <i class="fa-solid fa-arrow-left"></i>
-    </span>
-    <br>
-    <span class="menu-button" data-action="reset">
-      <i class="fa fa-refresh" aria-hidden="true"></i>
-    </span>
-  </div>
+  <main>
+    <nav class="in-game-menu">
+      <span class="menu-button" data-action="stopGame">
+        <i class="fa-solid fa-arrow-left"></i>
+      </span>
+      <br>
+      <span class="menu-button" data-action="reset">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+      </span>
+    </nav>
+  
+    <dialog id="main-dialog" class="modal message-modal">
+      <span class="message"></span>
+    </dialog>
 
-  <dialog id="main-dialog" class="modal message-modal">
-    <span class="message"></span>
-  </dialog>
+    <canvas id="game-canvas"></canvas>
+  </main>
 
 </body>
 
