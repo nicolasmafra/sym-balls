@@ -86,6 +86,16 @@ dialog::backdrop {
     font-size: 2rem;
 }
 
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
 .main-menu-content {
     display: flex;
     justify-content: space-around;
@@ -141,14 +151,26 @@ dialog::backdrop {
     font-size: 1.2em;
 }
 
-.container__body {
+menu.container__body {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
+    counter-reset: item;
+    list-style-type: none;
 }
 
-.container__body .menu-button {
-    flex: 1 0 auto;
-    min-width: 2em;
+menu.container__body > li {
+    width: 30vmin;
+    aspect-ratio: 1 / 1;
+    font-size: 1rem;
+    counter-increment: item;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.container__body > li::before {
+    content: counter(item) "  ";
+    font-size: 2rem;
 }
 
 .main-menu footer {

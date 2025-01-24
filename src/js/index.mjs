@@ -10,7 +10,6 @@ async function start() {
     await Menu.configure();
     
     Menu.start();
-    document.body.style = "";
 }
 
 document.body.onload = start;

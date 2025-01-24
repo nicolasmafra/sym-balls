@@ -21,7 +21,7 @@
   <script type="module" src="js/index.mjs"></script>
 </head>
 
-<body style="display:none">
+<body>
 
   <nav class="main-menu">
     <nav class="main-menu-content hide" id="menu-root">
@@ -50,31 +50,33 @@
 
 
     <nav class="main-menu-content hide" id="menu-select-world">
-      <menu class="main-menu-body">
-        <li class="container">
-          <span class="container__title">Play</span>
-          <menu class="container__body">
-            <li class="template menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="?">World name</li>
-          </menu>
-        </li>
-        <li class="menu-button" data-action="back">
-          <i class="fa-solid fa-arrow-left"></i>
-        </li>
+      <h2>Worlds</h2>
+      <menu class="container__body">
+        <li class="template menu-button" data-action="selectWorld" data-next-menu="select-level" data-world="?">World name</li>
       </menu>
+
+      <footer>
+        <menu>
+          <li class="menu-button" data-action="back">
+            <i class="fa-solid fa-arrow-left"></i>
+          </li>
+        </menu>
+      </footer>
     </nav>
 
     <nav class="main-menu-content hide" id="menu-select-level">
-      <menu class="main-menu-body">
-        <li class="container">
-          <span class="container__title">Levels</span>
-          <menu class="container__body">
-            <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
-          </menu>
-        </li>
-        <li class="menu-button" data-action="back">
-          <i class="fa-solid fa-arrow-left"></i>
-        </li>
+      <h2>Levels</h2>
+      <menu class="container__body">
+        <li class="template menu-button" data-action="loadLevel" data-levelid="?">Level name</li>
       </menu>
+      
+      <footer>
+        <menu>
+          <li class="menu-button" data-action="back">
+            <i class="fa-solid fa-arrow-left"></i>
+          </li>
+        </menu>
+      </footer>
     </nav>
 
     <nav class="main-menu-content hide" id="menu-options">
