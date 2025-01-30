@@ -1,3 +1,5 @@
+const STORAGE_NAME = 'params';
+
 const Params = {
     isMobile: true,
     defaultValue: {
@@ -36,6 +38,7 @@ const Params = {
             let paramValue = localStorage.getItem(paramName);
             if (paramValue !== null) {
 
+                paramValue = JSON.parse(paramValue);
                 if (Params.options[paramName] && !Params.options[paramName].includes(paramValue)) {
                     continue; // invalid option
                 }
@@ -48,7 +51,7 @@ const Params = {
     },
 
     resetParams() {
-        localStorage.clear();
+        localStorage.removeItem(STORAGE_NAME);
         Params.setDefaultValues();
         Params.loadParams();
     },
@@ -67,7 +70,7 @@ const Params = {
     setParam(paramName, value) {
         console.log(`Changing param: ${paramName}=${value}`);
         Params.value[paramName] = value;
-        localStorage.setItem(paramName, value);
+        localStorage.setItem(STORAGE_NAME, JSON.stringify(Params.value));
     },
 
     checkMobile() {

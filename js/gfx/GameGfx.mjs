@@ -63,7 +63,7 @@ const GameGfx = {
         let rowOffset = (items.length - 1) / 2;
         items.forEach((item, i) => {
             item.setPosition(new Vector3(
-                itemSpacing * ((items.length - 1) - i - rowOffset),
+                itemSpacing * (-rowOffset + i),
                 Gfx.dock.position.y,
                 0
             ));

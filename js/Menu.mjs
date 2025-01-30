@@ -4,6 +4,8 @@ import GameGfx from './gfx/GameGfx.mjs';
 import Params from './Params.mjs';
 import LevelLoader from './core/LevelLoader.mjs';
 
+const GAME_STORAGE_NAME = 'game-progress';
+
 const Menu = {
 
     stack: ['root'],
@@ -48,6 +50,9 @@ const Menu = {
     stopGame() {
         Menu.hideMainMenu();
         GameGfx.stop();
+        if (this.world) {
+            Menu.loadWorld(this.world);
+        }
         Menu.showMainMenu();
     },
 
@@ -103,23 +108,31 @@ const Menu = {
     },
 
     selectWorld(element) {
-        let world = element.dataset.world;
+        this.loadWorld(element.dataset.world);
+        Menu.open(element);
+    },
+
+    loadWorld(world) {
+        this.world = world;
         let template = document.querySelector('#menu-select-level .template');
         let container = template.parentNode;
         container.querySelectorAll('li:not(.template)').forEach(e => container.removeChild(e));
-        let levelList = LevelLoader.worlds[world].levels;
+        let levelList = LevelLoader.worlds[this.world].levels;
         for (let i = 0; i < levelList.length; i++) {
             const level = levelList[i];
-            let newItem = template.cloneNode();
+            let newItem = template.cloneNode(true);
             newItem.classList.remove('template');
             container.appendChild(newItem);
 
-            newItem.dataset.world = world;
+            let progress = JSON.parse(localStorage.getItem(GAME_STORAGE_NAME)) || {};
+
+            newItem.dataset.world = this.world;
             newItem.dataset.levelid = i;
-            newItem.innerHTML = level.title;
+            newItem.dataset.stars = progress[level.id] || 0;
+            newItem.querySelector('.level-name').innerHTML = level.title;
+            newItem.querySelectorAll('.star').forEach((star, index) => star.classList.toggle('checked', index < newItem.dataset.stars));
             GUI.addButtonListener(Menu, newItem);
         }
-        Menu.open(element);
     },
 
     loadLevel(element) {
