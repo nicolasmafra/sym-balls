@@ -37,13 +37,11 @@ const Menu = {
 
     enterFullScreen() {
         GUI.enterFullScreen();
-        GUI.rotateToLandscape();
     },
 
     startGame() {
         Menu.checkMobileMode();
         Menu.hideMainMenu();
-        Menu.enterFullScreen();
         GameGfx.start();
     },
 
