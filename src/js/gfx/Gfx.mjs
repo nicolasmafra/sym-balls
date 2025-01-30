@@ -10,7 +10,6 @@ export default {
 
     configured: false,
     dockRadius: 0.3,
-    dockHeight: 1.8,
     /** @type {Object3D} */
     dock: null,
 
@@ -78,7 +77,7 @@ export default {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         if (this.dock) {
-            this.resetDockPosition();
+            this.resetDock();
         }
     },
 
@@ -94,7 +93,7 @@ export default {
     },
 
     addDock() {
-        const geometry = new THREE.CylinderGeometry(this.dockRadius, this.dockRadius, this.dockHeight, 16);
+        const geometry = new THREE.CylinderGeometry(this.dockRadius, this.dockRadius, 1, 16);
         const material = new THREE.MeshBasicMaterial( {
             color: dockColor,
             transparent: true,
@@ -104,18 +103,20 @@ export default {
         this.dock.name = 'dock';
         this.dock.renderOrder = 1;
         this.scene.add( this.dock );
-        this.resetDockPosition();
+        this.resetDock();
     },
 
-    resetDockPosition() {
-        let x = this.aspectRatio - this.dockRadius;
-        let angle = -Math.atan2(x, this.cameraDistance);
+    resetDock() {
+        let pos = -1 + this.dockRadius;
+        let angle = -Math.atan2(pos, this.cameraDistance);
         
-        this.dock.position.x = x;
+        this.dock.scale.setY(2 * this.aspectRatio);
+        this.dock.position.y = pos;
         this.dock.rotation.y = angle;
+        this.dock.rotation.z = Math.PI/2;
         this.objects.filter(object => object.userData && object.userData.isOnDock)
             .forEach(object => {
-                object.position.setX(x);
+                object.position.setY(this.dock.position.y);
                 object.userData.fixPosition();
             });
     },
