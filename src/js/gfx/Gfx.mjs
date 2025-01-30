@@ -20,7 +20,7 @@ export default {
     requestAnimationFrameId: null,
     started: false,
 
-    fieldOfView: 45,
+    fieldOfView: 20,
     cameraViewRadius: 1,
     cameraDistance: null,
     aspectRatio: 16/9,

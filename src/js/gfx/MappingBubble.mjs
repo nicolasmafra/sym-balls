@@ -4,12 +4,14 @@ import Params from '../Params.mjs';
 import * as THREE from 'three';
 import BubbleUtils from './BubbleUtils.mjs';
 
-const bubbleSize = 0.2;
+const bubbleSize = BubbleUtils.bubbleSize;
 const bubbleRadius = bubbleSize/2;
+const ballSize = 0.8;
+const bgSize = 0.9;
 const ballGeometry = new THREE.SphereGeometry(1, 16, 8);
-const pyramidGeometry = new THREE.SphereGeometry(1, 3, 2);
+const bgGeometry = new THREE.CylinderGeometry(1, 1, 1, 3);
 
-const mappingDistance = 0.6;
+const zDistance = 0.1;
 const mappingMargin = 0.5;
 const bubbleRotationSpeed = 0.25;
 const cycleGroupRotationSpeed = 1.5;
@@ -24,21 +26,26 @@ let MappingBubbleBuilder = {
         return BubbleUtils.indexToMesh(i, ballGeometry);
     },
 
-    indexToPyramid(i) {
-        return BubbleUtils.indexToMesh(i, pyramidGeometry);
+    indexToBg(i) {
+        return BubbleUtils.indexToMesh(i, bgGeometry);
     },
 
     mappingToGroup(m) {
         let ball = this.indexToBall(m.from);
-        ball.position.setX(-mappingDistance);
-        let pyramid = this.indexToPyramid(m.to);
-        pyramid.position.setX(mappingDistance);
-        pyramid.scale.setX(-1);
-        let children = [ball, pyramid];
+        ball.scale.setScalar(ballSize);
+        ball.position.setY(ballSize/2);
+
+        let bg = this.indexToBg(m.to);
+        bg.rotation.x = 0.5 * Math.PI;
+        bg.position.setZ(-zDistance);
+        bg.scale.setScalar(bgSize);
+        bg.position.setY(-bgSize/2);
+
+        let children = [ball, bg];
 
         const group = new THREE.Group();
         children.forEach(child => group.add(child));
-        let radius = 0.5 + mappingDistance + mappingMargin;
+        let radius = 0.5 + mappingMargin;
         group.scale.divideScalar(radius);
 
         return group;
@@ -48,7 +55,7 @@ let MappingBubbleBuilder = {
 
         let subGroups = mapping.map(m => this.mappingToGroup(m));
 
-        return BubbleUtils.makeBubble(subGroups);
+        return BubbleUtils.makeFlatBubble(subGroups);
     },
 };
 
