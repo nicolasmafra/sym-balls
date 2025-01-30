@@ -2,6 +2,7 @@
     "title": "Intro",
     "levels": [
         {
+            "id": "1-1",
             "title": "Merging items",
             "tip": "Drag each item onto another item until they are all gone.",
             "length": 9,
@@ -14,6 +15,7 @@
             ]
         },
         {
+            "id": "1-2",
             "title": "Locked Items",
             "tip": "Drag items from dock (at right) to each locked item.",
             "length": 6,
@@ -31,6 +33,7 @@
             ]
         },
         {
+            "id": "1-3",
             "title": "Order matters!",
             "tip": "Merge the items in the correct order",
             "length": 3,
@@ -41,6 +44,7 @@
             ]
         },
         {
+            "id": "1-4",
             "title": "Continue the cycles",
             "tip": "Each item in the dock can be used repeatedly until the cycle ends.",
             "length": 10,

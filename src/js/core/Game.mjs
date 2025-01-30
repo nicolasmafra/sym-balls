@@ -1,5 +1,7 @@
 import GameItem from './GameItem.mjs'
 
+const STORAGE_NAME = 'game-progress';
+
 export default class Game {
 
     schema = null;
@@ -104,7 +106,7 @@ export default class Game {
         let item = this.#findNotLockedItemWithId(itemId);
 
         this.#removeItem(item);
-        this.#checkWinningResult();
+        this.#checkWinning();
     }
 
     /**
@@ -149,7 +151,7 @@ export default class Game {
         } else {
             this.#addItem(resultItem);
         }
-        this.#checkWinningResult();
+        this.#checkWinning();
         return resultItem;
     }
 
@@ -168,6 +170,18 @@ export default class Game {
             return true;
         }
         return false;
+    }
+
+    #checkWinning() {
+        this.#checkWinningResult();
+        if (this.winningResult && this.schema.id) {
+            let progress = JSON.parse(localStorage.getItem(STORAGE_NAME)) || {};
+
+            progress[this.schema.id] = 1;
+
+            localStorage.setItem(STORAGE_NAME, JSON.stringify(progress));
+        }
+        return this.winningResult;
     }
 
     #checkWinningResult() {

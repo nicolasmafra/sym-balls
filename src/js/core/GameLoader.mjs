@@ -8,6 +8,7 @@ const GameLoader = {
         let parse = this.createCycleNotationParser(levelSchema.length);
         let hasDock = this.isFilledArray(levelSchema.generatingSet);
         let gameSchema = {
+            id: levelSchema.id,
             initialItems: parse(levelSchema.initialItems),
             generatingSet: parse(levelSchema.generatingSet),
             lockInitialItems: hasDock,

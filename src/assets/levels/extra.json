@@ -2,6 +2,7 @@
     "title": "Extra",
     "levels": [
         {
+            "id": "extra-1",
             "title": "Quaternions",
             "length": 8,
             "generatingSet": [
@@ -17,6 +18,7 @@
             ]
         },
         {
+            "id": "extra-2",
             "title": "Test - Many items",
             "length": 6,
             "initialItems": [

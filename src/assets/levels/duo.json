@@ -2,6 +2,7 @@
     "title": "Duo",
     "levels": [
         {
+            "id": "2-1",
             "title": "Isolated",
             "length": 6,
             "generatingSet": [
@@ -20,6 +21,7 @@
             ]
         },
         {
+            "id": "2-2",
             "title": "Pairs",
             "length": 6,
             "generatingSet": [
@@ -33,6 +35,7 @@
             ]
         },
         {
+            "id": "2-3",
             "title": "Tied",
             "length": 6,
             "generatingSet": [
@@ -48,6 +51,7 @@
             ]
         },
         {
+            "id": "2-4",
             "title": "Final Test",
             "length": 6,
             "generatingSet": [
