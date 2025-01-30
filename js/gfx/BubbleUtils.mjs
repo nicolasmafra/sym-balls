@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Params from "../Params.mjs";
 
-const bubbleSize = 0.3;
+const bubbleSize = 0.17;
 const bubbleRadius = bubbleSize/2;
 const bubbleGeometry = new THREE.SphereGeometry(1, 32, 16);
 const bubbleOpacity = 0.3;

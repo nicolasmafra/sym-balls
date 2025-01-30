@@ -37,6 +37,7 @@ a, a:visited, a:hover, a:active {
 }
 
 .in-game-menu * {
+    flex-direction: row;
     font-size: 15vmin;
 }
 

@@ -5,8 +5,9 @@ import Game from '../core/Game.mjs';
 import GameLoader from '../core/GameLoader.mjs';
 import GameGfxItem from './GameGfxItem.mjs';
 import { Object3D, Vector3 } from 'three';
+import BubbleUtils from './BubbleUtils.mjs';
 
-const itemSpacing = 0.4;
+const itemSpacing = BubbleUtils.bubbleSize * 1.2;
 const allowUseDockWithoutMerge = false;
 
 const GameGfx = {
