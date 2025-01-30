@@ -16,7 +16,6 @@ export default {
     startTime: null,
     lastUpdate: null,
     totalTime: null,
-    domContainer: null,
     requestAnimationFrameId: null,
     started: false,
 
@@ -47,18 +46,19 @@ export default {
     },
 
     configure() {
+        const canvas = document.getElementById("game-canvas");
+
         this.configured = true;
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+        });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         
         this.calculateCameraDistance();
         this.camera.position.z = this.cameraDistance;
-
-        if (!this.domContainer) this.domContainer = document.body;
-
-        this.domContainer.appendChild(this.renderer.domElement);
 
         this.resize();
 
