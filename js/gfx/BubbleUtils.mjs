@@ -6,6 +6,7 @@ const bubbleRadius = bubbleSize/2;
 const bubbleGeometry = new THREE.SphereGeometry(1, 32, 16);
 const bubbleOpacity = 0.3;
 const bubbleMargin = 0.4;
+const flatBubbleDistance = 2;
 
 const white = new THREE.Color(0xffffff);
 
@@ -24,6 +25,7 @@ const limitedOutlineMaterial = new THREE.MeshBasicMaterial({
 });
 
 export default {
+    bubbleSize,
     colorList: [
         0xff0000,
         0x00ff00,
@@ -99,6 +101,35 @@ export default {
         let angleOffset = Math.PI / 2;
         let group = this.createCircleGroup(subGroups, 1, bubbleMargin, angleOffset);
         group.name = 'content';
+
+        const materialParams = {
+            color: white,
+            transparent: true,
+            opacity: bubbleOpacity
+        };
+        const material = Params.value.lightningEnabled
+            ? new THREE.MeshPhongMaterial(materialParams)
+            : new THREE.MeshBasicMaterial(materialParams);
+        
+        const bubble = new THREE.Mesh(bubbleGeometry, material);
+        bubble.add(group);
+        bubble.scale.multiplyScalar(bubbleRadius);
+
+        return bubble;
+    },
+
+    makeFlatBubble(subGroups) {
+        const n = subGroups.length;
+        const xOffset = -flatBubbleDistance * (n - 1) / 2;
+
+        const group = new THREE.Group();
+        subGroups.forEach(child => group.add(child));
+        group.name = 'content';
+
+        subGroups.forEach((obj, i) => {
+            obj.position.x = xOffset + i * flatBubbleDistance;
+        });
+        group.scale.setScalar(1/n);
 
         const materialParams = {
             color: white,

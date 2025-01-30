@@ -10,17 +10,17 @@ export default {
 
     configured: false,
     dockRadius: 0.3,
-    dockHeight: 1.8,
     /** @type {Object3D} */
     dock: null,
 
     startTime: null,
     lastUpdate: null,
     totalTime: null,
+    domContainer: null,
     requestAnimationFrameId: null,
     started: false,
 
-    fieldOfView: 45,
+    fieldOfView: 20,
     cameraViewRadius: 1,
     cameraDistance: null,
     aspectRatio: 16/9,
@@ -47,19 +47,18 @@ export default {
     },
 
     configure() {
-        const canvas = document.getElementById("game-canvas");
-
         this.configured = true;
-        this.renderer = new THREE.WebGLRenderer({
-            canvas,
-            antialias: true,
-        });
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.near, this.far);
         
         this.calculateCameraDistance();
         this.camera.position.z = this.cameraDistance;
+
+        if (!this.domContainer) this.domContainer = document.body;
+
+        this.domContainer.appendChild(this.renderer.domElement);
 
         this.resize();
 
@@ -78,7 +77,7 @@ export default {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         if (this.dock) {
-            this.resetDockPosition();
+            this.resetDock();
         }
     },
 
@@ -94,7 +93,7 @@ export default {
     },
 
     addDock() {
-        const geometry = new THREE.CylinderGeometry(this.dockRadius, this.dockRadius, this.dockHeight, 16);
+        const geometry = new THREE.CylinderGeometry(this.dockRadius, this.dockRadius, 1, 16);
         const material = new THREE.MeshBasicMaterial( {
             color: dockColor,
             transparent: true,
@@ -104,18 +103,20 @@ export default {
         this.dock.name = 'dock';
         this.dock.renderOrder = 1;
         this.scene.add( this.dock );
-        this.resetDockPosition();
+        this.resetDock();
     },
 
-    resetDockPosition() {
-        let x = this.aspectRatio - this.dockRadius;
-        let angle = -Math.atan2(x, this.cameraDistance);
+    resetDock() {
+        let pos = -1 + this.dockRadius;
+        let angle = -Math.atan2(pos, this.cameraDistance);
         
-        this.dock.position.x = x;
+        this.dock.scale.setY(2 * this.aspectRatio);
+        this.dock.position.y = pos;
         this.dock.rotation.y = angle;
+        this.dock.rotation.z = Math.PI/2;
         this.objects.filter(object => object.userData && object.userData.isOnDock)
             .forEach(object => {
-                object.position.setX(x);
+                object.position.setY(this.dock.position.y);
                 object.userData.fixPosition();
             });
     },

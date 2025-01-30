@@ -1,6 +1,7 @@
+import Params from './Params.mjs';
+
 const GUI = {
 
-    modal: null,
     modalMessageCallback: null,
 
     async configure() {
@@ -8,14 +9,19 @@ const GUI = {
     },
 
     configureModals() {
-        GUI.modal = document.getElementById("main-dialog");
-        GUI.modal.onclick = () => GUI.closeModal();
+        document.querySelectorAll(".modal").forEach(modal => {
+            modal.querySelector(".modal-content-close").onclick = () => {
+                GUI.closeModal(modal);
+            };
+            modal.addEventListener("click", () => GUI.closeModal(modal));
+        });
     },
 
-    closeModal() {
-        GUI.modal.close();
-        if (GUI.modalMessageCallback) {
+    closeModal(modal) {
+        modal.style.display = "none";
+        if (modal.classList.contains("message-modal") && GUI.modalMessageCallback) {
             GUI.modalMessageCallback();
+            GUI.modalMessageCallback = null;
         }
     },
 
@@ -57,8 +63,10 @@ const GUI = {
     showMessage(message, callback) {
         GUI.modalMessageCallback = callback;
         message = message.replace('\n', '<br>').replace('\\n', '<br>');
-        GUI.modal.querySelector('.message').innerHTML = message;
-        GUI.modal.showModal();
+        let messageModal = document.querySelector('.message-modal');
+        let messageTag = messageModal.querySelector('.message');
+        messageTag.innerHTML = message;
+        messageModal.style.display = "block";
     },
 };
 

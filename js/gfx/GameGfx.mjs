@@ -1,10 +1,10 @@
-import Menu from '../Menu.mjs';
 import GUI from '../GUI.mjs';
 import Gfx from './Gfx.mjs';
 import Game from '../core/Game.mjs';
 import GameLoader from '../core/GameLoader.mjs';
 import GameGfxItem from './GameGfxItem.mjs';
 import { Object3D, Vector3 } from 'three';
+import GameItem from '../core/GameItem.mjs';
 
 const itemSpacing = 0.4;
 const allowUseDockWithoutMerge = false;
@@ -62,8 +62,8 @@ const GameGfx = {
         let rowOffset = (items.length - 1) / 2;
         items.forEach((item, i) => {
             item.setPosition(new Vector3(
-                Gfx.dock.position.x,
                 itemSpacing * ((items.length - 1) - i - rowOffset),
+                Gfx.dock.position.y,
                 0
             ));
             Gfx.addObject(item.gfxObject);
@@ -85,8 +85,8 @@ const GameGfx = {
             let col = i % cols;
 
             item.setPosition(new Vector3(
-                itemSpacing * (col - colOffset) - Gfx.dockRadius,
-                -itemSpacing * (row - rowOffset),
+                itemSpacing * (col - colOffset),
+                -itemSpacing * (row - rowOffset) + Gfx.dockRadius,
                 0
             ));
             Gfx.addObject(item.gfxObject);
@@ -175,11 +175,7 @@ const GameGfx = {
         if (winningResult == null) {
             return;
         }
-        if (winningResult) {
-            GUI.showMessage('You won!', () => Menu.stopGame());
-        } else {
-            GUI.showMessage('You lost!', () => GameGfx.reset());
-        }
+        GUI.showMessage(winningResult ? 'You won!' : 'You lost!');
         this.resultShown = true;
     },
 }
