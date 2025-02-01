@@ -14,6 +14,7 @@ export default class Game {
      */
     dockItems = [];
 
+    moves = 0;
     winningResult = null;
 
     constructor(schema) {
@@ -23,6 +24,7 @@ export default class Game {
 
     reset() {
         this.winningResult = null;
+        this.moves = 0;
         if (this.schema.initialItems) {
             this.items = this.schema.initialItems
                 .map(schemaItem => new GameItem(schemaItem, this.schema.lockInitialItems, false));
@@ -106,6 +108,7 @@ export default class Game {
         let item = this.#findNotLockedItemWithId(itemId);
 
         this.#removeItem(item);
+        this.moves++;
         this.#checkWinning();
     }
 
@@ -151,6 +154,7 @@ export default class Game {
         } else {
             this.#addItem(resultItem);
         }
+        this.moves++;
         this.#checkWinning();
         return resultItem;
     }
@@ -177,9 +181,18 @@ export default class Game {
         if (this.winningResult && this.schema.id) {
             let progress = JSON.parse(localStorage.getItem(STORAGE_NAME)) || {};
 
-            progress[this.schema.id] = 1;
+            let stars = 1;
+            if (this.moves <= this.schema.expectedMoves) {
+                stars = 2;
+            }
+            if (this.moves <= this.schema.targetMoves) {
+                stars = 3;
+            }
 
-            localStorage.setItem(STORAGE_NAME, JSON.stringify(progress));
+            if (stars > (progress[this.schema.id] || 0)) {
+                progress[this.schema.id] = stars;
+                localStorage.setItem(STORAGE_NAME, JSON.stringify(progress));
+            }
         }
         return this.winningResult;
     }

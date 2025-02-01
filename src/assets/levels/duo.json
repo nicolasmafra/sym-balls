@@ -5,6 +5,8 @@
             "id": "2-1",
             "title": "Isolated",
             "length": 6,
+            "targetMoves": 12,
+            "expectedMoves": 14,
             "generatingSet": [
                 "(1,2)",
                 "(3,4)",
@@ -24,6 +26,8 @@
             "id": "2-2",
             "title": "Pairs",
             "length": 6,
+            "targetMoves": 4,
+            "expectedMoves": 6,
             "generatingSet": [
                 "(1,2)(3,4)",
                 "(3,4)(5,6)"
