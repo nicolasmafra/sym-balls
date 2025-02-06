@@ -11,3 +11,9 @@ Privacy policy: https://nickmafra.github.io/sym-balls/privacy_policy.txt
 
 ## Contacts
 nickmafra@hotmail.com and nickmafra@gmail.com
+
+## Running
+npm run serve
+
+## Finding Solution
+node src/js/core/Solver.mjs duo 0

@@ -5,9 +5,14 @@ import Cycle from './Cycle.mjs';
 const GameLoader = {
 
     loadGameFromLevelSchema(levelSchema) {
+        let gameSchema = this.parseSchema(levelSchema);
+        return new Game(gameSchema);
+    },
+
+    parseSchema(levelSchema) {
         let parse = this.createCycleNotationParser(levelSchema.length);
         let hasDock = this.isFilledArray(levelSchema.generatingSet);
-        let gameSchema = {
+        return {
             ...levelSchema,
             initialItems: parse(levelSchema.initialItems),
             generatingSet: parse(levelSchema.generatingSet),
@@ -17,7 +22,6 @@ const GameLoader = {
             allowedInversion: false,
             finiteDock: levelSchema.finiteDock || false,
         };
-        return new Game(gameSchema);
     },
 
     isFilledArray(array) {
