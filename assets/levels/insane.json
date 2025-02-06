@@ -5,6 +5,8 @@
             "id": "insane-1",
             "title": "1",
             "length": 5,
+            "targetMoves": 4,
+            "expectedMoves": 8,
             "generatingSet": [
                 "(1,2,3)",
                 "(3,2,1)",
@@ -19,6 +21,8 @@
             "id": "insane-2",
             "title": "2",
             "length": 7,
+            "targetMoves": 9,
+            "expectedMoves": 14,
             "generatingSet": [
                 "(1,2,3,4)",
                 "(4,3,2,1)",

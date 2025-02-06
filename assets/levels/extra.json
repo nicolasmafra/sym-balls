@@ -5,6 +5,8 @@
             "id": "extra-1",
             "title": "Quaternions",
             "length": 8,
+            "targetMoves": 8,
+            "expectedMoves": 10,
             "generatingSet": [
                 "(1,3,2,4)(5,8,6,7)",
                 "(1,5,2,6)(7,4,8,3)",

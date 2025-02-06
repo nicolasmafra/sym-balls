@@ -5,6 +5,8 @@
             "id": "crazy-1",
             "title": "1",
             "length": 5,
+            "targetMoves": 4,
+            "expectedMoves": 8,
             "generatingSet": [
                 "(1,2)",
                 "(2,3)",
@@ -19,6 +21,8 @@
             "id": "crazy-2",
             "title": "2",
             "length": 9,
+            "targetMoves": 22,
+            "expectedMoves": 33,
             "generatingSet": [
                 "(1,2,3)(4,5,6,7)",
                 "(1,2,3)(8,9)"
@@ -36,6 +40,8 @@
             "id": "crazy-3",
             "title": "3",
             "length": 4,
+            "targetMoves": 11,
+            "expectedMoves": 13,
             "generatingSet": [
                 "(1,2)",
                 "(2,3)",
