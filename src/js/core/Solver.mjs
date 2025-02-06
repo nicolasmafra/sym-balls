@@ -14,7 +14,7 @@ function findItemDockSolution(itemToSolve, generatingSet) {
     } ];
     let maxMovesOptions = [ ...history ];
     let moveCount = 0;
-    while (history.length < 100) {
+    while (history.length < 100 && generatingSet.length > 0) {
         moveCount++;
         let newOptions = maxMovesOptions.flatMap(option => generatingSet.map(item => {
             return {
@@ -32,6 +32,7 @@ function findItemDockSolution(itemToSolve, generatingSet) {
         maxMovesOptions = newOptions.filter(option => !history.find(h => arrayEquals(h.state, option.state)));
     }
     console.log('Not found. Max move count:', moveCount);
+    return [];
 }
 
 async function run() {

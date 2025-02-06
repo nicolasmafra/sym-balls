@@ -48,6 +48,8 @@
             "title": "Continue the cycles",
             "tip": "Each item in the dock can be used repeatedly until the cycle ends.",
             "length": 10,
+            "targetMoves": 7,
+            "expectedMoves": 10,
             "generatingSet": [
                 "(9,10)",
                 "(6,7,8)",
