@@ -70,5 +70,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('container');
     const dragDrop = new DragDropContainer(container);
 
-    dragDrop.addDraggable(document.getElementById('item1'));
+    //dragDrop.addDraggable(document.getElementById('item1'));
 });
