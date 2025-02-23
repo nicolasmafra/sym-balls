@@ -34,38 +34,8 @@
 </head>
 <body>
     <div id="container">
-        <svg class="draggable" id="item1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 240" width="120" height="240">
-            <defs>
-              <linearGradient id="gradient1" gradientTransform="rotate(90)">
-                <stop offset="0" stop-color="red" />
-                <stop>
-                    <animate attributeName="offset"
-                    values=".5;0" dur="1s" fill="freeze"
-                    calcMode="spline" keyTimes="0; 1" keySplines="0.5 0 0.5 1"  />
-                    <animate attributeName="stop-color"
-                    values="green;red" dur="1s" fill="freeze"
-                    calcMode="spline" keyTimes="0; 1" keySplines="0.5 0 0.5 1"  />
-                </stop>
-                <stop>
-                    <animate attributeName="offset"
-                    values=".5;1" dur="1s" fill="freeze"
-                    calcMode="spline" keyTimes="0; 1" keySplines="0.5 0 0.5 1"  />
-                    <animate attributeName="stop-color"
-                    values="green;blue" dur="1s" fill="freeze"
-                    calcMode="spline" keyTimes="0; 1" keySplines="0.5 0 0.5 1"  />
-                </stop>
-                <stop offset="1" stop-color="blue" />
-              </linearGradient>
-            </defs>
-            <path stroke="url('#gradient1')" stroke-width="2" fill="transparent">
-                <animate attributeName="d"
-                values="M 30 30 c 0 30,  30   30, 30 60 c  0  30,  30 30, 30 60;
-                        M 30 30 c 0 15, 7.5 22.5, 15 30 c 7.5 7.5, 15 15, 15 30"
-                dur="1s" fill="freeze"
-                calcMode="spline" keyTimes="0; 1" keySplines="0.5 0 0.5 1" />
-            </path>
-        </svg>
     </div>
+    <script src="item.js"></script>
 </body>
 
 </html>
