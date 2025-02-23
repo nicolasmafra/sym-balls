@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('container');
 
-    function createSVGWithGradient() {
+    function createSVGWithGradient(color1, color2, color3) {
         const svgNS = "http://www.w3.org/2000/svg";
 
         // Cria o elemento SVG
@@ -13,19 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
         svg.setAttribute('height', '240');
 
         // Chama a função que monta o grupo e adiciona ao SVG
-        const group = createGroupWithGradient(svgNS, 'g1', 'red', 'green', 'blue', 30, 60, 90);
+        const group = createGroupWithGradient(svgNS, color1, color2, color3);
         svg.appendChild(group);
 
         // Adiciona o SVG ao container
         container.appendChild(svg);
     }
 
-    function createGroupWithGradient(svgNS, id, color1, color2, color3, x0, x1, x2) {
-        const y0 = 30;
-        const dy = 60;
-        const dx1 = x1 - x0;
-        const dx2 = x2 - x1;
-
+    function createGroupWithGradient(svgNS, color1, color2, color3) {
         // Cria o elemento grupo
         const group = document.createElementNS(svgNS, 'g');
 
@@ -34,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Cria o elemento linearGradient
         const linearGradient = document.createElementNS(svgNS, 'linearGradient');
-        linearGradient.setAttribute('id', id);
+        linearGradient.setAttribute('id', 'gradient1');
         linearGradient.setAttribute('gradientTransform', 'rotate(90)');
 
         // Cria os elementos stop
@@ -42,19 +37,59 @@ document.addEventListener('DOMContentLoaded', () => {
         stop1.setAttribute('offset', '0');
         stop1.setAttribute('stop-color', color1);
 
-        const stop2 = document.createElementNS(svgNS, 'stop');
-        stop2.setAttribute('offset', '0.5');
-        stop2.setAttribute('stop-color', color2);
-        stop2.classList.add('animated-stop1');
+        const stop12 = document.createElementNS(svgNS, 'stop');
+
+        // Adiciona os elementos animate aos stops
+        const animateOffset1 = document.createElementNS(svgNS, 'animate');
+        animateOffset1.setAttribute('attributeName', 'offset');
+        animateOffset1.setAttribute('values', '0.5; 0');
+        animateOffset1.setAttribute('dur', '1s');
+        animateOffset1.setAttribute('fill', 'freeze');
+        animateOffset1.setAttribute('calcMode', 'spline');
+        animateOffset1.setAttribute('keyTimes', '0; 1');
+        animateOffset1.setAttribute('keySplines', '0.5 0 0.5 1');
+        stop12.appendChild(animateOffset1);
+
+        const animateStopColor1 = document.createElementNS(svgNS, 'animate');
+        animateStopColor1.setAttribute('attributeName', 'stop-color');
+        animateStopColor1.setAttribute('values', `${color2}; ${color1}`);
+        animateStopColor1.setAttribute('dur', '1s');
+        animateStopColor1.setAttribute('fill', 'freeze');
+        animateStopColor1.setAttribute('calcMode', 'spline');
+        animateStopColor1.setAttribute('keyTimes', '0; 1');
+        animateStopColor1.setAttribute('keySplines', '0.5 0 0.5 1');
+        stop12.appendChild(animateStopColor1);
+
+        const stop23 = document.createElementNS(svgNS, 'stop');
+
+        const animateOffset2 = document.createElementNS(svgNS, 'animate');
+        animateOffset2.setAttribute('attributeName', 'offset');
+        animateOffset2.setAttribute('values', '0.5; 1');
+        animateOffset2.setAttribute('dur', '1s');
+        animateOffset2.setAttribute('fill', 'freeze');
+        animateOffset2.setAttribute('calcMode', 'spline');
+        animateOffset2.setAttribute('keyTimes', '0; 1');
+        animateOffset2.setAttribute('keySplines', '0.5 0 0.5 1');
+        stop23.appendChild(animateOffset2);
+
+        const animateStopColor2 = document.createElementNS(svgNS, 'animate');
+        animateStopColor2.setAttribute('attributeName', 'stop-color');
+        animateStopColor2.setAttribute('values', `${color2}; ${color3}`);
+        animateStopColor2.setAttribute('dur', '1s');
+        animateStopColor2.setAttribute('fill', 'freeze');
+        animateStopColor2.setAttribute('calcMode', 'spline');
+        animateStopColor2.setAttribute('keyTimes', '0; 1');
+        animateStopColor2.setAttribute('keySplines', '0.5 0 0.5 1');
+        stop23.appendChild(animateStopColor2);
 
         const stop3 = document.createElementNS(svgNS, 'stop');
         stop3.setAttribute('offset', '1');
         stop3.setAttribute('stop-color', color3);
-        stop3.classList.add('animated-stop2');
 
         // Adiciona os elementos stop ao linearGradient
         linearGradient.appendChild(stop1);
-        linearGradient.appendChild(stop2);
+        linearGradient.appendChild(stop12);
+        linearGradient.appendChild(stop23);
         linearGradient.appendChild(stop3);
 
         // Adiciona o linearGradient ao defs
@@ -65,16 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Cria o elemento path
         const path = document.createElementNS(svgNS, 'path');
-        path.setAttribute('stroke', `url(#${id})`);
+        path.setAttribute('stroke', 'url(#gradient1)');
         path.setAttribute('stroke-width', '2');
         path.setAttribute('fill', 'transparent');
 
         // Cria a animação do path
         const animate = document.createElementNS(svgNS, 'animate');
         animate.setAttribute('attributeName', 'd');
-        animate.setAttribute('values',
-            `M ${x0} ${y0} c 0 ${dy/2}, ${dx1} ${dy/2}, ${dx1} ${dy} c  0 ${dy/2}, ${dx2} ${dy/2}, ${dx2} ${dy};
-             M ${x0} ${y0} c 0 ${dy/4}, 7.5 ${dy*3/8}, 15 ${dy/2} c 7.5 ${dy/8}, 15 ${dy/4}, 15 ${dy/2}`);
+        animate.setAttribute('values', 'M 30 30 c 0 30,  30   30, 30 60 c  0  30,  30 30, 30 60; M 30 30 c 0 15, 7.5 22.5, 15 30 c 7.5 7.5, 15 15, 15 30');
         animate.setAttribute('dur', '1s');
         animate.setAttribute('fill', 'freeze');
         animate.setAttribute('calcMode', 'spline');
@@ -91,5 +124,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Chama a função com as cores desejadas
-    createSVGWithGradient();
+    createSVGWithGradient('red', 'green', 'blue');
 });
