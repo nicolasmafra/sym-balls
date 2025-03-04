@@ -12,8 +12,12 @@ class DragDropContainer {
     }
 
     addDraggable(element) {
-        element.style.setProperty('--x', '0px');
-        element.style.setProperty('--y', '0px');
+        if (!element.style.getPropertyValue('--x')) {
+            element.style.setProperty('--x', '0px');
+        }
+        if (!element.style.getPropertyValue('--y')) {
+            element.style.setProperty('--y', '0px');
+        }
         this.draggableElements.push(element);
     }
 
@@ -54,10 +58,15 @@ class DragDropContainer {
         this.draggableElements.forEach(otherElement => {
             if (otherElement !== element) {
                 const rect2 = otherElement.getBoundingClientRect();
-                if (rect1.left < rect2.right &&
-                    rect1.right > rect2.left &&
-                    rect1.top < rect2.bottom &&
-                    rect1.bottom > rect2.top) {
+                const radius1 = Math.min(rect1.width, rect1.height) / 2;
+                const radius2 = Math.min(rect2.width, rect2.height) / 2;
+                const x1 = rect1.left + rect1.width / 2;
+                const y1 = rect1.top + rect1.height / 2;
+                const x2 = rect2.left + rect2.width / 2;
+                const y2 = rect2.top + rect2.height / 2;
+                const dx = x1 - x2;
+                const dy = y1 - y2;
+                if (Math.sqrt(dx * dx + dy * dy) < radius1 + radius2) {
                     console.log(`Collision detected between ${element.id} and ${otherElement.id}`);
                 }
             }
@@ -70,5 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('container');
     const dragDrop = new DragDropContainer(container);
 
-    //dragDrop.addDraggable(document.getElementById('item1'));
+    dragDrop.addDraggable(document.getElementById('item1'));
+    dragDrop.addDraggable(document.getElementById('item2'));
 });
