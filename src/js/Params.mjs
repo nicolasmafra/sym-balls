@@ -3,7 +3,7 @@ const STORAGE_NAME = 'params';
 const Params = {
     isMobile: true,
     defaultValue: {
-        lightningEnabled: true,
+        lightningEnabled: false,
         itemType: 'cycle',
         itemOscillation: true,
         rotateMode: 'DISABLED',
@@ -34,19 +34,10 @@ const Params = {
     },
 
     loadParams() {
-        for (const paramName in Params.value) {
-            let paramValue = localStorage.getItem(paramName);
-            if (paramValue !== null) {
-
-                paramValue = JSON.parse(paramValue);
-                if (Params.options[paramName] && !Params.options[paramName].includes(paramValue)) {
-                    continue; // invalid option
-                }
-                if (paramValue === "true") paramValue = true;
-                if (paramValue === "false") paramValue = false;
-
-                Params.value[paramName] = paramValue;
-            }
+        const loadedParams = JSON.parse(localStorage.getItem(STORAGE_NAME) || '{}');
+        Params.value = {
+            ...Params.value,
+            ...loadedParams,
         }
     },
 
