@@ -97,7 +97,8 @@ export default {
         const material = new THREE.MeshBasicMaterial( {
             color: dockColor,
             transparent: true,
-            opacity: 0.2
+            opacity: 0.2,
+            side: THREE.BackSide,
         } );
         this.dock = new THREE.Mesh( geometry, material );
         this.dock.name = 'dock';

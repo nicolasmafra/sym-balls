@@ -27,9 +27,9 @@ const limitedOutlineMaterial = new THREE.MeshBasicMaterial({
 export default {
     bubbleSize,
     colorList: [
-        0xff0000,
-        0x00ff00,
-        0x0000ff,
+        0xee2222,
+        0x22ee22,
+        0x3333ee,
 
         0xffff00,
         0x00ffff,
@@ -69,10 +69,12 @@ export default {
      * @param {number} radius 
      */
     makeCircleWithObjects(objects, radius, angleOffset = 0) {
-        let angle = 2 * Math.PI / objects.length;
+        let angleSize = 2 * Math.PI / objects.length;
         objects.forEach((obj, i) => {
-            obj.position.x = radius * Math.cos(angleOffset + i * angle);
-            obj.position.y = radius * Math.sin(angleOffset + i * angle);
+            let angle = angleOffset + i * angleSize;
+            obj.rotation.z += angle;
+            obj.position.x = radius * Math.cos(angle);
+            obj.position.y = radius * Math.sin(angle);
         });
     },
 
@@ -105,17 +107,20 @@ export default {
         const materialParams = {
             color: white,
             transparent: true,
-            opacity: bubbleOpacity
+            opacity: bubbleOpacity,
+            side: THREE.BackSide,
         };
         const material = Params.value.lightningEnabled
             ? new THREE.MeshPhongMaterial(materialParams)
             : new THREE.MeshBasicMaterial(materialParams);
         
         const bubble = new THREE.Mesh(bubbleGeometry, material);
-        bubble.add(group);
-        bubble.scale.multiplyScalar(bubbleRadius);
 
-        return bubble;
+        const bubbleGroup = new THREE.Group();
+        bubbleGroup.add(group);
+        bubbleGroup.add(bubble);
+        bubbleGroup.scale.multiplyScalar(bubbleRadius);
+        return bubbleGroup;
     },
 
     makeFlatBubble(subGroups) {
@@ -160,6 +165,6 @@ export default {
         mesh.renderOrder = 0;
         mesh.name = 'outline';
         mesh.scale.multiplyScalar(outlineFactor);
-        bubble.add(mesh);
+        //bubble.add(mesh);
     },
 }
