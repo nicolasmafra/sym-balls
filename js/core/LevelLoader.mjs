@@ -2,6 +2,7 @@ export default {
 
     worldList: [],
     worlds: [],
+    lab: null,
 
     async configure() {
         this.worldList = await fetch('assets/levels/worlds.json')
@@ -9,6 +10,8 @@ export default {
         await Promise.all(this.worldList.map(async name => {
             await this.fetchPack(name);
         }));
+        this.lab = await fetch('assets/levels/lab.json')
+            .then(res => res.json());
     },
 
     async fetchPack(name) {
@@ -20,5 +23,9 @@ export default {
 
     loadLevelSchema(world, levelIndex) {
         return this.worlds[world].levels[levelIndex];
-    }
+    },
+
+    loadLabSchema() {
+        return this.lab;
+    },
 }

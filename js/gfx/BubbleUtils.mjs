@@ -108,7 +108,7 @@ export default {
             color: white,
             transparent: true,
             opacity: bubbleOpacity,
-            side: THREE.BackSide,
+            //side: THREE.BackSide,
         };
         const material = Params.value.lightningEnabled
             ? new THREE.MeshPhongMaterial(materialParams)
@@ -116,11 +116,9 @@ export default {
         
         const bubble = new THREE.Mesh(bubbleGeometry, material);
 
-        const bubbleGroup = new THREE.Group();
-        bubbleGroup.add(group);
-        bubbleGroup.add(bubble);
-        bubbleGroup.scale.multiplyScalar(bubbleRadius);
-        return bubbleGroup;
+        bubble.add(group);
+        bubble.scale.multiplyScalar(bubbleRadius);
+        return bubble;
     },
 
     makeFlatBubble(subGroups) {
@@ -165,6 +163,6 @@ export default {
         mesh.renderOrder = 0;
         mesh.name = 'outline';
         mesh.scale.multiplyScalar(outlineFactor);
-        //bubble.add(mesh);
+        bubble.add(mesh);
     },
 }
