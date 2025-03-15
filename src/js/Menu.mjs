@@ -141,6 +141,12 @@ const Menu = {
         Menu.startGame();
     },
 
+    loadLab() {
+        let levelSchema = LevelLoader.loadLabSchema();
+        GameGfx.setLevelSchema(levelSchema);
+        Menu.startGame();
+    },
+
     installWebAppPrepare(element) {
         PWA.prepare(element);
     },
