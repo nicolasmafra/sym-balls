@@ -8,7 +8,6 @@ import { Object3D, Vector3 } from 'three';
 import BubbleUtils from './BubbleUtils.mjs';
 
 const itemSpacing = BubbleUtils.bubbleSize * 1.2;
-const allowUseDockWithoutMerge = false;
 
 const GameGfx = {
 
@@ -125,7 +124,7 @@ const GameGfx = {
 
         if (this.game.isOnDock(gfxItem.gameItem.getId())) {
             let realItem = gfxItem;
-            if (collidedItem || allowUseDockWithoutMerge) {
+            if (collidedItem || this.game.schema.allowUseDockWithoutMerge) {
                 gfxItem = this.addGfxItemFromDock(gfxItem);
             }
             realItem.resetPosition();
