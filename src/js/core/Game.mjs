@@ -201,6 +201,9 @@ export default class Game {
         if (this.winningResult !== null) {
             return this.winningResult;
         }
+        if (this.schema.infinite) {
+            return null;
+        }
         if (this.items.length == 0) {
             return this.winningResult = true;
         }
