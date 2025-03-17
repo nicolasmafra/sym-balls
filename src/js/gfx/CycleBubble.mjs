@@ -41,7 +41,7 @@ let CycleBubbleBuilder = {
 
         let balls = cycle.map(index => this.indexToBall(index));
 
-        return BubbleUtils.createCircleGroup(balls, 1, cycleMargin);
+        return BubbleUtils.createCircleGroup(balls, 1, cycleMargin, 0, true);
     },
 
     build(cycles) {

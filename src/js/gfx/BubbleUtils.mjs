@@ -27,16 +27,17 @@ const limitedOutlineMaterial = new THREE.MeshBasicMaterial({
 export default {
     bubbleSize,
     colorList: [
+        0xffffff,
+
         0xee2222,
         0x22ee22,
         0x3333ee,
 
-        0xffff00,
+        0x555555,
+
         0x00ffff,
         0xff00ff,
-
-        0xffffff,
-        0x606060,
+        0xffff00,
 
         0xff8800,
         0x00ff88,
@@ -52,12 +53,12 @@ export default {
      * @param {number} margin 
      * @returns {THREE.Group}
      */
-    createCircleGroup(children, maxChildRadius, margin, angleOffset = 0) {
+    createCircleGroup(children, maxChildRadius, margin, angleOffset, rotateChildren = false) {
         const group = new THREE.Group();
         children.forEach(child => group.add(child));
 
         const radius = this.regularPolygonCircumradius(children.length, 2 * maxChildRadius);
-        this.makeCircleWithObjects(children, radius, angleOffset);
+        this.makeCircleWithObjects(children, radius, angleOffset, rotateChildren);
         const realRadius = radius + maxChildRadius + margin;
         group.scale.divideScalar(realRadius);
 
@@ -68,11 +69,13 @@ export default {
      * @param {THREE.Object3D[]} objects
      * @param {number} radius 
      */
-    makeCircleWithObjects(objects, radius, angleOffset = 0) {
+    makeCircleWithObjects(objects, radius, angleOffset, rotateChildren = false) {
         let angleSize = 2 * Math.PI / objects.length;
         objects.forEach((obj, i) => {
             let angle = angleOffset + i * angleSize;
-            obj.rotation.z += angle;
+            if (rotateChildren) {
+                obj.rotation.z += angle;
+            }
             obj.position.x = radius * Math.cos(angle);
             obj.position.y = radius * Math.sin(angle);
         });
