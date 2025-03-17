@@ -12,5 +12,8 @@
         "(1,6)"
     ],
     "initialItems": [
-    ]
+    ],
+    "allowedDeletion": true,
+    "allowedDuplication": true,
+    "allowedInversion": true
 }

@@ -18,9 +18,9 @@ const GameLoader = {
             generatingSet: parse(levelSchema.generatingSet),
             lockInitialItems: hasDock,
             allowUseDockWithoutMerge: levelSchema.allowUseDockWithoutMerge || levelSchema.initialItems.length == 0,
-            allowedDeletion: false,
-            allowedDuplication: false,
-            allowedInversion: false,
+            allowedDeletion: levelSchema.allowedDeletion || false,
+            allowedDuplication: levelSchema.allowedDuplication || false,
+            allowedInversion: levelSchema.allowedInversion || false,
             finiteDock: levelSchema.finiteDock || false,
             infinite: levelSchema.infinite || levelSchema.initialItems.length == 0,
         };
