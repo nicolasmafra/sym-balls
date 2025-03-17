@@ -41,8 +41,10 @@ const GUI = {
         }
     },
 
-    enterFullScreen() {
-        if (!document.fullscreenElement) {
+    toggleFullScreen() {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
             document.documentElement.requestFullscreen();
         }
     },

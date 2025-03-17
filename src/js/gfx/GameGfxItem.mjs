@@ -3,12 +3,8 @@ import { Object3D, Vector3 } from 'three';
 import Params from '../Params.mjs';
 import BubbleUtils from './BubbleUtils.mjs';
 
-const bubbleSize = BubbleUtils.bubbleSize;
-const bubbleRadius = bubbleSize/2;
-
 const oscillationSpeed = 1.0 * Math.PI;
-const oscillationAmplitudeRatio = 0.05;
-const oscillationAmplitude = oscillationAmplitudeRatio * bubbleRadius;
+const oscillationAmplitudeRatio = 0.01;
 
 export default class GameGfxItem {
 
@@ -28,6 +24,7 @@ export default class GameGfxItem {
      * @type {Vector3}
      */
     originalPosition = null;
+    originalScale = null;
 
     static implMapping = null;
 
@@ -43,7 +40,9 @@ export default class GameGfxItem {
      */
     static createInstance(gameItem) {
         let impl = GameGfxItem.impl[Params.value.itemType];
-        return new impl(gameItem);
+        const instance =  new impl(gameItem);
+        instance.gfxObject.scale.multiplyScalar(Params.getItemSize());
+        return instance;
     }
 
     /**
@@ -80,8 +79,11 @@ export default class GameGfxItem {
     }
 
     oscilateGroupSize(time) {
+        if (!this.originalScale) {
+            this.originalScale = this.gfxObject.scale.x;
+        }
         let cos = Math.cos(time * oscillationSpeed);
-        this.gfxObject.scale.setScalar(bubbleRadius * (1 + oscillationAmplitude * cos));
+        this.gfxObject.scale.setScalar(this.originalScale * (1 + oscillationAmplitudeRatio * cos));
     }
 
     /**
