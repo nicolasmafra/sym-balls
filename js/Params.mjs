@@ -7,6 +7,7 @@ const Params = {
         itemType: 'cycle',
         itemOscillation: true,
         rotateMode: 'DISABLED',
+        itemSize: 'MEDIUM',
     },
     value: {
     },
@@ -19,7 +20,25 @@ const Params = {
         itemType: [
             'cycle',
             'mapping'
-        ]
+        ],
+        itemSize: [
+            'VERY SMALL',
+            'SMALL',
+            'MEDIUM',
+            'LARGE',
+            'VERY LARGE',
+        ],
+    },
+
+    getItemSize() {
+        switch (Params.value.itemSize) {
+            case 'VERY SMALL': return 0.5;
+            case 'SMALL': return 0.75;
+            case 'MEDIUM': return 1;
+            case 'LARGE': return 1.5;
+            case 'VERY LARGE': return 2;
+        }
+        return 1;
     },
 
     configure() {
@@ -59,7 +78,6 @@ const Params = {
     },
 
     setParam(paramName, value) {
-        console.log(`Changing param: ${paramName}=${value}`);
         Params.value[paramName] = value;
         localStorage.setItem(STORAGE_NAME, JSON.stringify(Params.value));
     },

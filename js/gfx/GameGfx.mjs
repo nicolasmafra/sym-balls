@@ -6,6 +6,7 @@ import GameLoader from '../core/GameLoader.mjs';
 import GameGfxItem from './GameGfxItem.mjs';
 import { Object3D, Vector3 } from 'three';
 import BubbleUtils from './BubbleUtils.mjs';
+import Params from '../Params.mjs';
 
 const itemSpacing = BubbleUtils.bubbleSize * 1.2;
 
@@ -62,7 +63,7 @@ const GameGfx = {
         let rowOffset = (items.length - 1) / 2;
         items.forEach((item, i) => {
             item.setPosition(new Vector3(
-                itemSpacing * (-rowOffset + i),
+                Params.getItemSize() * itemSpacing * (-rowOffset + i),
                 Gfx.dock.position.y,
                 0
             ));
@@ -85,8 +86,8 @@ const GameGfx = {
             let col = i % cols;
 
             item.setPosition(new Vector3(
-                itemSpacing * (col - colOffset),
-                -itemSpacing * (row - rowOffset) + Gfx.dockRadius,
+                Params.getItemSize() * itemSpacing * (col - colOffset),
+                -Params.getItemSize() * itemSpacing * (row - rowOffset) + Gfx.dockRadius,
                 0
             ));
             Gfx.addObject(item.gfxObject);

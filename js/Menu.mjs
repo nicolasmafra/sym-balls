@@ -33,12 +33,12 @@ const Menu = {
 
     checkMobileMode() {
         if (Params.isMobile) {
-            Menu.enterFullScreen();
+            Menu.toggleFullScreen();
         }
     },
 
-    enterFullScreen() {
-        GUI.enterFullScreen();
+    toggleFullScreen() {
+        GUI.toggleFullScreen();
     },
 
     startGame() {

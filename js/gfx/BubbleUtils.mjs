@@ -29,15 +29,15 @@ export default {
     colorList: [
         0xffffff,
 
-        0xee2222,
-        0x22ee22,
         0x3333ee,
+        0x22ee22,
+        0xee2222,
 
         0x555555,
 
-        0x00ffff,
-        0xff00ff,
         0xffff00,
+        0xff00ff,
+        0x00ffff,
 
         0xff8800,
         0x00ff88,
