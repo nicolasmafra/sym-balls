@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://0q1d3fykkw8s"]
+
+[ext_resource type="Script" uid="uid://dhe86p15qih1r" path="res://items/chroma_item.gd" id="1_xnjqu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oui50"]
+radius = 30.0
+
+[node name="ChromaItem" type="Area2D"]
+script = ExtResource("1_xnjqu")
+metadata/_custom_type_script = "uid://dhe86p15qih1r"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oui50")

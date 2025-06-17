@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccv1g85m54utf"]
+
+[ext_resource type="PackedScene" uid="uid://jmdan6jhp5nn" path="res://base/item.tscn" id="1_mjxeg"]
+[ext_resource type="Script" uid="uid://7ad3mo6njx58" path="res://visuals/cycle_visual.gd" id="1_qxyll"]
+[ext_resource type="PackedScene" uid="uid://bkydhokmsay4j" path="res://base/bag.tscn" id="3_78cbw"]
+[ext_resource type="PackedScene" uid="uid://cuqj6smmrohtu" path="res://base/Scroll.tscn" id="5_friac"]
+[ext_resource type="PackedScene" uid="uid://citt3ggd20c3i" path="res://items/trash.tscn" id="5_ju4jx"]
+
+[node name="SampleItem" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+script = ExtResource("1_qxyll")
+metadata/_custom_type_script = "uid://7ad3mo6njx58"
+
+[node name="Item1" parent="." instance=ExtResource("1_mjxeg")]
+position = Vector2(73, 44)
+
+[node name="Item2" parent="." instance=ExtResource("1_mjxeg")]
+position = Vector2(137, 55)
+
+[node name="Item3" parent="." instance=ExtResource("1_mjxeg")]
+position = Vector2(139, 129)
+
+[node name="Bag1" parent="." instance=ExtResource("3_78cbw")]
+position = Vector2(487, 326)
+count = 5
+
+[node name="Item" parent="Bag1" instance=ExtResource("1_mjxeg")]
+
+[node name="Scroll" parent="." instance=ExtResource("5_friac")]
+position = Vector2(0, 417)
+
+[node name="Trash" parent="." instance=ExtResource("5_ju4jx")]
+position = Vector2(586, 454)
