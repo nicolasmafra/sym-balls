@@ -10,8 +10,10 @@ offset_left = 7.0
 offset_top = 14.0
 offset_right = 40.0
 offset_bottom = 64.0
+disabled = true
 text = "←"
 flat = true
+metadata/_edit_use_anchors_ = true
 
 [node name="RightButton" type="Button" parent="."]
 offset_left = 207.0
@@ -20,6 +22,7 @@ offset_right = 240.0
 offset_bottom = 64.0
 text = "→"
 flat = true
+metadata/_edit_use_anchors_ = true
 
 [node name="ItemsContainer" type="Node2D" parent="."]
 

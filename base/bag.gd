@@ -42,16 +42,7 @@ func _input(event):
 				last_item = null
 
 func _pick():
-	var item = $Item.clone()
-	item.active = true
-	item.dragging = true
-	item.initial_position = global_position
-	item.global_position = global_position
-	item.invalid_merge.connect(_on_invalid_merge)
-	last_item = item
-	
-	get_tree().current_scene.call_deferred("add_child", item)
-	item.queue_redraw()
+	last_item = DragMerge.clone_item($Item, self)
 	
 	if count == INFINITY:
 		return

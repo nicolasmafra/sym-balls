@@ -7,11 +7,11 @@ func _item_move():
 	emit_signal("invalid_merge", self)
 
 func _do_merging(drag_merge: DragMerge):
-	var item := drag_merge as Item
+	var item := drag_merge as Permutation
 	var new_permutation := {}
-	for key in drag_merge.permutation.keys():
+	for key in item.permutation.keys():
 		key = int(key)
-		var value = int(drag_merge.permutation[key])
+		var value = int(item.permutation[key])
 		new_permutation[_change_value(key)] = _change_value(value)
 	item.permutation = new_permutation
 	item.queue_redraw()

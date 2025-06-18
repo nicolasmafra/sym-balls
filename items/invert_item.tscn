@@ -1,17 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://citt3ggd20c3i"]
+[gd_scene load_steps=5 format=3 uid="uid://dnx6nd7i60sg7"]
 
-[ext_resource type="Script" uid="uid://cuhfg80i35olc" path="res://items/trash.gd" id="1_pr8db"]
-[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_inp8r"]
+[ext_resource type="Script" uid="uid://cnb3wfpoliefi" path="res://items/invert_item.gd" id="1_c8dg5"]
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_vv4c0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pr8db"]
 radius = 30.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_inp8r"]
-font_size = 48
+font_size = 70
 
-[node name="Trash" type="Area2D"]
-script = ExtResource("1_pr8db")
-move_disabled = true
+[node name="InvertItem" type="Area2D"]
+script = ExtResource("1_c8dg5")
 metadata/_custom_type_script = "uid://b2grs25n7egmq"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -19,11 +18,11 @@ shape = SubResource("CircleShape2D_pr8db")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -33.0
-offset_top = -26.0
+offset_top = -57.0
 offset_right = 33.0
-offset_bottom = 41.0
-theme = ExtResource("2_inp8r")
-text = "🗑"
+offset_bottom = 39.0
+theme = ExtResource("2_vv4c0")
+text = "⇋"
 label_settings = SubResource("LabelSettings_inp8r")
 horizontal_alignment = 1
 vertical_alignment = 1

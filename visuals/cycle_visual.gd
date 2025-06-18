@@ -1,9 +1,9 @@
 extends Node2D
 class_name CycleVisual
 
-var cycle_margin_ratio := 0.1
-var cycle_angle_offset := 0.0
-var ball_angle_offset := PI
+var cycle_margin_ratio := 0.3
+var cycle_angle_offset := PI
+var ball_angle_offset := PI/2
 var ball_angle_direction := 1
 
 
@@ -18,7 +18,7 @@ func draw(item):
 	
 	var cycle_margin = cycle_margin_ratio * item_radius
 	var permutation: Dictionary = item.permutation
-	var cycles = Cycle.perm_to_cycles(permutation)
+	var cycles := Cycle.perm_to_cycles(permutation)
 	
 	var cycle_count = len(cycles)
 	var cycle_radius = _minor_circle_radius(cycle_count, item_radius)
@@ -28,22 +28,20 @@ func draw(item):
 		var angle = cycle_angle_offset + i * angle_step
 		var cx = cycle_distance * cos(angle)
 		var cy = cycle_distance * sin(angle)
-		var cycle = cycles[i]
+		var cycle := cycles[i]
 		_draw_cycle(item, cycle, cx, cy, cycle_radius - cycle_margin)
 
-func _draw_cycle(item, cycle, cx, cy, cycle_radius):
+func _draw_cycle(item, cycle: Array, cx, cy, cycle_radius):
 	var ball_count = len(cycle)
 	var ball_radius = _minor_circle_radius(ball_count, cycle_radius)
 	var ball_distance = cycle_radius - ball_radius
-	var keys = cycle.keys()
-	keys.sort()
 	var angle_step = TAU/ball_count
 	for i in range(ball_count):
 		var angle = ball_angle_offset + ball_angle_direction * i * angle_step
 		var bx = cx + ball_distance * cos(angle)
 		var by = cy + ball_distance * sin(angle)
-		var key = keys[i]
-		_draw_ball(item, bx, by, ball_radius, key)
+		var value = cycle[i]
+		_draw_ball(item, bx, by, ball_radius, value)
 
 
 func _draw_ball(item, x: float, y: float, ball_radius: float, value):

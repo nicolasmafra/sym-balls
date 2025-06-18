@@ -1,5 +1,5 @@
 extends DragMerge
-class_name Item
+class_name Permutation
 
 @export var permutation := {
 	1: 2,
@@ -26,36 +26,32 @@ func _ready():
 	queue_redraw()
 
 func _do_merging(drag_merge: DragMerge):
-	if drag_merge._apply_item != null:
-		drag_merge._apply_item(self)
+	var item := drag_merge as Permutation
+	var new_permutation := _compose(self.permutation, item.permutation)
+	_remove_trivial(new_permutation)
+	item.permutation = new_permutation
+	item.queue_redraw()
 	queue_free()
 
-func _apply_item(item: Item):
-	var new_permutation := _compose(item)
-	_remove_trivial(new_permutation)
-	
-	permutation = new_permutation
-	queue_redraw()
-
-func _compose(item: Item) -> Dictionary:
-	var new_permutation := _merge_keys(item)
+static func _compose(composerPermutation: Dictionary, targetPermutation: Dictionary) -> Dictionary:
+	var new_permutation := _merge_keys(targetPermutation, composerPermutation)
 	for key in new_permutation.keys():
 		key = int(key)
-		if not permutation.has(key):
-			new_permutation[key] = item.permutation[key]
+		if not targetPermutation.has(key):
+			new_permutation[key] = composerPermutation[key]
 		else:
-			var value = int(permutation[key])
-			if not item.permutation.has(value):
+			var value = int(targetPermutation[key])
+			if not composerPermutation.has(value):
 				new_permutation[key] = value
 			else:
-				new_permutation[key] = item.permutation[value]
+				new_permutation[key] = composerPermutation[value]
 	return new_permutation
 	
-func _merge_keys(item: Item) -> Dictionary:
-	var new_permutation = {}
-	for k in permutation.keys():
+static func _merge_keys(perm1: Dictionary, perm2: Dictionary) -> Dictionary:
+	var new_permutation := {}
+	for k in perm1.keys():
 		new_permutation[k] = true
-	for k in item.permutation.keys():
+	for k in perm2.keys():
 		new_permutation[k] = true
 	return new_permutation
 
@@ -64,7 +60,7 @@ func _remove_trivial(new_permutation: Dictionary):
 		if new_permutation[key] == key:
 			new_permutation.erase(key)
 
-func clone() -> Item:
+func clone() -> Permutation:
 	var item := self.duplicate()
 	item.active = active
 	item.permutation = permutation.duplicate()

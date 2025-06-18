@@ -12,7 +12,7 @@ const button_radius := item_radius
 var width := 2 * item_radius * count_shown + 2 * button_radius
 var scroll_page = 0
 
-const item_scene: PackedScene = preload("res://base/item.tscn")
+const item_scene: PackedScene = preload("res://base/permutation.tscn")
 const bag_scene: PackedScene = preload("res://base/bag.tscn")
 
 func _ready() -> void:
@@ -70,7 +70,7 @@ func _update_items():
 	
 	var n = scroll_page * count_shown
 	for i in range(count_shown):
-		var item : Item = item_scene.instantiate()
+		var item : Permutation = item_scene.instantiate()
 		item.permutation = {
 			1: (2 + n + i),
 			(2 + n + i): 1,

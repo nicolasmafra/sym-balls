@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://jmdan6jhp5nn"]
 
-[ext_resource type="Script" uid="uid://bbfvxk0a1wkh4" path="res://base/item.gd" id="1_tnite"]
+[ext_resource type="Script" uid="uid://bbfvxk0a1wkh4" path="res://base/permutation.gd" id="1_wri32"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0l8wb"]
 radius = 30.0
 
-[node name="Item" type="Area2D"]
-script = ExtResource("1_tnite")
+[node name="Permutation" type="Area2D"]
+script = ExtResource("1_wri32")
 metadata/_custom_type_script = "uid://b2grs25n7egmq"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
