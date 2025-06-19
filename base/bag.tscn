@@ -14,9 +14,9 @@ shape = SubResource("CircleShape2D_76wf2")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 19.0
-offset_top = 18.0
+offset_top = 19.0
 offset_right = 42.0
-offset_bottom = 41.0
+offset_bottom = 42.0
 text = "∞"
 horizontal_alignment = 1
 vertical_alignment = 1

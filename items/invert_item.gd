@@ -1,4 +1,4 @@
-extends DragMerge
+extends Item
 
 class_name InvertItem
 

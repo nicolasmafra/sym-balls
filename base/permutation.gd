@@ -1,4 +1,4 @@
-extends DragMerge
+extends Item
 class_name Permutation
 
 @export var permutation := {
@@ -22,9 +22,6 @@ func _draw():
 	)
 	var visual = _get_visual()
 	visual.draw(self)
-	
-func _ready():
-	queue_redraw()
 
 func _do_merging(drag_merge: DragMerge):
 	var item := drag_merge as Permutation
@@ -75,4 +72,4 @@ func _get_visual():
 	if $Visual != null:
 		return $Visual
 	else:
-		return get_tree().get_root().get_children()[0].get_node("Visual")
+		return get_tree().current_scene.get_node("Visual")

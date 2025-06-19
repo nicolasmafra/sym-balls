@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://citt3ggd20c3i"]
 
-[ext_resource type="Script" uid="uid://cuhfg80i35olc" path="res://items/eraser.gd" id="1_r2h40"]
+[ext_resource type="Script" uid="uid://cuhfg80i35olc" path="res://items/eraser_item.gd" id="1_r2h40"]
 [ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_o0155"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pr8db"]
@@ -18,10 +18,16 @@ metadata/_custom_type_script = "uid://b2grs25n7egmq"
 shape = SubResource("CircleShape2D_pr8db")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -34.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
 offset_top = -36.0
-offset_right = 32.0
+offset_right = 29.0
 offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 36)
 theme = ExtResource("2_o0155")
 text = "⌫"
 label_settings = SubResource("LabelSettings_inp8r")

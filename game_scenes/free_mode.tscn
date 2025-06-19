@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmw3qu24urvug"]
+[gd_scene load_steps=10 format=3 uid="uid://cmw3qu24urvug"]
 
 [ext_resource type="Script" uid="uid://bk81w365nhj3q" path="res://game_scenes/free_mode.gd" id="1_2qgr2"]
 [ext_resource type="Script" uid="uid://7ad3mo6njx58" path="res://visuals/cycle_visual.gd" id="1_cdoxt"]
 [ext_resource type="PackedScene" uid="uid://bkydhokmsay4j" path="res://base/bag.tscn" id="3_s1m4e"]
 [ext_resource type="PackedScene" uid="uid://cuqj6smmrohtu" path="res://base/Scroll.tscn" id="4_nbokt"]
-[ext_resource type="PackedScene" uid="uid://citt3ggd20c3i" path="res://items/eraser.tscn" id="5_rnln3"]
+[ext_resource type="PackedScene" uid="uid://citt3ggd20c3i" path="res://items/eraser_item.tscn" id="5_rnln3"]
 [ext_resource type="PackedScene" uid="uid://kdi6dttjimec" path="res://items/clone_item.tscn" id="5_vgn08"]
 [ext_resource type="PackedScene" uid="uid://dnx6nd7i60sg7" path="res://items/invert_item.tscn" id="6_0q3wo"]
 [ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="8_xfrcf"]
+[ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="9_iaj4w"]
 
 [node name="FreeMode" type="Node2D"]
 script = ExtResource("1_2qgr2")
@@ -37,7 +38,7 @@ position = Vector2(210, -50)
 [node name="Item" parent="BottomControls/InvertBag" instance=ExtResource("6_0q3wo")]
 
 [node name="Scroll" parent="BottomControls" instance=ExtResource("4_nbokt")]
-position = Vector2(263, -93)
+position = Vector2(263, 0)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -46,12 +47,5 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("8_xfrcf")
 
-[node name="BackButton" type="Button" parent="Control"]
+[node name="BackButton" parent="Control" instance=ExtResource("9_iaj4w")]
 layout_mode = 0
-offset_right = 53.0
-offset_bottom = 53.0
-theme = ExtResource("8_xfrcf")
-text = "⮐"
-flat = true
-
-[connection signal="pressed" from="Control/BackButton" to="." method="_on_back_button_pressed"]

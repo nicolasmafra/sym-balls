@@ -1,4 +1,4 @@
-extends DragMerge
+extends Item
 class_name ChromaItem
 
 @onready var sprite := Sprite2D.new()
@@ -21,6 +21,7 @@ func _change_value(value):
 	return value + 1
 
 func _ready():
+	super._ready()
 	var radius: float = $CollisionShape2D.shape.radius
 	var size := 2 * radius
 	var image := Image.create(size, size, false, Image.FORMAT_RGBA8)

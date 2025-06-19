@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://8iv8lhit36xn"]
+
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="1_37rkw"]
+[ext_resource type="Script" uid="uid://b25bxe0k638s6" path="res://ui/back_button.gd" id="2_w7w3o"]
+
+[node name="BackButton" type="Button"]
+offset_right = 53.0
+offset_bottom = 53.0
+theme = ExtResource("1_37rkw")
+text = "⮐"
+flat = true
+script = ExtResource("2_w7w3o")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
