@@ -20,9 +20,12 @@ func draw(item):
 	for key in keys:
 		var value = permutation[key]
 		var x := x0 + index*step
-		_draw_ball(item, x, -ball_radius, ball_radius, key)
-		_draw_ball(item, x, ball_radius, ball_radius, value)
+		_drawKeyValue(item, x, ball_radius, key, value)
 		index += 1
+
+func _drawKeyValue(item, x, ball_radius, key, value):
+	_draw_ball(item, x, -ball_radius, ball_radius, key)
+	_draw_ball(item, x, ball_radius, ball_radius, value)
 
 func _draw_ball(item, x: float, y: float, ball_radius: float, value):
 	var color := Chroma.value_to_color(value)

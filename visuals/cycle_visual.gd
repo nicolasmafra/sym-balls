@@ -1,11 +1,16 @@
 extends Node2D
 class_name CycleVisual
 
-var cycle_margin_ratio := 0.3
+var item_padding_ratio := 0.1
+var cycle_margin_ratio := 0.1
 var cycle_angle_offset := PI
 var ball_angle_offset := PI/2
 var ball_angle_direction := 1
 
+var key_radius_ratio := 0.9
+var value_radius_ratio := 0.0
+var border_width_ratio := 0.1
+var border_color := Color.from_rgba8(0, 0, 0, 127)
 
 func _ready():
 	queue_redraw()
@@ -16,13 +21,14 @@ func draw(item):
 		return
 	var item_radius = collision.shape.radius
 	
-	var cycle_margin = cycle_margin_ratio * item_radius
 	var permutation: Dictionary = item.permutation
 	var cycles := Cycle.perm_to_cycles(permutation)
 	
 	var cycle_count = len(cycles)
-	var cycle_radius = _minor_circle_radius(cycle_count, item_radius)
-	var cycle_distance = item_radius - cycle_radius
+	var item_effective_radius = (1 - item_padding_ratio) * item_radius
+	var cycle_radius = _minor_circle_radius(cycle_count, item_effective_radius)
+	var cycle_distance = item_effective_radius - cycle_radius
+	var cycle_margin = cycle_margin_ratio * cycle_radius
 	var angle_step = TAU/cycle_count
 	for i in range(cycle_count):
 		var angle = cycle_angle_offset + i * angle_step
@@ -40,13 +46,21 @@ func _draw_cycle(item, cycle: Array, cx, cy, cycle_radius):
 		var angle = ball_angle_offset + ball_angle_direction * i * angle_step
 		var bx = cx + ball_distance * cos(angle)
 		var by = cy + ball_distance * sin(angle)
-		var value = cycle[i]
-		_draw_ball(item, bx, by, ball_radius, value)
+		var key = cycle[i]
+		var value = cycle[(i + 1) % ball_count]
+		_draw_pair(item, bx, by, ball_radius, key, value)
 
 
-func _draw_ball(item, x: float, y: float, ball_radius: float, value):
-	var color := Chroma.value_to_color(value)
-	item.draw_circle(Vector2(x, y), ball_radius, color)
+func _draw_pair(item, x: float, y: float, ball_radius: float, key, value):
+	_draw_ball(item, x, y, key_radius_ratio*ball_radius, key)
+	if value_radius_ratio > 0:
+		_draw_ball(item, x, y, value_radius_ratio*ball_radius, value)
+
+func _draw_ball(item: Permutation, x: float, y: float, ball_radius: float, ball_value):
+	var color := Chroma.value_to_color(ball_value)
+	item.draw_circle(Vector2(x, y), ball_radius, color, true, -1, true)
+	var border_width = border_width_ratio * ball_radius
+	item.draw_circle(Vector2(x, y), ball_radius, border_color, false, border_width, true)
 
 
 func _minor_circle_radius(n, R):

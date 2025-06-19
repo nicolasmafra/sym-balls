@@ -1,6 +1,6 @@
 extends DragMerge
 
-class_name Trash
+class_name Eraser
 
 func _item_move():
 	emit_signal("invalid_merge", self)

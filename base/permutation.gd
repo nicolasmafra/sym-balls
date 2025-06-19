@@ -8,6 +8,7 @@ class_name Permutation
 	4: 5,
 	5: 3,
 }
+@export var remove_trivial := true
 
 func _draw():
 	var radius: float = $CollisionShape2D.shape.radius
@@ -28,9 +29,13 @@ func _ready():
 func _do_merging(drag_merge: DragMerge):
 	var item := drag_merge as Permutation
 	var new_permutation := _compose(self.permutation, item.permutation)
-	_remove_trivial(new_permutation)
-	item.permutation = new_permutation
-	item.queue_redraw()
+	if remove_trivial:
+		_remove_trivial(new_permutation)
+	if remove_trivial and len(new_permutation) == 0:
+		item.queue_free()
+	else:
+		item.permutation = new_permutation
+		item.queue_redraw()
 	queue_free()
 
 static func _compose(composerPermutation: Dictionary, targetPermutation: Dictionary) -> Dictionary:

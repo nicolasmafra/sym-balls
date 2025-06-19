@@ -7,3 +7,8 @@ func _on_free_mode_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _input(event):
+	if Input.is_action_pressed("ui_cancel"):
+		_on_exit_button_pressed()

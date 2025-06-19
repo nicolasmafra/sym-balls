@@ -4,7 +4,7 @@ class_name Scroll
 
 @export var count_shown := 5
 
-const color := Color.DARK_SLATE_GRAY
+const color := Color.BLACK
 const border := 2.0
 const item_radius := 44.0
 const button_radius := item_radius

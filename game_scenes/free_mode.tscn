@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://7ad3mo6njx58" path="res://visuals/cycle_visual.gd" id="1_cdoxt"]
 [ext_resource type="PackedScene" uid="uid://bkydhokmsay4j" path="res://base/bag.tscn" id="3_s1m4e"]
 [ext_resource type="PackedScene" uid="uid://cuqj6smmrohtu" path="res://base/Scroll.tscn" id="4_nbokt"]
-[ext_resource type="PackedScene" uid="uid://citt3ggd20c3i" path="res://items/trash.tscn" id="5_rnln3"]
+[ext_resource type="PackedScene" uid="uid://citt3ggd20c3i" path="res://items/eraser.tscn" id="5_rnln3"]
 [ext_resource type="PackedScene" uid="uid://kdi6dttjimec" path="res://items/clone_item.tscn" id="5_vgn08"]
 [ext_resource type="PackedScene" uid="uid://dnx6nd7i60sg7" path="res://items/invert_item.tscn" id="6_0q3wo"]
 [ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="8_xfrcf"]
@@ -20,10 +20,10 @@ metadata/_custom_type_script = "uid://7ad3mo6njx58"
 [node name="BottomControls" type="Node2D" parent="."]
 position = Vector2(0, 648)
 
-[node name="TrashBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
+[node name="EraserBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
 position = Vector2(50, -50)
 
-[node name="Item" parent="BottomControls/TrashBag" instance=ExtResource("5_rnln3")]
+[node name="Item" parent="BottomControls/EraserBag" instance=ExtResource("5_rnln3")]
 move_disabled = false
 
 [node name="CloneBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
@@ -48,8 +48,9 @@ theme = ExtResource("8_xfrcf")
 
 [node name="BackButton" type="Button" parent="Control"]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 53.0
+offset_bottom = 53.0
+theme = ExtResource("8_xfrcf")
 text = "⮐"
 flat = true
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://citt3ggd20c3i"]
 
-[ext_resource type="Script" uid="uid://cuhfg80i35olc" path="res://items/trash.gd" id="1_pr8db"]
-[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_inp8r"]
+[ext_resource type="Script" uid="uid://cuhfg80i35olc" path="res://items/eraser.gd" id="1_r2h40"]
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_o0155"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pr8db"]
 radius = 30.0
@@ -9,8 +9,8 @@ radius = 30.0
 [sub_resource type="LabelSettings" id="LabelSettings_inp8r"]
 font_size = 48
 
-[node name="Trash" type="Area2D"]
-script = ExtResource("1_pr8db")
+[node name="Eraser" type="Area2D"]
+script = ExtResource("1_r2h40")
 move_disabled = true
 metadata/_custom_type_script = "uid://b2grs25n7egmq"
 
@@ -18,12 +18,12 @@ metadata/_custom_type_script = "uid://b2grs25n7egmq"
 shape = SubResource("CircleShape2D_pr8db")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -33.0
-offset_top = -26.0
-offset_right = 33.0
-offset_bottom = 41.0
-theme = ExtResource("2_inp8r")
-text = "🗑"
+offset_left = -34.0
+offset_top = -36.0
+offset_right = 32.0
+offset_bottom = 31.0
+theme = ExtResource("2_o0155")
+text = "⌫"
 label_settings = SubResource("LabelSettings_inp8r")
 horizontal_alignment = 1
 vertical_alignment = 1
