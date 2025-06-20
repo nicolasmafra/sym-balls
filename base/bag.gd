@@ -8,7 +8,8 @@ const label_ball_radius := 10.0
 
 
 func _ready():
-	$Item.active = false
+	$Item.move_disabled = true
+	$Item.merge_disabled = true
 	queue_redraw()
 
 

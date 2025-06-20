@@ -13,6 +13,10 @@ class_name Permutation
 
 signal eliminated()
 
+
+func _ready() -> void:
+	super._ready()
+
 func set_permutation(new_permutation: Dictionary):
 	var keys = new_permutation.keys()
 	permutation = {}
@@ -23,13 +27,23 @@ func set_permutation(new_permutation: Dictionary):
 
 func _draw():
 	var radius: float = $CollisionShape2D.shape.radius
-	var color = Color.BLACK if move_disabled else Color.GRAY
-	var width = 2.0 if move_disabled else 1.0
-	draw_arc(
+	var color: Color
+	var width: float
+	if not active:
+		color = Color.from_rgba8(0, 0, 0, 127)
+		width = -1.0
+	elif move_disabled:
+		color = Color.BLACK
+		width = 2.0
+	else:
+		color = Color.GRAY
+		width = 1.0
+
+	draw_circle(
 		Vector2.ZERO, # center
 		radius, # radius
-		0, TAU, 64, # start_angle, end_angle, point_count
 		color, # color
+		(width <= 0), # filled
 		width, # width
 		true # antialiased
 	)
@@ -47,6 +61,7 @@ func _do_merging(drag_merge: DragMerge):
 	else:
 		item.set_permutation(new_permutation)
 		item.queue_redraw()
+		EventBus.emit_signal("item_changed", item)
 	queue_free()
 
 static func _compose(composerPermutation: Dictionary, targetPermutation: Dictionary) -> Dictionary:

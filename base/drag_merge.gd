@@ -3,6 +3,7 @@ class_name DragMerge
 
 @export var active := true
 @export var move_disabled := false
+@export var merge_disabled := false
 var dragging := false
 var initial_position: Vector2
 
@@ -35,7 +36,7 @@ func _input(event: InputEvent):
 func _check_merge():
 	var another = _get_nearest_drag_merge()
 	if another:
-		if another.active:
+		if another.active and not another.merge_disabled:
 			_do_merging(another)
 		else:
 			global_position = initial_position
@@ -69,9 +70,10 @@ func _get_nearest_drag_merge() -> DragMerge:
 func clone():
 	return self.duplicate()
 
-static func clone_item(item, target):
-	item = item.clone()
+static func clone_item(original_item: DragMerge, target):
+	var item:DragMerge = original_item.clone()
 	item.active = true
+	item.merge_disabled = false
 	item.move_disabled = false
 	item.dragging = true
 	item.initial_position = target.global_position

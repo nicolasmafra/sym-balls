@@ -49,8 +49,20 @@
 					"file": "res://data/courses/hexa.json",
 				},
 				{
+					"name": "Octa",
+					"file": "res://data/courses/octa.json",
+				},
+				{
 					"name": "Tetra Lock",
 					"file": "res://data/courses/tetra_lock.json",
+				},
+				{
+					"name": "Hexa Lock",
+					"file": "res://data/courses/hexa_lock.json",
+				},
+				{
+					"name": "Hexa Maker",
+					"file": "res://data/courses/hexa_maker.json",
 				},
 			]
 		},
