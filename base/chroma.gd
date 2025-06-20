@@ -12,7 +12,8 @@ static var colors := [
 	Color.BLACK,
 ]
 
-static func value_to_color(value: int) -> Color:
+static func value_to_color(value) -> Color:
+	value = int(value)
 	value -= 1
 	var i := len(colors)
 	while value >= i:

@@ -63,9 +63,7 @@ func _pick():
 
 
 func _on_invalid_merge(item: DragMerge):
-	print('invalid merge. item:', item)
 	item.queue_free()
 	if count != INFINITY:
 		count += 1
 		queue_redraw()
-	print('count:', count)

@@ -10,15 +10,14 @@ func _do_merging(drag_merge: DragMerge):
 	var item := drag_merge as Permutation
 	var new_permutation := {}
 	for key in item.permutation.keys():
-		key = int(key)
-		var value = int(item.permutation[key])
+		var value = item.permutation[key]
 		new_permutation[_change_value(key)] = _change_value(value)
-	item.permutation = new_permutation
+	item.set_permutation(new_permutation)
 	item.queue_redraw()
 	queue_free()
 
 func _change_value(value):
-	return value + 1
+	return str(int(value) + 1)
 
 func _ready():
 	super._ready()

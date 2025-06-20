@@ -2,21 +2,33 @@ extends Item
 class_name Permutation
 
 @export var permutation := {
-	1: 2,
-	2: 1,
-	3: 4,
-	4: 5,
-	5: 3,
+	"1": "2",
+	"2": "1",
+	"3": "4",
+	"4": "5",
+	"5": "3",
 }
 @export var remove_trivial := true
 
+
+signal eliminated()
+
+func set_permutation(new_permutation: Dictionary):
+	var keys = new_permutation.keys()
+	permutation = {}
+	keys.sort()
+	for key in keys:
+		permutation[str(key)] = str(new_permutation[key])
+
+
 func _draw():
 	var radius: float = $CollisionShape2D.shape.radius
+	var color = Color.BLACK if move_disabled else Color.GRAY
 	draw_arc(
 		Vector2.ZERO, # center
 		radius, # radius
 		0, TAU, 64, # start_angle, end_angle, point_count
-		Color.GRAY, # color
+		color, # color
 		1.0, # width
 		true # antialiased
 	)
@@ -29,20 +41,20 @@ func _do_merging(drag_merge: DragMerge):
 	if remove_trivial:
 		_remove_trivial(new_permutation)
 	if remove_trivial and len(new_permutation) == 0:
+		item.emit_signal("eliminated", item)
 		item.queue_free()
 	else:
-		item.permutation = new_permutation
+		item.set_permutation(new_permutation)
 		item.queue_redraw()
 	queue_free()
 
 static func _compose(composerPermutation: Dictionary, targetPermutation: Dictionary) -> Dictionary:
 	var new_permutation := _merge_keys(targetPermutation, composerPermutation)
 	for key in new_permutation.keys():
-		key = int(key)
 		if not targetPermutation.has(key):
 			new_permutation[key] = composerPermutation[key]
 		else:
-			var value = int(targetPermutation[key])
+			var value = targetPermutation[key]
 			if not composerPermutation.has(value):
 				new_permutation[key] = value
 			else:
@@ -65,7 +77,7 @@ func _remove_trivial(new_permutation: Dictionary):
 func clone() -> Permutation:
 	var item := self.duplicate()
 	item.active = active
-	item.permutation = permutation.duplicate()
+	item.set_permutation(permutation)
 	return item
 
 func _get_visual():

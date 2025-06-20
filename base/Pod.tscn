@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cuqj6smmrohtu"]
 
-[ext_resource type="Script" uid="uid://430y5dqxha4k" path="res://base/scroll.gd" id="1_dj7rp"]
+[ext_resource type="Script" uid="uid://430y5dqxha4k" path="res://base/pod.gd" id="1_dj7rp"]
 
-[node name="Scroll" type="Node2D"]
+[node name="Pod" type="Node2D"]
 script = ExtResource("1_dj7rp")
 
 [node name="LeftButton" type="Button" parent="."]
@@ -10,7 +10,6 @@ offset_left = 7.0
 offset_top = -57.0
 offset_right = 40.0
 offset_bottom = -7.0
-disabled = true
 text = "←"
 flat = true
 metadata/_edit_use_anchors_ = true
@@ -24,7 +23,10 @@ text = "→"
 flat = true
 metadata/_edit_use_anchors_ = true
 
-[node name="ItemsContainer" type="Node2D" parent="."]
+[node name="Page" type="Node2D" parent="."]
+
+[node name="AllItemsContainer" type="Node2D" parent="."]
+visible = false
 
 [connection signal="pressed" from="LeftButton" to="." method="_on_left_button_pressed"]
 [connection signal="pressed" from="RightButton" to="." method="_on_right_button_pressed"]

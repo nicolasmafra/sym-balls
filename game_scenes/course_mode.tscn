@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://db8q5vsqsqnce"]
+
+[ext_resource type="Script" uid="uid://660o2acb2pji" path="res://game_scenes/course_mode.gd" id="1_ig1bj"]
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="2_33lpq"]
+[ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="2_aiycv"]
+[ext_resource type="PackedScene" uid="uid://cuqj6smmrohtu" path="res://base/Pod.tscn" id="3_j6d7t"]
+[ext_resource type="Script" uid="uid://7ad3mo6njx58" path="res://visuals/cycle_visual.gd" id="4_33lpq"]
+
+[node name="CourseMode" type="Node2D"]
+script = ExtResource("1_ig1bj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="BackButton" parent="Control" instance=ExtResource("2_aiycv")]
+layout_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 0.5
+offset_right = 187.0
+offset_bottom = 45.0
+grow_horizontal = 2
+theme = ExtResource("2_33lpq")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Visual" type="Node2D" parent="."]
+script = ExtResource("4_33lpq")
+metadata/_custom_type_script = "uid://7ad3mo6njx58"
+
+[node name="Pod" parent="." instance=ExtResource("3_j6d7t")]
+position = Vector2(140, 359)
+page_size = 2
+
+[node name="DimBackground" type="ColorRect" parent="."]
+visible = false
+color = Color(0, 0, 0, 0.5)
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+title = "Success!"

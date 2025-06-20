@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cpma4wgkjoqi6"]
+[gd_scene load_steps=4 format=3 uid="uid://cpma4wgkjoqi6"]
 
 [ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="1_2a3y8"]
-[ext_resource type="Script" uid="uid://c0ddnqidgaifu" path="res://game_scenes/main_menu.gd" id="1_me7c7"]
+[ext_resource type="Script" uid="uid://c0ddnqidgaifu" path="res://menu_scenes/main_menu.gd" id="1_me7c7"]
+[ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="3_frpug"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,21 +14,28 @@ grow_vertical = 2
 theme = ExtResource("1_2a3y8")
 script = ExtResource("1_me7c7")
 
+[node name="BackButton" parent="." instance=ExtResource("3_frpug")]
+visible = false
+layout_mode = 0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(200, 200)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -104.0
+offset_top = -112.0
+offset_right = 104.0
+offset_bottom = 112.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+
+[node name="CourseModeButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Course Mode"
 
 [node name="FreeModeButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -41,6 +49,7 @@ text = "Settings"
 layout_mode = 2
 text = "Exit"
 
+[connection signal="pressed" from="VBoxContainer/CourseModeButton" to="." method="_on_course_mode_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/FreeModeButton" to="." method="_on_free_mode_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

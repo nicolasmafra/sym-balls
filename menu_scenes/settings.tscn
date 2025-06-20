@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://1oj4x5t7amoq"]
 
-[ext_resource type="Script" uid="uid://bau8revsnaovh" path="res://game_scenes/settings.gd" id="1_eip2t"]
+[ext_resource type="Script" uid="uid://bau8revsnaovh" path="res://menu_scenes/settings.gd" id="1_eip2t"]
 [ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="1_j4hei"]
 
 [node name="Settings" type="Control"]
