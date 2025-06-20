@@ -41,3 +41,6 @@ color = Color(0, 0, 0, 0.5)
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 title = "Success!"
+
+[connection signal="canceled" from="AcceptDialog" to="." method="_on_accept_dialog_canceled"]
+[connection signal="confirmed" from="AcceptDialog" to="." method="_on_accept_dialog_confirmed"]

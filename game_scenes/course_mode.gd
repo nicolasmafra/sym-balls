@@ -7,7 +7,6 @@ var info = GlobalVars.course_level_info
 var data = _load_data(info.file)
 
 func _ready() -> void:
-	$AcceptDialog.connect("confirmed", _on_success_confirmed)
 	var screen_size = get_viewport().get_visible_rect().size
 	_update_controls_position()
 	if data.has("hint"):
@@ -66,5 +65,9 @@ func _success(item):
 	$AcceptDialog.popup_centered()
 
 
-func _on_success_confirmed():
+func _on_accept_dialog_confirmed() -> void:
+	BackButton.do_back(get_tree())
+
+
+func _on_accept_dialog_canceled() -> void:
 	BackButton.do_back(get_tree())
