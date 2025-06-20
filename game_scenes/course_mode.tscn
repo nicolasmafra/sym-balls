@@ -34,7 +34,6 @@ metadata/_custom_type_script = "uid://7ad3mo6njx58"
 
 [node name="Pod" parent="." instance=ExtResource("3_j6d7t")]
 position = Vector2(140, 359)
-page_size = 2
 
 [node name="DimBackground" type="ColorRect" parent="."]
 visible = false

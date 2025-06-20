@@ -24,12 +24,13 @@ func set_permutation(new_permutation: Dictionary):
 func _draw():
 	var radius: float = $CollisionShape2D.shape.radius
 	var color = Color.BLACK if move_disabled else Color.GRAY
+	var width = 2.0 if move_disabled else 1.0
 	draw_arc(
 		Vector2.ZERO, # center
 		radius, # radius
 		0, TAU, 64, # start_angle, end_angle, point_count
 		color, # color
-		1.0, # width
+		width, # width
 		true # antialiased
 	)
 	var visual = _get_visual()

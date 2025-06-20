@@ -12,7 +12,7 @@ func _ready() -> void:
 
 
 func _load_world_list():
-	$Control/Label.text = "Select Subject"
+	$Control/Label.text = "Subjects"
 	_clear_list()
 	for i in range(len(data.worlds)):
 		var world = data.worlds[i]
@@ -20,7 +20,7 @@ func _load_world_list():
 
 
 func _select_world(index):
-	$Control/Label.text = data.worlds[index].name + ": Select Lesson"
+	$Control/Label.text = data.worlds[index].name + " - Lessons"
 	GlobalVars.course_world_index = index
 	_load_level_list()
 
@@ -35,7 +35,7 @@ func _load_level_list():
 
 func _select_level(index):
 	GlobalVars.course_level_index = index
-	GlobalVars.course_level_data = data.worlds[GlobalVars.course_world_index].levels[index]
+	GlobalVars.course_level_info = data.worlds[GlobalVars.course_world_index].levels[index]
 	get_tree().change_scene_to_file("res://game_scenes/course_mode.tscn")
 
 

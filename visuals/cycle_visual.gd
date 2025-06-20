@@ -3,8 +3,9 @@ class_name CycleVisual
 
 var item_padding_ratio := 0.1
 var cycle_margin_ratio := 0.1
-var cycle_angle_offset := PI
-var ball_angle_offset := PI/2
+var cycle_angle_offset := PI/2
+var cycle_angle_direction := 1
+var ball_angle_offset := 3*PI/4
 var ball_angle_direction := 1
 
 var key_radius_ratio := 0.9
@@ -25,17 +26,25 @@ func draw(item):
 	var cycles := Cycle.perm_to_cycles(permutation)
 	
 	var cycle_count = len(cycles)
+	if len(cycles) >= 7:
+		cycle_count -= 1 # cycle on center
+
 	var item_effective_radius = (1 - item_padding_ratio) * item_radius
 	var cycle_radius = _minor_circle_radius(cycle_count, item_effective_radius)
 	var cycle_distance = item_effective_radius - cycle_radius
 	var cycle_margin = cycle_margin_ratio * cycle_radius
+	cycle_radius -= cycle_margin
 	var angle_step = TAU/cycle_count
+	var angle_offset = cycle_angle_offset + PI / cycle_count
 	for i in range(cycle_count):
-		var angle = cycle_angle_offset + i * angle_step
+		var angle = angle_offset + cycle_angle_direction * i * angle_step
 		var cx = cycle_distance * cos(angle)
 		var cy = cycle_distance * sin(angle)
 		var cycle := cycles[i]
-		_draw_cycle(item, cycle, cx, cy, cycle_radius - cycle_margin)
+		_draw_cycle(item, cycle, cx, cy, cycle_radius)
+	if len(cycles) >= 7:
+		var last_cycle = cycles[-1] # cycle on center
+		_draw_cycle(item, last_cycle, 0, 0, cycle_radius)
 
 func _draw_cycle(item, cycle: Array, cx, cy, cycle_radius):
 	var ball_count = len(cycle)

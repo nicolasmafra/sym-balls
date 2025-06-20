@@ -3,7 +3,8 @@ extends Node2D
 const fixed_item_margin_top := 100.0
 const item_scene: PackedScene = preload("res://base/permutation.tscn")
 
-var data = GlobalVars.course_level_data
+var info = GlobalVars.course_level_info
+var data = _load_data(info.file)
 
 func _ready() -> void:
 	$AcceptDialog.connect("confirmed", _on_success_confirmed)
@@ -24,6 +25,14 @@ func _process(delta):
 func _update_controls_position():
 	var screen_size = get_viewport_rect().size
 	$Pod.position.y = screen_size.y
+
+
+func _load_data(file_path) -> Dictionary:
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	var content = file.get_as_text()
+	file.close()
+	
+	return JSON.parse_string(content) as Dictionary
 
 
 func _load_pod_items():

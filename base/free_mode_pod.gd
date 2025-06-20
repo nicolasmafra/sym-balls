@@ -12,9 +12,10 @@ func update_items():
 	var page_offset = page * page_size
 	for i in range(page_size):
 		var key = str(2 + page_offset + i)
+		var value = "1" #str(1 + page_offset + i)
 		var permutation = {
-			"1": key,
-			key: "1",
+			value: key,
+			key: value,
 		}
 		var item : Permutation = item_scene.instantiate()
 		item.set_permutation(permutation)

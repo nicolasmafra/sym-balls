@@ -1,101 +1,56 @@
 {
 	"worlds": [
 		{
-			"name": "Swap Sum",
+			"name": "Prime Sums",
 			"levels": [
 				{
-					"name": "Singles",
-					"hint": "Drag items from the pod onto the fixed one to eliminate it.",
-					"to_resolve": {
-						"1": "2",
-						"2": "1",
-						"3": "4",
-						"4": "3",
-					},
-					"pod": [
-						{
-							"1": "2",
-							"2": "1",
-						},
-						{
-							"3": "4",
-							"4": "3",
-						},
-					]
+					"name": "Swaps",
+					"file": "res://data/courses/swaps.json",
 				},
 				{
-					"name": "Doubles",
-					"to_resolve": {
-						"1": "2",
-						"2": "1",
-						"5": "6",
-						"6": "5",
-					},
-					"pod": [
-						{
-							"1": "2",
-							"2": "1",
-							"3": "4",
-							"4": "3",
-						},
-						{
-							"3": "4",
-							"4": "3",
-							"5": "6",
-							"6": "5",
-						},
-					]
+					"name": "Trio",
+					"file": "res://data/courses/trio.json",
+				},
+				{
+					"name": "Penta",
+					"file": "res://data/courses/penta.json",
+				},
+				{
+					"name": "Direct Sum",
+					"file": "res://data/courses/direct_sum.json",
+				},
+				{
+					"name": "Swap Lock",
+					"file": "res://data/courses/swap_lock.json",
+				},
+				{
+					"name": "Trio Lock",
+					"file": "res://data/courses/trio_lock.json",
+				},
+				{
+					"name": "Penta Lock",
+					"file": "res://data/courses/penta_lock.json",
+				},
+				{
+					"name": "Challenge",
+					"file": "res://data/courses/prime_sums_challenge.json",
 				},
 			]
 		},
 		{
-			"name": "Prime Cycles",
+			"name": "Non-prime sums",
 			"levels": [
 				{
-					"name": "Trio",
-					"to_resolve": {
-						"3": "4",
-						"4": "5",
-						"5": "3",
-					},
-					"pod": [
-						{
-							"3": "4",
-							"4": "5",
-							"5": "3",
-						},
-						{
-							"3": "5",
-							"4": "3",
-							"5": "4",
-						},
-					]
+					"name": "Tetra",
+					"file": "res://data/courses/tetra.json",
 				},
 				{
-					"name": "Penta",
-					"to_resolve": {
-						"1": "3",
-						"2": "4",
-						"3": "5",
-						"4": "1",
-						"5": "2",
-					},
-					"pod": [
-						{
-							"1": "2",
-							"2": "3",
-							"3": "4",
-							"4": "5",
-							"5": "1",
-						},
-						{
-							"1": "5",
-							"2": "1",
-							"3": "2",
-							"4": "3",
-							"5": "4",
-						},
-					]
+					"name": "Hexa",
+					"file": "res://data/courses/hexa.json",
+				},
+				{
+					"name": "Tetra Lock",
+					"file": "res://data/courses/tetra_lock.json",
 				},
 			]
 		},
