@@ -1,0 +1,41 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://b4ndynlfejmnq"
+path="res://.godot/imported/NotoSansSymbols2-Regular.ttf-8f2207881975674340cd718ed4f87bf4.fontdata"
+
+[deps]
+
+source_file="res://fonts/NotoSansSymbols2-Regular.ttf"
+dest_files=["res://.godot/imported/NotoSansSymbols2-Regular.ttf-8f2207881975674340cd718ed4f87bf4.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=4
+keep_rounding_remainders=true
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [171, 187],
+"glyphs": [1181, 581, 681, 2250, 1007, 598, 435, 434, 147, 2563, 1140, 2629, 2630, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 2761, 2772, 2778, 2773, 2782, 2791, 2792, 2796, 2798, 2807, 2809, 2811, 2816, 2817, 2823, 2833, 2835, 2836, 2840, 2846, 2849, 2859, 2860, 2865, 2866, 2871, 2648, 2659, 2660, 2665, 2669, 2678, 2679, 2683, 2685, 2694, 2695, 2697, 2702, 2703, 2709, 2719, 2721, 2722, 2726, 2732, 2735, 2745, 2746, 2751, 2752, 2757, 3, 2618, 2885, 2612, 2877, 2615, 2880],
+"name": "New Configuration",
+"size": Vector2i(16, 0),
+&"variation_embolden": 0.0
+}]
+language_support={}
+script_support={}
+opentype_features={}

@@ -10,7 +10,7 @@ offset_left = 7.0
 offset_top = -57.0
 offset_right = 40.0
 offset_bottom = -7.0
-text = "←"
+text = "«"
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -19,7 +19,7 @@ offset_left = 207.0
 offset_top = -57.0
 offset_right = 240.0
 offset_bottom = -7.0
-text = "→"
+text = "»"
 flat = true
 metadata/_edit_use_anchors_ = true
 

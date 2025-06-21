@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://jrsd0oo0fhcq"]
+[gd_scene load_steps=4 format=3 uid="uid://jrsd0oo0fhcq"]
 
 [ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="1_3wa3p"]
 [ext_resource type="Script" uid="uid://btujxp0ta3ca0" path="res://menu_scenes/course_menu.gd" id="1_8ybp5"]
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="3_vmvhg"]
 
 [node name="CourseMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_vmvhg")
 script = ExtResource("1_8ybp5")
 
 [node name="BackButton" parent="." instance=ExtResource("1_3wa3p")]

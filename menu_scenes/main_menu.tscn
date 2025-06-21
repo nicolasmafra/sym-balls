@@ -35,18 +35,22 @@ alignment = 1
 
 [node name="CourseModeButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_2a3y8")
 text = "Course Mode"
 
 [node name="FreeModeButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_2a3y8")
 text = "Free Mode"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_2a3y8")
 text = "Settings"
 
 [node name="ExitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_2a3y8")
 text = "Exit"
 
 [connection signal="pressed" from="VBoxContainer/CourseModeButton" to="." method="_on_course_mode_button_pressed"]

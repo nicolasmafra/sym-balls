@@ -19,7 +19,7 @@ func _ready() -> void:
 	_load_objective()
 
 
-func _process(delta):
+func _process(_delta):
 	_update_controls_position()
 
 
