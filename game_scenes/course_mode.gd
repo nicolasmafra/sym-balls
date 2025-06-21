@@ -1,6 +1,7 @@
 extends Node2D
 
 const fixed_item_margin_top := 100.0
+const text_margin := 50.0
 const item_scene: PackedScene = preload("res://base/permutation.tscn")
 
 var info = GlobalVars.course_level_info
@@ -11,7 +12,8 @@ func _ready() -> void:
 	_update_controls_position()
 	if data.has("hint"):
 		var label = $Label
-		label.size.x = screen_size.x
+		label.size.x = screen_size.x - 2*text_margin
+		label.position.x = text_margin
 		label.text = data.hint
 	_load_pod_items()
 	_load_objective()
@@ -45,25 +47,54 @@ func _load_pod_items():
 
 
 func _load_objective():
-	if data.has("to_resolve"):
-		var item = _add_item(data.to_resolve)
-		item.eliminated.connect(_success)
+	if data.has("to_solve"):
+		var permutations = data.to_solve if data.to_solve is Array else [data.to_solve]
+		for perm in permutations:
+			var item = _add_item(perm)
+			item.eliminated.connect(_success)
 	elif data.has("to_make"):
-		var item = _add_item(data.to_make)
-		item.active = false
-		item.queue_redraw()
-		EventBus.item_changed.connect(_on_item_changed)
+		var permutations = data.to_make if data.to_make is Array else [data.to_make]
+		for perm in permutations:
+			var item = _add_item(perm)
+			item.active = false
+			item.queue_redraw()
+			EventBus.item_changed.connect(_on_item_changed)
+	_update_item_positions()
 
-func _add_item(permutation):
-	var screen_size = get_viewport().get_visible_rect().size
+func _add_item(permutation) -> Permutation:
 	var item = item_scene.instantiate()
 	item.set_permutation(permutation)
 	item.move_disabled = true
-	item.position.y = fixed_item_margin_top + GlobalVars.item_radius
-	item.position.x = screen_size.x/2
 	item.queue_redraw()
-	add_child(item)
+	$ObjectiveItems.add_child(item)
 	return item
+
+
+func _update_item_positions():
+	var screen_size = get_viewport().get_visible_rect().size
+	var children = $ObjectiveItems.get_children()
+	var count = len(children)
+	var offset = (count - 1) * GlobalVars.item_radius
+	for i in range(count):
+		var item = children[i]
+		item.position.y = fixed_item_margin_top + GlobalVars.item_radius
+		item.position.x = screen_size.x/2 - offset + i * 2 * GlobalVars.item_radius
+
+
+func _check_make_all_objective(permutations_to_make):
+	var existing_permutations = []
+	for child in get_children():
+		if child is Permutation:
+			existing_permutations.append(child.permutation)
+	for to_make in permutations_to_make:
+		var found = false
+		for existing in existing_permutations:
+			if to_make == existing:
+				found = true
+				break
+		if not found:
+			return false
+	return true
 
 
 func _success():
@@ -83,6 +114,15 @@ func _on_accept_dialog_canceled() -> void:
 	BackButton.do_back(get_tree())
 
 
+func _on_reload_button_pressed() -> void:
+	get_tree().reload_current_scene()
+
+
 func _on_item_changed(item) -> void:
-	if item.permutation == data.to_make:
+	var permutations = data.to_make if data.to_make is Array else [data.to_make]
+	if len(permutations) == 1:
+		if item.permutation == permutations[0]:
+			_success()
+		return
+	if _check_make_all_objective(permutations):
 		_success()

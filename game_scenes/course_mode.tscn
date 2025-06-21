@@ -18,6 +18,15 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 0
 metadata/_edit_use_anchors_ = true
 
+[node name="ReloadButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_top = 53.0
+offset_right = 53.0
+offset_bottom = 106.0
+theme = ExtResource("2_33lpq")
+text = "↺"
+flat = true
+
 [node name="Label" type="Label" parent="."]
 anchors_preset = -1
 anchor_right = 0.5
@@ -35,12 +44,15 @@ metadata/_custom_type_script = "uid://7ad3mo6njx58"
 [node name="Pod" parent="." instance=ExtResource("3_j6d7t")]
 position = Vector2(140, 359)
 
+[node name="ObjectiveItems" type="Node2D" parent="."]
+
 [node name="DimBackground" type="ColorRect" parent="."]
 visible = false
 color = Color(0, 0, 0, 0.5)
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
-title = "Success!"
+title = ""
 
+[connection signal="pressed" from="Control/ReloadButton" to="." method="_on_reload_button_pressed"]
 [connection signal="canceled" from="AcceptDialog" to="." method="_on_accept_dialog_canceled"]
 [connection signal="confirmed" from="AcceptDialog" to="." method="_on_accept_dialog_confirmed"]

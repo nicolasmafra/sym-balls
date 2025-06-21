@@ -56,7 +56,7 @@ func _do_merging(drag_merge: DragMerge):
 	if remove_trivial:
 		_remove_trivial(new_permutation)
 	if remove_trivial and len(new_permutation) == 0:
-		item.emit_signal("eliminated", item)
+		item.emit_signal("eliminated")
 		item.queue_free()
 	else:
 		item.set_permutation(new_permutation)

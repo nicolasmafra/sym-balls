@@ -61,8 +61,37 @@
 					"file": "res://data/courses/hexa_lock.json",
 				},
 				{
-					"name": "Hexa Maker",
+					"name": "Challenge",
 					"file": "res://data/courses/hexa_maker.json",
+				},
+			]
+		},
+		{
+			"name": "Sym3",
+			"levels": [
+				{
+					"name": "Trio Maker",
+					"file": "res://data/courses/trio_maker.json",
+				},
+				{
+					"name": "Swap Maker",
+					"file": "res://data/courses/swap_maker.json",
+				},
+				{
+					"name": "Color Changer",
+					"file": "res://data/courses/trio_changer.json",
+				},
+				{
+					"name": "Parity",
+					"file": "res://data/courses/trio_parity.json",
+				},
+				{
+					"name": "S3 via Swaps",
+					"file": "res://data/courses/s3_via_swaps.json",
+				},
+				{
+					"name": "S3 Minimal",
+					"file": "res://data/courses/s3_minimal.json",
 				},
 			]
 		},
