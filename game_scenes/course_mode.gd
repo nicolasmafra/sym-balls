@@ -1,6 +1,6 @@
 extends Node2D
 
-const fixed_item_margin_top := 150.0
+const fixed_item_margin_top := 180.0
 const text_margin := 50.0
 const item_scene: PackedScene = preload("res://base/permutation.tscn")
 

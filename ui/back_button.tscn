@@ -4,11 +4,10 @@
 [ext_resource type="Script" uid="uid://b25bxe0k638s6" path="res://ui/back_button.gd" id="2_w7w3o"]
 
 [node name="BackButton" type="Button"]
-offset_right = 53.0
-offset_bottom = 53.0
+offset_right = 91.0
+offset_bottom = 91.0
 theme = ExtResource("1_37rkw")
 text = "⮌"
-flat = true
 script = ExtResource("2_w7w3o")
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -1,5 +1,5 @@
 {
-	"hint": "Drag items from the pod onto the fixed one to eliminate it.",
+	"hint": "Drag items from the pod onto this fixed one to eliminate it.",
 	"to_solve": {
 		"3": "4",
 		"4": "3",
