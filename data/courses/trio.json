@@ -1,6 +1,6 @@
 {
 	"hint": "A 3-cycle has three states: solved, clockwise, and counterclockwise.",
-	"to_resolve": {
+	"to_solve": {
 		"3": "4",
 		"4": "5",
 		"5": "3",

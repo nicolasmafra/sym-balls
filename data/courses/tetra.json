@@ -1,6 +1,6 @@
 {
 	"hint": "A 4-cycle has four states, one being the solved state",
-	"to_resolve": {
+	"to_solve": {
 		"3": "5",
 		"4": "6",
 		"5": "4",

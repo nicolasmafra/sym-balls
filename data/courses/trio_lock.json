@@ -1,6 +1,6 @@
 {
 	"hint": "It's impossible to solve using a unique item in the pod.",
-	"to_resolve": {
+	"to_solve": {
 		"3": "4",
 		"4": "5",
 		"5": "3",

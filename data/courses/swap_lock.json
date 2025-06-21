@@ -1,6 +1,6 @@
 {
 	"hint": "It's impossible to solve without the last item in the pod.",
-	"to_resolve": {
+	"to_solve": {
 		"3": "4",
 		"4": "3",
 	},

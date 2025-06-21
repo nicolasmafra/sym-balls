@@ -1,6 +1,6 @@
 {
 	"hint": "A 6-cycle has six states, one being the solved state",
-	"to_resolve": {
+	"to_solve": {
 		"3": "6",
 		"6": "4",
 		"4": "7",

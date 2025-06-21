@@ -1,6 +1,6 @@
 {
 	"hint": "An N-cycle plus an M-cycle has N×M states, including the solved state.",
-	"to_resolve": {
+	"to_solve": {
 		"1": "2",
 		"2": "1",
 		"3": "4",
