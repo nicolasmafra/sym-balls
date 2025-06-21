@@ -29,7 +29,7 @@ script = ExtResource("1_cdoxt")
 metadata/_custom_type_script = "uid://7ad3mo6njx58"
 
 [node name="BottomControls" type="Node2D" parent="."]
-position = Vector2(103, 258)
+position = Vector2(0, 258)
 
 [node name="EraserBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
 position = Vector2(46, -44)

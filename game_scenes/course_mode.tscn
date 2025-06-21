@@ -12,11 +12,13 @@ script = ExtResource("1_ig1bj")
 [node name="Label" type="Label" parent="."]
 anchors_preset = -1
 anchor_right = 0.5
-offset_right = 187.0
-offset_bottom = 45.0
+offset_left = 270.0
+offset_right = 457.0
+offset_bottom = 56.0
 grow_horizontal = 2
 theme = ExtResource("2_33lpq")
 horizontal_alignment = 1
+autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Visual" type="Node2D" parent="."]
