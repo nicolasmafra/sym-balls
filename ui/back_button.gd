@@ -15,7 +15,7 @@ static func do_back(tree):
 	var scene_path = GlobalVars.scene_stack.pop_back()
 	if scene_path:
 		tree.change_scene_to_file(scene_path)
-	else:
+	elif not OS.get_name() == "Web":
 		tree.quit()
 
 

@@ -1,6 +1,11 @@
 extends Control
 
 
+func _ready() -> void:
+	print("Platform:", OS.get_name())
+	if OS.get_name() == "Web":
+		$VBoxContainer/ExitButton.queue_free()
+
 func _on_course_mode_button_pressed() -> void:
 	GlobalVars.course_world_index = -1
 	GlobalVars.course_level_index = -1
