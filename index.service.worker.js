@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1750475653|603248619';
+const CACHE_VERSION = '1750476605|1555229898';
 /** @type {string} */
 const CACHE_PREFIX = 'sym-balls-godot-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
