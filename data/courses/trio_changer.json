@@ -1,5 +1,6 @@
 {
 	"hint": "Bigger cycles changes colors of inner swaps.",
+	"star_moves": 2,
 	"to_make": {
 		"3": "4",
 		"4": "3",

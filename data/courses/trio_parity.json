@@ -1,5 +1,6 @@
 {
-	"hint": "It's impossible to solve a swap without another swap.",
+	"hint": "It's impossible to solve a swap with an even swap count.",
+	"star_moves": 2,
 	"to_solve": {
 		"3": "4",
 		"4": "3",

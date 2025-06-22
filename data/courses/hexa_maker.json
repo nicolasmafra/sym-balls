@@ -1,5 +1,6 @@
 {
 	"hint": "Drag items from the pod and merge them until you create the goal item.",
+	"star_moves": 7,
 	"to_make": {
 		"3": "6",
 		"6": "4",

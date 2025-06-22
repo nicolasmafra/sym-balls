@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://jrsd0oo0fhcq"]
+[gd_scene load_steps=6 format=3 uid="uid://jrsd0oo0fhcq"]
 
 [ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="1_3wa3p"]
 [ext_resource type="Script" uid="uid://btujxp0ta3ca0" path="res://menu_scenes/course_menu.gd" id="1_8ybp5"]
@@ -6,7 +6,11 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_vmvhg"]
 font_size = 24
-font_color = Color(0.666569, 0.666569, 0.666569, 1)
+font_color = Color(0.16, 0.16, 0.8, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_g3lso"]
+font_size = 24
+font_color = Color(0.99, 0.83952, 0.2376, 1)
 
 [node name="CourseMenu" type="Control"]
 layout_mode = 3
@@ -22,25 +26,36 @@ script = ExtResource("1_8ybp5")
 layout_mode = 0
 
 [node name="ButtonTemplate" type="Button" parent="."]
-visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = -197.0
+offset_top = -198.0
+offset_right = -47.0
+offset_bottom = -48.0
+
+[node name="Check" type="Label" parent="ButtonTemplate"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -42.0
+offset_right = 29.0
+grow_vertical = 0
+text = "✓"
+label_settings = SubResource("LabelSettings_vmvhg")
 
 [node name="Star" type="Label" parent="ButtonTemplate"]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -17.0
-offset_top = -29.0
-grow_horizontal = 0
+offset_left = 23.0
+offset_top = -42.0
+offset_right = 46.0
 grow_vertical = 0
-text = "☆"
-label_settings = SubResource("LabelSettings_vmvhg")
+text = "★"
+label_settings = SubResource("LabelSettings_g3lso")
 
 [node name="Control" type="VBoxContainer" parent="."]
 layout_mode = 1

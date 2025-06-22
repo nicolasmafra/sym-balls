@@ -1,5 +1,6 @@
 {
 	"hint": "An 8-cycle has eight states, one being the solved state",
+	"star_moves": 3,
 	"to_solve": {
 		"1": "2",
 		"2": "3",

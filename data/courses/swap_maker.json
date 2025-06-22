@@ -1,5 +1,6 @@
 {
 	"hint": "For intersecting swaps, ABA=BAB",
+	"star_moves": 3,
 	"to_make": {
 		"3": "4",
 		"4": "3",

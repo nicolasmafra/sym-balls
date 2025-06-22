@@ -1,5 +1,6 @@
 {
 	"hint": "Drag items from the pod onto this fixed one to eliminate it.",
+	"star_moves": 2,
 	"to_solve": {
 		"3": "4",
 		"4": "3",

@@ -1,5 +1,6 @@
 {
 	"hint": "Intersecting cycles don’t commute. The order of merging changes the result.",
+	"star_moves": 2,
 	"to_make": {
 		"1": "4",
 		"3": "1",

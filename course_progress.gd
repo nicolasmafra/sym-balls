@@ -11,7 +11,6 @@ func load():
 		var file = FileAccess.open(file_path, FileAccess.READ)
 		saved_data = file.get_var()
 		file.close()
-		print(saved_data)
 	else:
 		saved_data = default_saved_data()
 

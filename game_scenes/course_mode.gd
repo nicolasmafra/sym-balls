@@ -1,7 +1,7 @@
 extends Node2D
 
 const fixed_item_margin_top := 180.0
-const text_margin := 50.0
+const text_margin := 125.0
 const item_scene: PackedScene = preload("res://base/permutation.tscn")
 
 var info = GlobalVars.course_level_info
@@ -109,9 +109,13 @@ func _success():
 	
 	GlobalVars.winning_stats = {
 		"passed": true,
-		"star": true,
+		"star": false,
 	}
-
+	if data.has("star_moves"):
+		if pod_uses <= data.star_moves:
+			GlobalVars.winning_stats.star = true
+	else:
+		print("Total pod uses: ", pod_uses)
 
 func _on_accept_dialog_confirmed() -> void:
 	BackButton.do_back(get_tree())
@@ -137,4 +141,3 @@ func _on_item_changed(item) -> void:
 
 func _on_bag_used(bag: Bag):
 	pod_uses += 1
-	print("pod uses = ", pod_uses)

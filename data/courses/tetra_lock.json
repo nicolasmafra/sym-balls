@@ -1,5 +1,6 @@
 {
 	"hint": "It's impossible to solve using a unique item in the pod.",
+	"star_moves": 3,
 	"to_solve": {
 		"2": "3",
 		"3": "4",

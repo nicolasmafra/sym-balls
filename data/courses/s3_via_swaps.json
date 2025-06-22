@@ -1,5 +1,6 @@
 {
 	"hint": "Make all elements (except the solved) of Symmetric Group on 3 elements (colors).",
+	"star_moves": 9,
 	"to_make": [
 		{
 			"3": "4",

@@ -39,8 +39,8 @@ func _check_merge():
 	var another = _get_nearest_drag_merge()
 	if another:
 		if another.active and not another.merge_disabled:
-			_do_merging(another)
 			emit_signal("applied", self)
+			_do_merging(another)
 		else:
 			global_position = initial_position
 			emit_signal("invalid_merge", self)

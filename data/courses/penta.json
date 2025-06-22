@@ -1,5 +1,6 @@
 {
 	"hint": "A 5-cycle has five states, one being the solved state",
+	"star_moves": 2,
 	"to_solve": {
 		"1": "2",
 		"2": "3",

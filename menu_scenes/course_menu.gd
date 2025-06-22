@@ -2,10 +2,13 @@ extends Control
 
 var data := _load_data()
 var list: GridContainer
+var gray_label_settings
 
 func _ready() -> void:
 	GlobalVars.course_progress.load()
 	_check_winning()
+	gray_label_settings = $ButtonTemplate/Check.label_settings.duplicate()
+	gray_label_settings.font_color = Color.from_rgba8(0, 0, 0, 63)
 	list = $Control/CenterContainer/List
 	$BackButton.interceptor = _on_back_button_pressed
 	if GlobalVars.course_world_index < 0:
@@ -66,12 +69,14 @@ func _add_button(text, callable, stats):
 	button.visible = true
 	button.text = text
 	button.pressed.connect(callable)
+	var check: Label = button.get_node("Check")
 	var star: Label = button.get_node("Star")
-	if stats.passed:
-		var ls = star.label_settings.duplicate()
-		ls.font_color = Color.GOLD
-		star.text = "★"
-		star.label_settings = ls
+	if not stats.passed:
+		check.label_settings = gray_label_settings
+		star.visible = false
+	elif not stats.star:
+		star.text = "☆"
+		star.label_settings = gray_label_settings
 	list.add_child(button)
 
 
