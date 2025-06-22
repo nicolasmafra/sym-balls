@@ -1,9 +1,6 @@
 extends Item
 
 class_name InvertItem
-
-func _item_move():
-	emit_signal("invalid_merge", self)
 		
 func _do_merging(drag_merge: DragMerge):
 	var item := drag_merge as Permutation

@@ -3,8 +3,6 @@ class_name ChromaItem
 
 @onready var sprite := Sprite2D.new()
 
-func _item_move():
-	emit_signal("invalid_merge", self)
 
 func _do_merging(drag_merge: DragMerge):
 	var item := drag_merge as Permutation
@@ -44,6 +42,3 @@ func _ready():
 	sprite.texture = texture
 	add_child(sprite)
 	sprite.position = Vector2.ZERO
-
-func clone():
-	return self.duplicate()

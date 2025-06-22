@@ -2,9 +2,15 @@ extends Area2D
 class_name Bag
 
 const INFINITY = -1
-@export var count: int = INFINITY
-var last_item: DragMerge
 const label_ball_radius := 10.0
+
+
+@export var count: int = INFINITY
+@export var can_drop := true
+var last_item: Item
+
+
+signal used(bag: Bag)
 
 
 func _ready():
@@ -39,32 +45,48 @@ func _draw():
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
+			if event.pressed and (count > 0 or count == INFINITY):
 				_pick()
 
 
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if not event.pressed and last_item != null:
-				last_item.invalid_merge.disconnect(_on_invalid_merge)
-				last_item = null
-
-
 func _pick():
-	last_item = DragMerge.clone_item($Item, self)
-	
-	if count == INFINITY:
-		return
-	count = count - 1
-	if count == 0:
-		queue_free()
+	last_item = $Item.clone_to(self)
+	last_item.invalid_merge.connect(_on_invalid_merge)
+	last_item.applied.connect(_on_applied)
+	if can_drop:
+		last_item.moved.connect(_on_moved)
 	else:
+		last_item.moved.connect(_on_invalid_merge)
+	
+	if count != INFINITY:
+		count = count - 1
 		queue_redraw()
 
 
+func _remove_signal_handlers(item):
+	item.invalid_merge.disconnect(_on_invalid_merge)
+	item.applied.disconnect(_on_applied)
+	item.moved.disconnect(_on_moved)
+	last_item = null
+
+
 func _on_invalid_merge(item: DragMerge):
+	_remove_signal_handlers(item)
 	item.queue_free()
 	if count != INFINITY:
 		count += 1
 		queue_redraw()
+
+
+func _on_applied(item: DragMerge):
+	emit_signal("used", self)
+	_remove_signal_handlers(item)
+	if count == 0:
+		queue_free()
+
+
+func _on_moved(item: DragMerge):
+	emit_signal("used", self)
+	_remove_signal_handlers(item)
+	if count == 0:
+		queue_free()

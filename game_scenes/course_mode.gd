@@ -5,7 +5,8 @@ const text_margin := 50.0
 const item_scene: PackedScene = preload("res://base/permutation.tscn")
 
 var info = GlobalVars.course_level_info
-var data = _load_data(info.file)
+var data = _load_data("res://data/courses/" + info.code + ".json")
+var pod_uses = 0
 
 func _ready() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
@@ -17,6 +18,7 @@ func _ready() -> void:
 		label.text = data.hint
 	_load_pod_items()
 	_load_objective()
+	$Pod.bag_used.connect(_on_bag_used)
 
 
 func _process(_delta):
@@ -104,6 +106,11 @@ func _success():
 	move_child($DimBackground, get_child_count() - 1)
 	$AcceptDialog.dialog_text = "You did it!"
 	$AcceptDialog.popup_centered()
+	
+	GlobalVars.winning_stats = {
+		"passed": true,
+		"star": true,
+	}
 
 
 func _on_accept_dialog_confirmed() -> void:
@@ -126,3 +133,8 @@ func _on_item_changed(item) -> void:
 		return
 	if _check_make_all_objective(permutations):
 		_success()
+
+
+func _on_bag_used(bag: Bag):
+	pod_uses += 1
+	print("pod uses = ", pod_uses)

@@ -47,12 +47,20 @@ value = 30.0
 exp_edit = true
 rounded = true
 
-[node name="ResetButton" type="Button" parent="VBoxContainer"]
+[node name="ResetParamsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Reset values"
+text = "Reset params"
+
+[node name="ResetProgressButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Reset progress"
 
 [node name="BackButton" parent="." instance=ExtResource("1_j4hei")]
 layout_mode = 0
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+title = "Done!"
+
 [connection signal="value_changed" from="VBoxContainer/ItemSize/ItemSizeSlider" to="." method="_on_item_size_slider_value_changed"]
-[connection signal="pressed" from="VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ResetParamsButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ResetProgressButton" to="." method="_on_reset_progress_button_pressed"]

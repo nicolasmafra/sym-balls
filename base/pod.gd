@@ -7,6 +7,10 @@ const color := Color.BLACK
 const border := 2.0
 const item_radius_margin := 14.0
 
+
+signal bag_used(bag: Bag)
+
+
 @export var page_size := 5
 
 var item_radius := -1
@@ -96,6 +100,7 @@ func _add_page_item(item, i):
 		item.name = "Item"
 		bag.add_child(item)
 		bag.position = Vector2(item_radius + i*2*item_radius, -item_radius)
+		bag.used.connect(_on_bag_used)
 		$Page.add_child(bag)
 
 
@@ -111,3 +116,7 @@ func _on_left_button_pressed() -> void:
 func _on_right_button_pressed() -> void:
 	page += 1
 	update_items()
+
+
+func _on_bag_used(bag: Bag):
+	emit_signal("bag_used", bag)

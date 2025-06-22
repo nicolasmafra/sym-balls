@@ -51,6 +51,10 @@ func _draw():
 	visual.draw(self)
 
 func _do_merging(drag_merge: DragMerge):
+	if not drag_merge is Permutation:
+		drag_merge.receive_merging(self)
+		return
+
 	var item := drag_merge as Permutation
 	var new_permutation := _compose(self.permutation, item.permutation)
 	if remove_trivial:

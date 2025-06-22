@@ -33,17 +33,20 @@ position = Vector2(0, 258)
 
 [node name="EraserBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
 position = Vector2(46, -44)
+can_drop = false
 
 [node name="Item" parent="BottomControls/EraserBag" instance=ExtResource("5_rnln3")]
 move_disabled = false
 
 [node name="CloneBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
 position = Vector2(126, -44)
+can_drop = false
 
 [node name="Item" parent="BottomControls/CloneBag" instance=ExtResource("5_vgn08")]
 
 [node name="InvertBag" parent="BottomControls" instance=ExtResource("3_s1m4e")]
 position = Vector2(206, -44)
+can_drop = false
 
 [node name="Item" parent="BottomControls/InvertBag" instance=ExtResource("6_0q3wo")]
 

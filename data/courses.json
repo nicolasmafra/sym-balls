@@ -2,96 +2,99 @@
 	"worlds": [
 		{
 			"name": "Prime Sums",
+			"code": "prime_sums",
 			"levels": [
 				{
 					"name": "Swaps",
-					"file": "res://data/courses/swaps.json",
+					"code": "swaps",
 				},
 				{
 					"name": "Trio",
-					"file": "res://data/courses/trio.json",
+					"code": "trio",
 				},
 				{
 					"name": "Penta",
-					"file": "res://data/courses/penta.json",
+					"code": "penta",
 				},
 				{
 					"name": "Direct Sum",
-					"file": "res://data/courses/direct_sum.json",
+					"code": "direct_sum",
 				},
 				{
 					"name": "Swap Lock",
-					"file": "res://data/courses/swap_lock.json",
+					"code": "swap_lock",
 				},
 				{
 					"name": "Trio Lock",
-					"file": "res://data/courses/trio_lock.json",
+					"code": "trio_lock",
 				},
 				{
 					"name": "Penta Lock",
-					"file": "res://data/courses/penta_lock.json",
+					"code": "penta_lock",
 				},
 				{
 					"name": "Challenge",
-					"file": "res://data/courses/prime_sums_challenge.json",
+					"code": "prime_sums_challenge",
 				},
 			]
 		},
 		{
+			"code": "non_prime_sums",
 			"name": "Non-prime sums",
 			"levels": [
 				{
 					"name": "Tetra",
-					"file": "res://data/courses/tetra.json",
+					"code": "tetra",
 				},
 				{
 					"name": "Hexa",
-					"file": "res://data/courses/hexa.json",
+					"code": "hexa",
 				},
 				{
 					"name": "Octa",
-					"file": "res://data/courses/octa.json",
+					"code": "octa",
 				},
 				{
 					"name": "Tetra Lock",
-					"file": "res://data/courses/tetra_lock.json",
+					"code": "tetra_lock",
 				},
 				{
 					"name": "Hexa Lock",
-					"file": "res://data/courses/hexa_lock.json",
+					"code": "hexa_lock",
 				},
 				{
 					"name": "Challenge",
-					"file": "res://data/courses/hexa_maker.json",
+					"code": "hexa_maker",
 				},
 			]
 		},
 		{
+			"code": "sym3",
 			"name": "Sym3",
 			"levels": [
 				{
 					"name": "Trio Maker",
-					"file": "res://data/courses/trio_maker.json",
+					"code": "trio_maker",
 				},
 				{
 					"name": "Swap Maker",
-					"file": "res://data/courses/swap_maker.json",
+					"code": "swap_maker",
 				},
 				{
 					"name": "Color Changer",
-					"file": "res://data/courses/trio_changer.json",
+					"code": "trio_changer",
 				},
 				{
 					"name": "Parity",
-					"file": "res://data/courses/trio_parity.json",
+					"code": "trio_parity",
 				},
 				{
 					"name": "S3 via Swaps",
-					"file": "res://data/courses/s3_via_swaps.json",
+					"code": "s3_via_swaps",
 				},
 				{
 					"name": "S3 Minimal",
-					"file": "res://data/courses/s3_minimal.json",
+					"code": "s3_minimal",
 				},
 			]
 		},

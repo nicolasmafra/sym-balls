@@ -4,6 +4,8 @@ var data := _load_data()
 var list: GridContainer
 
 func _ready() -> void:
+	GlobalVars.course_progress.load()
+	_check_winning()
 	list = $Control/CenterContainer/List
 	$BackButton.interceptor = _on_back_button_pressed
 	if GlobalVars.course_world_index < 0:
@@ -12,12 +14,22 @@ func _ready() -> void:
 		_load_level_list()
 
 
+func _check_winning():
+	if GlobalVars.winning_stats == {}:
+		return
+	var world = data.worlds[GlobalVars.course_world_index]
+	var level = world.levels[GlobalVars.course_level_index]
+	GlobalVars.course_progress.save_progress(world.code, level.code, GlobalVars.winning_stats, data)
+	GlobalVars.winning_stats = {}
+
+
 func _load_world_list():
 	$Control/Label.text = "Subjects"
 	_clear_list()
 	for i in range(len(data.worlds)):
 		var world = data.worlds[i]
-		_add_button(world.name, func(): _select_world(i))
+		var stats = GlobalVars.course_progress.get_world_progress(world.code)
+		_add_button(world.name, func(): _select_world(i), stats)
 	_update_list()
 
 
@@ -32,7 +44,8 @@ func _load_level_list():
 	var levels = data.worlds[GlobalVars.course_world_index].levels
 	for i in range(len(levels)):
 		var level = levels[i]
-		_add_button(level.name, func(): _select_level(i))
+		var stats = GlobalVars.course_progress.get_level_progress(level.code)
+		_add_button(level.name, func(): _select_level(i), stats)
 	_update_list()
 
 
@@ -48,11 +61,17 @@ func _clear_list():
 		child.queue_free()
 
 
-func _add_button(name, callable):
+func _add_button(text, callable, stats):
 	var button: Button = $ButtonTemplate.duplicate()
 	button.visible = true
-	button.text = name
+	button.text = text
 	button.pressed.connect(callable)
+	var star: Label = button.get_node("Star")
+	if stats.passed:
+		var ls = star.label_settings.duplicate()
+		ls.font_color = Color.GOLD
+		star.text = "★"
+		star.label_settings = ls
 	list.add_child(button)
 
 

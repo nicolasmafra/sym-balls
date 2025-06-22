@@ -2,7 +2,6 @@ extends Control
 
 
 func _ready() -> void:
-	print("Platform:", OS.get_name())
 	if OS.get_name() == "Web":
 		$VBoxContainer/ExitButton.queue_free()
 

@@ -8,6 +8,8 @@ var dragging := false
 var initial_position: Vector2
 
 signal invalid_merge(item: DragMerge)
+signal applied(item: DragMerge)
+signal moved(item: DragMerge)
 
 func _input_event(viewport, event: InputEvent, shape_idx):
 	if move_disabled or not active:
@@ -38,13 +40,18 @@ func _check_merge():
 	if another:
 		if another.active and not another.merge_disabled:
 			_do_merging(another)
+			emit_signal("applied", self)
 		else:
 			global_position = initial_position
 			emit_signal("invalid_merge", self)
 	else:
 		_item_move()
+		emit_signal("moved", self)
 		
 func _do_merging(area: DragMerge):
+	pass
+
+func receive_merging(area: DragMerge):
 	pass
 
 func _item_move():
@@ -70,8 +77,8 @@ func _get_nearest_drag_merge() -> DragMerge:
 func clone():
 	return self.duplicate()
 
-static func clone_item(original_item: DragMerge, target):
-	var item:DragMerge = original_item.clone()
+func clone_to(target) -> DragMerge:
+	var item:DragMerge = clone()
 	item.active = true
 	item.merge_disabled = false
 	item.move_disabled = false
