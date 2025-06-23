@@ -22,7 +22,7 @@ func draw(item):
 		return
 	var item_radius = collision.shape.radius
 	
-	var permutation: Dictionary = item.permutation
+	var permutation: Dictionary = item.permutation.dict
 	var cycles := Cycle.perm_to_cycles(permutation)
 	
 	var cycle_count = len(cycles)
@@ -65,7 +65,7 @@ func _draw_pair(item, x: float, y: float, ball_radius: float, key, value):
 	if value_radius_ratio > 0:
 		_draw_ball(item, x, y, value_radius_ratio*ball_radius, value)
 
-func _draw_ball(item: Permutation, x: float, y: float, ball_radius: float, ball_value):
+func _draw_ball(item: PermutationItem, x: float, y: float, ball_radius: float, ball_value):
 	var color := Chroma.value_to_color(ball_value)
 	item.draw_circle(Vector2(x, y), ball_radius, color, true, -1, true)
 	var border_width = border_width_ratio * ball_radius

@@ -2,7 +2,7 @@ extends Pod
 
 class_name FreeModePod
 
-const item_scene: PackedScene = preload("res://base/permutation.tscn")
+var item_scene := PermutationItem.load_scene()
 
 func update_items():
 	_set_button_visibility($LeftButton, page > 0)
@@ -17,6 +17,6 @@ func update_items():
 			value: key,
 			key: value,
 		}
-		var item : Permutation = item_scene.instantiate()
-		item.set_permutation(permutation)
+		var item : PermutationItem = item_scene.instantiate()
+		item.set_permutation_dict(permutation)
 		_add_page_item(item, i)

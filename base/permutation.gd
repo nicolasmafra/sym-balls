@@ -1,107 +1,71 @@
-extends Item
+extends Node
 class_name Permutation
 
-@export var permutation := {
-	"1": "2",
-	"2": "1",
-	"3": "4",
-	"4": "5",
-	"5": "3",
-}
-@export var remove_trivial := true
+
+static var EMPTY = new({})
+
+var dict: Dictionary
 
 
-signal eliminated()
+func _init(dict: Dictionary):
+	set_dict(dict)
 
 
-func _ready() -> void:
-	super._ready()
+func set_dict(dict: Dictionary):
+	self.dict = _normalized_entries(dict)
 
-func set_permutation(new_permutation: Dictionary):
-	var keys = new_permutation.keys()
-	permutation = {}
-	keys.sort()
-	for key in keys:
-		permutation[str(key)] = str(new_permutation[key])
-
-
-func _draw():
-	var radius: float = $CollisionShape2D.shape.radius
-	var color: Color
-	var width: float
-	if not active:
-		color = Color.from_rgba8(0, 0, 0, 127)
-		width = -1.0
-	elif move_disabled:
-		color = Color.BLACK
-		width = 2.0
-	else:
-		color = Color.GRAY
-		width = 1.0
-
-	draw_circle(
-		Vector2.ZERO, # center
-		radius, # radius
-		color, # color
-		(width <= 0), # filled
-		width, # width
-		true # antialiased
-	)
-	var visual = _get_visual()
-	visual.draw(self)
-
-func _do_merging(drag_merge: DragMerge):
-	if not drag_merge is Permutation:
-		drag_merge.receive_merging(self)
-		return
-
-	var item := drag_merge as Permutation
-	var new_permutation := _compose(self.permutation, item.permutation)
-	if remove_trivial:
-		_remove_trivial(new_permutation)
-	if remove_trivial and len(new_permutation) == 0:
-		item.emit_signal("eliminated")
-		item.queue_free()
-	else:
-		item.set_permutation(new_permutation)
-		item.queue_redraw()
-		EventBus.emit_signal("item_changed", item)
-	queue_free()
-
-static func _compose(composerPermutation: Dictionary, targetPermutation: Dictionary) -> Dictionary:
-	var new_permutation := _merge_keys(targetPermutation, composerPermutation)
-	for key in new_permutation.keys():
-		if not targetPermutation.has(key):
-			new_permutation[key] = composerPermutation[key]
-		else:
-			var value = targetPermutation[key]
-			if not composerPermutation.has(value):
-				new_permutation[key] = value
-			else:
-				new_permutation[key] = composerPermutation[value]
-	return new_permutation
-	
-static func _merge_keys(perm1: Dictionary, perm2: Dictionary) -> Dictionary:
-	var new_permutation := {}
-	for k in perm1.keys():
-		new_permutation[k] = true
-	for k in perm2.keys():
-		new_permutation[k] = true
-	return new_permutation
-
-func _remove_trivial(new_permutation: Dictionary):
-	for key in new_permutation.keys().duplicate():
-		if new_permutation[key] == key:
-			new_permutation.erase(key)
 
 func clone() -> Permutation:
-	var item := self.duplicate()
-	item.active = active
-	item.set_permutation(permutation)
-	return item
+	return Permutation.new(dict)
 
-func _get_visual():
-	if $Visual != null:
-		return $Visual
-	else:
-		return get_tree().current_scene.get_node("Visual")
+
+func receive(permutation: Permutation):
+	dict = compose_dicts(permutation.dict, self.dict)
+
+
+func apply(permutation: Permutation):
+	dict = compose_dicts(self.dict, permutation.dict)
+
+
+func remove_trivial():
+	_remove_trivial_entries(dict)
+
+
+func is_identity() -> bool:
+	return len(dict) == 0
+
+
+static func compose_dicts(composer_dict: Dictionary, target_dict: Dictionary) -> Dictionary:
+	var new_dict := _merge_keys(target_dict, composer_dict)
+	for key in new_dict.keys():
+		if not target_dict.has(key):
+			new_dict[key] = composer_dict[key]
+		else:
+			var value = target_dict[key]
+			if not composer_dict.has(value):
+				new_dict[key] = value
+			else:
+				new_dict[key] = composer_dict[value]
+	return new_dict
+
+
+static func _merge_keys(dict1: Dictionary, dict2: Dictionary) -> Dictionary:
+	var new_dict := {}
+	for k in dict1.keys():
+		new_dict[k] = true
+	for k in dict2.keys():
+		new_dict[k] = true
+	return new_dict
+
+static func _remove_trivial_entries(dict: Dictionary):
+	for key in dict.keys().duplicate():
+		if dict[key] == key:
+			dict.erase(key)
+
+static func _normalized_entries(dict: Dictionary) -> Dictionary:
+	var keys = dict.keys()
+	keys.sort()
+	var normalized_dict = {}
+	for key in keys:
+		normalized_dict[str(key)] = str(dict[key])
+	return normalized_dict

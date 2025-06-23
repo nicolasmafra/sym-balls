@@ -50,7 +50,8 @@ func _input_event(_viewport, event, _shape_idx):
 
 
 func _pick():
-	last_item = $Item.clone_to(self)
+	var item = $Item as Item
+	last_item = item.clone_to(self)
 	last_item.invalid_merge.connect(_on_invalid_merge)
 	last_item.applied.connect(_on_applied)
 	if can_drop:

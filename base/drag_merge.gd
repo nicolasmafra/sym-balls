@@ -78,7 +78,7 @@ func clone():
 	return self.duplicate()
 
 func clone_to(target) -> DragMerge:
-	var item:DragMerge = clone()
+	var item:DragMerge = clone() as DragMerge
 	item.active = true
 	item.merge_disabled = false
 	item.move_disabled = false

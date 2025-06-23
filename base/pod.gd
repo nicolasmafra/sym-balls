@@ -83,7 +83,7 @@ func update_items():
 	for i in range(current_page_size):
 		var original_item: Item = all_children[page_offset + i]
 		var item = original_item.clone()
-		item.set_permutation(original_item.permutation)
+		item.set_permutation_dict(original_item.permutation.dict)
 		_add_page_item(item, i)
 	
 	queue_redraw()
