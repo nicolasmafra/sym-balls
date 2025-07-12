@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://1oj4x5t7amoq"]
+[gd_scene load_steps=4 format=3 uid="uid://1oj4x5t7amoq"]
 
 [ext_resource type="Script" uid="uid://bau8revsnaovh" path="res://menu_scenes/settings.gd" id="1_eip2t"]
 [ext_resource type="PackedScene" uid="uid://8iv8lhit36xn" path="res://ui/back_button.tscn" id="1_j4hei"]
+[ext_resource type="Theme" uid="uid://cts1fgm3tecss" path="res://main_theme.tres" id="1_j23ll"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_j23ll")
 script = ExtResource("1_eip2t")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -41,6 +43,7 @@ vertical_alignment = 1
 [node name="ItemSizeSlider" type="HSlider" parent="VBoxContainer/ItemSize"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
+size_flags_vertical = 1
 min_value = 20.0
 max_value = 60.0
 value = 30.0
