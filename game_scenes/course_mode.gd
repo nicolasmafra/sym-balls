@@ -99,10 +99,11 @@ func _success():
 		"passed": true,
 		"star": false,
 	}
-	if data.star_moves == null:
-		print("Total pod uses: ", pod_uses)
-	elif pod_uses <= data.star_moves:
+	if pod_uses <= data.star_moves:
 		GlobalVars.winning_stats.star = true
+	else:
+		print("Pod uses: ", pod_uses)
+		print("Star moves: ", data.star_moves)
 
 
 func _on_accept_dialog_confirmed() -> void:

@@ -20,6 +20,7 @@ func _load_data():
 	to_solve = _ensure_array(raw_data.get("to_solve"))
 	to_make = _ensure_array(raw_data.get("to_make"))
 	pod = _ensure_array(raw_data.get("pod"))
+	star_moves = raw_data.get("star_moves")
 
 
 func _load_raw_data() -> Dictionary:
