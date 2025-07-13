@@ -7,7 +7,10 @@ var hint: String
 var star_moves: int
 var to_solve: Array
 var to_make: Array
+var board: Array
 var pod: Array
+var visual: String
+var presentation: Array[SinglePresentation]
 
 func _init(course_level_info):
 	info = course_level_info
@@ -19,8 +22,11 @@ func _load_data():
 	hint = _get_or(raw_data.get("hint"), "")
 	to_solve = _parse_permutation_array(raw_data.get("to_solve"))
 	to_make = _parse_permutation_array(raw_data.get("to_make"))
+	board = _parse_permutation_array(raw_data.get("board"))
 	pod = _parse_permutation_array(raw_data.get("pod"))
 	star_moves = raw_data.get("star_moves")
+	visual = _get_or(raw_data.get("visual"), "")
+	presentation = _parse_presentation(raw_data.get("presentation"))
 
 
 func _load_raw_data() -> Dictionary:
@@ -71,3 +77,14 @@ static func _from_cycle_notation(text: String) -> Array[Array]:
 			cycle.append(k)
 		result.append(cycle)
 	return result
+
+
+func _parse_presentation(raw_presentation) -> Array[SinglePresentation]:
+	if raw_presentation == null:
+		return []
+	var array: Array[SinglePresentation] = []
+	for key in raw_presentation.keys():
+		var perm_dict = _parse_permutation(key)
+		var single := SinglePresentation.new(perm_dict, raw_presentation[key])
+		array.append(single)
+	return array

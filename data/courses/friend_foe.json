@@ -1,0 +1,21 @@
+{
+	"hint": "Leave one of each on the board.",
+	"visual": "text",
+	"presentation": {
+		"(1)(2)": "friend",
+		"(12)": "foe",
+	},
+	"star_moves": 2,
+	"to_make": [
+		"(12)",
+		"(1)(2)",
+		"(12)",
+	],
+	"board": [
+		"(12)",
+		"(12)",
+		"(1)(2)",
+		"(12)",
+		"(12)",
+	]
+}

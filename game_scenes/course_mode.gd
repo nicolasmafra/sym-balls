@@ -6,18 +6,34 @@ const text_margin := 125.0
 var item_scene := PermutationItem.load_scene()
 var data := CourseData.new(GlobalVars.course_level_info)
 var pod_uses = 0
+var visual_name = "cycle_visual"
+var remove_trivial = true
+var board_item_spacing := 1.2
 
 func _ready() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
 	_update_controls_position()
-	if data.hint != null:
+	
+	if data.hint != "":
 		var label = $Label
 		label.size.x = screen_size.x - 2*text_margin
 		label.position.x = text_margin
 		label.text = data.hint
+	
+	if data.visual != "":
+		visual_name = data.visual + "_visual"
+	var visual = load("res://visuals/" + visual_name + ".gd").new()
+	visual.name = "Visual"
+	add_child(visual)
+	if data.visual != null and data.presentation != []:
+		visual.presentation = data.presentation
+		remove_trivial = false
+		
 	_load_pod_items()
+	_load_board_items()
 	_load_objective()
 	$Pod.bag_used.connect(_on_bag_used)
+	$Pod.bag_item_dropped.connect(_on_item_changed)
 
 
 func _process(_delta):
@@ -26,17 +42,37 @@ func _process(_delta):
 
 func _update_controls_position():
 	var screen_size = get_viewport_rect().size
-	$Pod.position.y = screen_size.y
+	if $Pod != null:
+		$Pod.position.y = screen_size.y
 
 
 func _load_pod_items():
+	if data.pod == []:
+		$Pod.queue_free()
+		return
 	var permutations = data.pod
 	for perm in permutations:
 		var item : PermutationItem = item_scene.instantiate()
+		item.remove_trivial = remove_trivial
 		item.set_permutation_dict(perm)
 		item.queue_redraw()
 		$Pod/AllItemsContainer.add_child(item)
 	$Pod.update_items()
+
+
+func _load_board_items():
+	var screen_size = get_viewport().get_visible_rect().size
+	var count = data.board.size()
+	for i in count:
+		var perm = data.board[i]
+		var item = item_scene.instantiate()
+		item.remove_trivial = remove_trivial
+		item.set_permutation_dict(perm)
+		item.queue_redraw()
+		add_child(item)
+		var dist = 2*item.get_node("CollisionShape2D").shape.radius * board_item_spacing
+		item.position.x = screen_size.x/2.0 -(count - 1)*dist/2.0 + i*dist
+		item.position.y = screen_size.y/2.0
 
 
 func _load_objective():
@@ -53,6 +89,7 @@ func _load_objective():
 
 func _add_item(permutation) -> PermutationItem:
 	var item = item_scene.instantiate()
+	item.remove_trivial = remove_trivial
 	item.set_permutation_dict(permutation)
 	item.move_disabled = true
 	item.queue_redraw()
@@ -76,11 +113,15 @@ func _check_make_all_objective(permutations_to_make):
 	for child in get_children():
 		if child is PermutationItem:
 			existing_permutations.append(child.permutation.dict)
+	if permutations_to_make.size() != existing_permutations.size():
+		return false
 	for to_make in permutations_to_make:
 		var found = false
-		for existing in existing_permutations:
+		for i in range(existing_permutations.size()):
+			var existing = existing_permutations[i]
 			if to_make == existing:
 				found = true
+				existing_permutations.remove_at(i)
 				break
 		if not found:
 			return false
@@ -88,6 +129,7 @@ func _check_make_all_objective(permutations_to_make):
 
 
 func _success():
+	await get_tree().create_timer(0.2).timeout
 	var screen_size = get_viewport().get_visible_rect().size
 	$DimBackground.size = screen_size
 	$DimBackground.visible = true
@@ -119,6 +161,8 @@ func _on_reload_button_pressed() -> void:
 
 
 func _on_item_changed(item) -> void:
+	if data.to_make == []:
+		return
 	var permutations = data.to_make
 	if len(permutations) == 1:
 		if item.permutation.dict == permutations[0]:

@@ -1,0 +1,20 @@
+{
+	"hint": "Merging works like multiplication. Leave one of each on the board.",
+	"visual": "text",
+	"presentation": {
+		"(1)(2)": "+1",
+		"(12)": "-1",
+	},
+	"star_moves": 3,
+	"to_make": [
+		"(1)(2)",
+		"(12)",
+	],
+	"board": [
+		"(12)",
+		"(1)(2)",
+		"(12)",
+		"(1)(2)",
+		"(12)",
+	]
+}

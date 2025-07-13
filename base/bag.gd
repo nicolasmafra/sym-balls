@@ -11,6 +11,7 @@ var last_item: Item
 
 
 signal used(bag: Bag)
+signal dropped(item: PermutationItem)
 
 
 func _ready():
@@ -88,6 +89,7 @@ func _on_applied(item: DragMerge):
 
 func _on_moved(item: DragMerge):
 	emit_signal("used", self)
+	emit_signal("dropped", item)
 	_remove_signal_handlers(item)
 	if count == 0:
 		queue_free()

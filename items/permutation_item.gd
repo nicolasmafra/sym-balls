@@ -57,6 +57,8 @@ func _do_merging(drag_merge: DragMerge):
 
 	var item := drag_merge as PermutationItem
 	item.permutation.receive(permutation)
+	get_parent().remove_child(self)
+	queue_free()
 	if remove_trivial:
 		item.permutation.remove_trivial()
 	if remove_trivial and item.permutation.is_identity():
@@ -65,7 +67,6 @@ func _do_merging(drag_merge: DragMerge):
 	else:
 		item.queue_redraw()
 		EventBus.emit_signal("item_changed", item)
-	queue_free()
 
 func clone() -> PermutationItem:
 	var item := self.duplicate()

@@ -9,6 +9,7 @@ const item_radius_margin := 14.0
 
 
 signal bag_used(bag: Bag)
+signal bag_item_dropped(item: PermutationItem)
 
 
 @export var page_size := 5
@@ -101,6 +102,7 @@ func _add_page_item(item, i):
 		bag.add_child(item)
 		bag.position = Vector2(item_radius + i*2*item_radius, -item_radius)
 		bag.used.connect(_on_bag_used)
+		bag.dropped.connect(_on_bag_item_dropped)
 		$Page.add_child(bag)
 
 
@@ -120,3 +122,6 @@ func _on_right_button_pressed() -> void:
 
 func _on_bag_used(bag: Bag):
 	emit_signal("bag_used", bag)
+
+func _on_bag_item_dropped(item: PermutationItem):
+	emit_signal("bag_item_dropped", item)

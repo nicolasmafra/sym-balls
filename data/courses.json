@@ -1,6 +1,36 @@
 {
 	"worlds": [
 		{
+			"name": "Involutions",
+			"code": "involutions",
+			"levels": [
+				{
+					"name": "Friendship",
+					"code": "friend_foe",
+				},
+				{
+					"name": "Veracity",
+					"code": "truth_lie",
+				},
+				{
+					"name": "Positiveness",
+					"code": "plus_minus",
+				},
+				{
+					"name": "Parity",
+					"code": "even_odd",
+				},
+				{
+					"name": "Binary",
+					"code": "z2",
+				},
+				{
+					"name": "Two swaps",
+					"code": "swaps",
+				},
+			]
+		},
+		{
 			"name": "Prime Sums",
 			"code": "prime_sums",
 			"levels": [

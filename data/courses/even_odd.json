@@ -1,0 +1,22 @@
+{
+	"hint": "Merging works like addition. Leave one of each on the board.",
+	"visual": "text",
+	"presentation": {
+		"(1)(2)": "even",
+		"(12)": "odd",
+	},
+	"star_moves": 3,
+	"to_make": [
+		"(1)(2)",
+		"(12)",
+		"(12)",
+	],
+	"board": [
+		"(12)",
+		"(12)",
+		"(12)",
+		"(12)",
+		"(12)",
+		"(12)",
+	]
+}

@@ -37,7 +37,7 @@ func _load_world_list():
 
 
 func _select_world(index):
-	$Control/Label.text = data.worlds[index].name + " - Lessons"
+	$Control/Label.text = data.worlds[index].name
 	GlobalVars.course_world_index = index
 	_load_level_list()
 
