@@ -16,7 +16,7 @@ func _init(course_level_info):
 
 func _load_data():
 	var raw_data = _load_raw_data()
-	hint = raw_data.get("hint")
+	hint = _get_or(raw_data.get("hint"), "")
 	to_solve = _parse_permutation_array(raw_data.get("to_solve"))
 	to_make = _parse_permutation_array(raw_data.get("to_make"))
 	pod = _parse_permutation_array(raw_data.get("pod"))
@@ -30,6 +30,11 @@ func _load_raw_data() -> Dictionary:
 	file.close()
 	
 	return JSON.parse_string(content)
+
+
+static func _get_or(value, fallback):
+	return fallback if value == null else value
+	
 
 
 static func _parse_permutation_array(value) -> Array:
@@ -56,12 +61,12 @@ static func _from_cycle_notation(text: String) -> Array[Array]:
 		push_error("Invalid cycle notation text: " + text)
 		return []
 
-	var separator := "," if text.find(",") != -1 else ""
 	var trimmed := text.substr(1, text.length() - 2)
 	var parts := trimmed.split(")(")
 	var result: Array[Array] = []
 	for cycle_part in parts:
 		var cycle = []
+		var separator := "," if cycle_part.find(",") != -1 else ""
 		for k in cycle_part.split(separator):
 			cycle.append(k)
 		result.append(cycle)

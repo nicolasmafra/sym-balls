@@ -1,20 +1,9 @@
 {
 	"hint": "Drag items from the pod onto this fixed one to eliminate it.",
 	"star_moves": 2,
-	"to_solve": {
-		"3": "4",
-		"4": "3",
-		"5": "6",
-		"6": "5",
-	},
+	"to_solve": "(34)(56)",
 	"pod": [
-		{
-			"3": "4",
-			"4": "3",
-		},
-		{
-			"5": "6",
-			"6": "5",
-		},
+		"(34)",
+		"(56)",
 	]
 }

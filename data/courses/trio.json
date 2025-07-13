@@ -1,21 +1,9 @@
 {
 	"hint": "A 3-cycle has three states: solved, clockwise, and counterclockwise.",
 	"star_moves": 1,
-	"to_solve": {
-		"3": "4",
-		"4": "5",
-		"5": "3",
-	},
+	"to_solve": "(345)",
 	"pod": [
-		{
-			"3": "4",
-			"4": "5",
-			"5": "3",
-		},
-		{
-			"3": "5",
-			"4": "3",
-			"5": "4",
-		},
+		"(345)",
+		"(354)",
 	]
 }
