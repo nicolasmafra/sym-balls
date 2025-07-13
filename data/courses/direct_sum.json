@@ -1,5 +1,5 @@
 {
-	"hint": "An N-cycle plus an M-cycle has N×M states, including the solved state.",
+	"hint": "Total states: 2 × 3 = 6",
 	"star_moves": 3,
 	"to_solve": "(12)(345)",
 	"pod": [

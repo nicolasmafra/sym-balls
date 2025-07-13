@@ -21,12 +21,16 @@
 					"code": "even_odd",
 				},
 				{
+					"name": "Equality",
+					"code": "true_false",
+				},
+				{
 					"name": "Binary",
 					"code": "z2",
 				},
 				{
-					"name": "Two swaps",
-					"code": "swaps",
+					"name": "Cancelling",
+					"code": "3_swaps_sum",
 				},
 			]
 		},

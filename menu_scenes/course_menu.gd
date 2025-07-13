@@ -27,7 +27,7 @@ func _check_winning():
 
 
 func _load_world_list():
-	$Control/Label.text = "Subjects"
+	$Control/Label.text = "Courses"
 	_clear_list()
 	for i in range(len(data.worlds)):
 		var world = data.worlds[i]

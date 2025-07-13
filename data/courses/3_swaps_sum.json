@@ -1,0 +1,14 @@
+{
+	"hint": "Two identical swaps cancel out. Leave one of each on the board.",
+	"star_moves": 6,
+	"to_make": [
+		"(12)(34)",
+		"(34)(56)",
+		"(12)(56)",
+	],
+	"pod": [
+		"(12)",
+		"(56)",
+		"(12)(34)(56)",
+	]
+}

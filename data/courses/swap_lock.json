@@ -1,10 +1,11 @@
 {
-	"hint": "It's impossible to solve without the last item in the pod.",
-	"star_moves": 2,
+	"hint": "You can't solve odd swaps without odd swaps.",
+	"star_moves": 3,
 	"to_solve": "(34)",
 	"pod": [
+		"(12)(34)",
 		"(34)(56)",
-		"(56)(78)",
+		"(34)(78)",
 		"(34)(56)(78)",
 	]
 }

@@ -1,19 +1,18 @@
 {
-	"hint": "Merging works like boolean XOR. Leave one of each on the board.",
+	"hint": "Leave one of each on the board.",
 	"visual": "text",
 	"presentation": {
-		"(1)(2)": "True",
-		"(12)": "False",
+		"(1)(2)": "Truth",
+		"(12)": "Lie",
 	},
-	"star_moves": 4,
+	"star_moves": 3,
 	"to_make": [
 		"(1)(2)",
-		"(12)",
+		"(1)(2)",
 	],
 	"board": [
 		"(12)",
-		"(1)(2)",
-		"(1)(2)",
+		"(12)",
 		"(1)(2)",
 		"(12)",
 		"(12)",

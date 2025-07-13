@@ -1,5 +1,5 @@
 {
-	"hint": "Merging works like boolean EQ. Leave one of each on the board.",
+	"hint": "Merging behaves like boolean equality. Leave one of each on the board.",
 	"visual": "text",
 	"presentation": {
 		"(1)(2)": "True",
